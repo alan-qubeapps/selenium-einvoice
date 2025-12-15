@@ -27,14 +27,32 @@ namespace SeleniumTests.Pages.Transaction
         [FindsBy(How = How.CssSelector, Using = ".btn-search-hover")]
         private IWebElement SearchButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.d-flex.gap-2.justify-content-start > div > ul > li.nav-item.ps-9.pt-3 > a")]
+        [FindsBy(How = How.CssSelector, Using = "button.btn.btn-sm.btn-primary.mx-2")]
+        private IWebElement DownloadButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[contains(@class,'bg-light-danger') and contains(., 'Business-to-Business')]")]
+        private IWebElement B2BTransactionButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//div[contains(@class,'bg-light-danger') and contains(., 'Business-to-Consumer')]")]
+        private IWebElement B2CTransactionButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'All') and contains(@class,'nav-link')]")]
         private IWebElement FilterALLCategoryButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.d-flex.gap-2.justify-content-start > div > ul > li:nth-child(2) > a")]
-        private IWebElement FilterActiveCategoryButton { get; set; }
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'B2C') and contains(@class,'nav-link')]")]
+        private IWebElement FilterB2CCategoryButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.d-flex.gap-2.justify-content-start > div > ul > li:nth-child(3) > a")]
-        private IWebElement FilterInactiveCategoryButton { get; set; }
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'B2B') and contains(@class,'nav-link')]")]
+        private IWebElement FilterB2BCategoryButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Consolidated') and contains(@class,'nav-link')]")]
+        private IWebElement FilterConsolidatedCategoryButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Resubmit') and contains(@class,'nav-link')]")]
+        private IWebElement FilterResubmitCategoryButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Ready to send LHDN') and contains(@class,'nav-link')]")]
+        private IWebElement FilterReadytoSendLHDNCategoryButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.d-flex.gap-2.justify-content-start > div > ul > li.ms-auto.align-items-center.pt-3.mobileHideFilter > div > div:nth-child(2) > span")]
         private IWebElement FilterPendingCategoryButton { get; set; }
@@ -48,14 +66,14 @@ namespace SeleniumTests.Pages.Transaction
         [FindsBy(How = How.CssSelector, Using = ".btn-print-hover")]
         private IWebElement PrintButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.card-header.border-0.pt-5 > div > div:nth-child(1) > a")]
+        [FindsBy(How = How.XPath, Using = "//button[contains(@class,'btn-light-primary') and contains(text(),'Import')]")]
         private IWebElement ImportButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "#kt_body > ngb-modal-window > div > div > app-upload-modal > div > div.modal-footer.justify-content-end.d-flex.ng-star-inserted > button.btn.btn-primary.mx-2")]
         private IWebElement UploadButton { get; set; }
 
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-store > div > div.card-header.border-0.pt-5 > div > div:nth-child(2) > a")]
+        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-transactionv2 > div:nth-child(3) > div > div:nth-child(2) > div.col-sm-12.col-md-8.pe-10.d-flex.justify-content-end.align-items-center > div > a")]
         private IWebElement ExportButton { get; set; }
 
 
@@ -119,7 +137,7 @@ namespace SeleniumTests.Pages.Transaction
         private IWebElement SaveButton { get; set; }
 
         // Methods
-        public void SearchBusinessEntity(string searchText)
+        public void SearchTransaction(string searchText)
         {
             var searchBox = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='kt_filter_search']")));
@@ -293,7 +311,18 @@ namespace SeleniumTests.Pages.Transaction
             var continueButton = _wait.Until(ExpectedConditions.ElementToBeClickable(ContinueButton));
             continueButton.Click();
         }
-        
+
+        public void ClickB2BTransactionButton()
+        {
+            var b2bTransactionButton = _wait.Until(ExpectedConditions.ElementToBeClickable(B2BTransactionButton));
+            b2bTransactionButton.Click();
+        }
+
+        public void ClickB2CTransactionButton()
+        {
+            var b2cTransactionButton = _wait.Until(ExpectedConditions.ElementToBeClickable(B2CTransactionButton));
+            b2cTransactionButton.Click();
+        }
 
         public void ClickFilterALLCategoryButton()
         {
@@ -301,16 +330,34 @@ namespace SeleniumTests.Pages.Transaction
             filterAllButton.Click();
         }
 
-        public void ClickFilterActiveCategoryButton()
+        public void ClickFilterB2CCategoryButton()
         {
-            var filterActiveButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterActiveCategoryButton));
-            filterActiveButton.Click();
+            var filterB2CButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterB2CCategoryButton));
+            filterB2CButton.Click();
         }
 
-        public void ClickFilterInactiveCategoryButton()
+        public void ClickFilterB2BCategoryButton()
         {
-            var filterInactiveButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterInactiveCategoryButton));
-            filterInactiveButton.Click();
+            var filterB2BButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterB2BCategoryButton));
+            filterB2BButton.Click();
+        }
+
+        public void ClickFilterConsolidatedCategoryButton()
+        {
+            var filterConsolidatedButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterConsolidatedCategoryButton));
+            filterConsolidatedButton.Click();
+        }
+
+        public void ClickFilterResubmitCategoryButton()
+        {
+            var filterResubmitButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterResubmitCategoryButton));
+            filterResubmitButton.Click();
+        }
+
+        public void ClickFilterReadytoSendLHDNCategoryButton()
+        {
+            var filterReadytoSendLHDNButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterReadytoSendLHDNCategoryButton));
+            filterReadytoSendLHDNButton.Click();
         }
 
         public void ClickFilterPendingCategoryButton()
@@ -348,6 +395,11 @@ namespace SeleniumTests.Pages.Transaction
                 var cancelButton = dialogContainer.FindElement(By.CssSelector("button.btn.secondaryActionBtn"));
                 cancelButton.Click();
             }
+        }
+
+        public void ClickDownloadTemplateButton()
+        {
+            DownloadButton.Click();
         }
 
         public bool WaitForFileDownload(string folderPath, string filePrefix, TimeSpan timeout)

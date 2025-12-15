@@ -2,7 +2,7 @@
 using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Support.UI;
 using EInvoice.SeleniumTests.Config;
-using ERPPlus.SeleniumTests.Pages;
+using SeleniumTests.Pages.Login;
 
 namespace SeleniumTests.Helpers
 {

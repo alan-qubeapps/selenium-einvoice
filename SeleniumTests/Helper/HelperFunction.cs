@@ -38,6 +38,10 @@ namespace SeleniumTests.Helper
 
         }
 
+        public static void WaitForTransactionTableToLoad(WebDriverWait wait)
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div/table/tbody/tr")));
+        }
         public static void WaitForSTRTableToLoad(WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div/div/div/div/app-content/app-store/div/div[3]/div/div[1]/div/table/tbody/tr")));
@@ -59,6 +63,22 @@ namespace SeleniumTests.Helper
         public static void WaitForUserTableToLoad(WebDriverWait wait)
         {
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div/div/div/div/app-content/app-user/form/div/app-user-table/div/div/div[3]/div/div[1]/div/table/tbody/tr")));
+
+        }
+
+        public static void WaitForTemplateTableToLoad(WebDriverWait wait)
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-pdf-editor/div/div[3]/div/div[1]/div/table/tbody/tr")));
+
+        }
+        public static void WaitForReportTemplateTableToLoad(WebDriverWait wait)
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-report-template/div/div[3]/div/div[1]/div/table/tbody/tr")));
+
+        }
+        public static void WaitForUserRoleTableToLoad(WebDriverWait wait)
+        {
+            wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-user/form/div/app-user-role-table/div/div[2]/div/div[1]/div/table/tbody/tr")));
 
         }
 

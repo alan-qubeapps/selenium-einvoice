@@ -48,10 +48,8 @@ namespace SeleniumTests.Pages.Customer
         [FindsBy(How = How.CssSelector, Using = "#kt_body > ngb-modal-window > div > div > app-upload-modal > div > div.modal-body.px-20 > div > div > div.d-flex.align-items-center > button")]
         private IWebElement DownloadButton { get; set; }
 
-
         [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-customer > div > div.card-header.border-0.pt-5 > div > div:nth-child(2) > a")]
         private IWebElement ExportButton { get; set; }
-
 
         [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div/div/div/div/app-content/app-customer/div/div[3]/div/div[3]/a")]
         private IWebElement NewButton { get; set; }
@@ -76,11 +74,7 @@ namespace SeleniumTests.Pages.Customer
         private IWebElement CustEmailInput { get; set; }
 
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-customer-modal/div/div[2]/div/div/div[2]/div/app-step2/div/form/div/div/div[1]/input")]
-        private IWebElement CustContactNumberInput { get; set; }
-        
-
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-store-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[3]/input")]
-        private IWebElement BEemailInput { get; set; }
+        private IWebElement CustContactNumberInput { get; set; }        
 
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-customer-modal/div/div[2]/div/div/div[2]/div/app-step2/div/form/div/div/div[2]/div[1]/input")]
         private IWebElement CustomerCityInput { get; set; }
@@ -103,7 +97,7 @@ namespace SeleniumTests.Pages.Customer
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-customer-modal/div/div[3]/div/div[2]/button")]
         private IWebElement SaveButton { get; set; }
 
-        // Methods
+
         public void SearchCustomer(string searchText)
         {
             var searchBox = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
@@ -127,9 +121,9 @@ namespace SeleniumTests.Pages.Customer
                 By.XPath("//input[@type='text' and @placeholder='Search']")));
             searchInput.Clear();
             searchInput.SendKeys(CustomerCode);
-            searchInput.SendKeys(Keys.Enter); // Trigger the AJAX search (if needed)
+            searchInput.SendKeys(Keys.Enter);
 
-            // Wait for the matching row with CustomerCode to appear (dynamic load)
+            // Wait for dynamic row to appear
             string rowXpath = $"//table/tbody/tr[td[contains(normalize-space(), '{CustomerCode}')]]";
             var row = _wait.Until(driver =>
             {
@@ -137,24 +131,27 @@ namespace SeleniumTests.Pages.Customer
                 return rows.Count == 1 ? rows[0] : null;
             });
 
-            // Inside that row, find the edit anchor in td[12]
-            var editAnchor = row.FindElement(By.XPath(".//td[12]/div/a"));
+            // Locate edit icon
+            var editIcon = row.FindElement(By.CssSelector("i.bi.bi-pencil"));
 
-            // Click the edit icon
-            _wait.Until(ExpectedConditions.ElementToBeClickable(editAnchor)).Click();
+            // ===== SAFE CLICK START =====
+            try
+            {
+                // Scroll into view (center)
+                ((IJavaScriptExecutor)_driver).ExecuteScript(
+                    "arguments[0].scrollIntoView({block: 'center', inline: 'center'});",
+                    editIcon);
 
-        }
+                Thread.Sleep(250); // stabilize UI
 
-
-
-        public void DeleteStoreCountryByCode(string code)
-        {
-            // Locate the row by its code
-            string xpath = $"//tr[normalize-space(td)='{code}']//button[contains(@class, 'btn-delete-hover')]";
-            var deleteButton = _wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(xpath)));
-
-            // Click the delete button
-            deleteButton.Click();
+                _wait.Until(ExpectedConditions.ElementToBeClickable(editIcon)).Click();
+            }
+            catch (Exception)
+            {
+                // If still intercepted, use JS click
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", editIcon);
+            }
+            // ===== SAFE CLICK END =====
         }
 
 
@@ -214,13 +211,6 @@ namespace SeleniumTests.Pages.Customer
         {
             CustContactNumberInput.Clear();
             CustContactNumberInput.SendKeys(BEContactNumber);
-        }
-        
-
-        public void EnterBEemail(string BEemail)
-        {
-            BEemailInput.Clear();
-            BEemailInput.SendKeys(BEemail);
         }
 
         public void EnterCustomerCity(string CustCity)
@@ -304,25 +294,6 @@ namespace SeleniumTests.Pages.Customer
         {
             var filterFailedButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterFailedCategoryButton));
             filterFailedButton.Click();
-        }
-
-        public void ConfirmDelete(bool confirm)
-        {
-            // Wait for the confirmation dialog to appear
-            var dialogContainer = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".dialog-container")));
-
-            if (confirm)
-            {
-                // Click the "OK" button to confirm the deletion
-                var okButton = dialogContainer.FindElement(By.CssSelector("button.btn.primaryActionBtn"));
-                okButton.Click();
-            }
-            else
-            {
-                // Click the "Cancel" button to cancel the deletion
-                var cancelButton = dialogContainer.FindElement(By.CssSelector("button.btn.secondaryActionBtn"));
-                cancelButton.Click();
-            }
         }
 
         public bool WaitForFileDownload(string folderPath, string filePrefix, TimeSpan timeout)

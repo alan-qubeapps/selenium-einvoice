@@ -128,9 +128,9 @@ namespace SeleniumTests.Pages.Stores
                 By.XPath("//input[@type='text' and @placeholder='Search']")));
             searchInput.Clear();
             searchInput.SendKeys(BETinNumber);
-            searchInput.SendKeys(Keys.Enter); // Trigger the AJAX search (if needed)
+            searchInput.SendKeys(Keys.Enter);
 
-            // Wait for the matching row with BETinNumber to appear (dynamic load)
+            // Wait for the row that contains the BETinNumber
             string rowXpath = $"//table/tbody/tr[td[contains(normalize-space(), '{BETinNumber}')]]";
             var row = _wait.Until(driver =>
             {
@@ -138,23 +138,11 @@ namespace SeleniumTests.Pages.Stores
                 return rows.Count == 1 ? rows[0] : null;
             });
 
-            // Inside that row, find the edit icon's <a> in td[13]
-            var editAnchor = row.FindElement(By.XPath("//*[@id=\"kt_content_container\"]/app-store/div/div[3]/div/div[1]/div/table/tbody/tr[1]/td[9]/div"));
+            // Find the pencil icon inside that row (relative XPath)
+            var editIcon = row.FindElement(By.XPath(".//i[contains(@class,'bi-pencil')]"));
 
             // Wait for it to be clickable and click
-            _wait.Until(ExpectedConditions.ElementToBeClickable(editAnchor)).Click();
-        }
-
-
-
-        public void DeleteStoreCountryByCode(string code)
-        {
-            // Locate the row by its code
-            string xpath = $"//tr[normalize-space(td)='{code}']//button[contains(@class, 'btn-delete-hover')]";
-            var deleteButton = _wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(xpath)));
-
-            // Click the delete button
-            deleteButton.Click();
+            _wait.Until(ExpectedConditions.ElementToBeClickable(editIcon)).Click();
         }
 
 
@@ -191,12 +179,6 @@ namespace SeleniumTests.Pages.Stores
             StoreCityInput.SendKeys(StoreCity);
         }
 
-       
-        public void EnterBEsst(string BEsst)
-        {
-            BEsstInput.Clear();
-            BEsstInput.SendKeys(BEsst);
-        }
 
         public void EnterstrPostCode(string strPostCode)
         {
@@ -222,53 +204,11 @@ namespace SeleniumTests.Pages.Stores
             ExternalCodeInput.SendKeys(ExternalCode);
         }
         
-
-        public void EnterBEemail(string BEemail)
-        {
-            BEemailInput.Clear();
-            BEemailInput.SendKeys(BEemail);
-        }
-
-        public void EnterBECity(string BECity)
-        {
-            BECityInput.Clear();
-            BECityInput.SendKeys(BECity);
-        }
-
-        public void EnterBEPosCode(string BEPosCode)
-        {
-            BEPosCodeInput.Clear();
-            BEPosCodeInput.SendKeys(BEPosCode);
-        }
-
-        public void EnterBEAddress1(string BEAddress1)
-        {
-            BEAddress1Input.Clear();
-            BEAddress1Input.SendKeys(BEAddress1);
-        }
-
-        public void EnterBEAddress2(string BEAddress2)
-        {
-            BEAddress2Input.Clear();
-            BEAddress2Input.SendKeys(BEAddress2);
-        }
-        public void EnterBEAddress3(string BEAddress3)
-        {
-            BEAddress3Input.Clear();
-            BEAddress3Input.SendKeys(BEAddress3);
-        }
         public void ClickSaveButton()
         {
             var saveButton = _wait.Until(ExpectedConditions.ElementToBeClickable(SaveButton));
             saveButton.Click();
         }
-
-        public void ClickContinueButton()
-        {
-            var continueButton = _wait.Until(ExpectedConditions.ElementToBeClickable(ContinueButton));
-            continueButton.Click();
-        }
-        
 
         public void ClickFilterALLCategoryButton()
         {
@@ -288,43 +228,7 @@ namespace SeleniumTests.Pages.Stores
             filterInactiveButton.Click();
         }
 
-        public void ClickFilterPendingCategoryButton()
-        {
-            var filterPendingButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterPendingCategoryButton));
-            filterPendingButton.Click();
-        }
-
-        public void ClickFilterSuccessCategoryButton()
-        {
-            var filterSuccessButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterSuccessCategoryButton));
-            filterSuccessButton.Click();
-        }
-
-        public void ClickFilterFailedCategoryButton()
-        {
-            var filterFailedButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterFailedCategoryButton));
-            filterFailedButton.Click();
-        }
-
-        public void ConfirmDelete(bool confirm)
-        {
-            // Wait for the confirmation dialog to appear
-            var dialogContainer = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".dialog-container")));
-
-            if (confirm)
-            {
-                // Click the "OK" button to confirm the deletion
-                var okButton = dialogContainer.FindElement(By.CssSelector("button.btn.primaryActionBtn"));
-                okButton.Click();
-            }
-            else
-            {
-                // Click the "Cancel" button to cancel the deletion
-                var cancelButton = dialogContainer.FindElement(By.CssSelector("button.btn.secondaryActionBtn"));
-                cancelButton.Click();
-            }
-        }
-
+ 
         public bool WaitForFileDownload(string folderPath, string filePrefix, TimeSpan timeout)
         {
             string todayDate = DateTime.Now.ToString("yyyyMMdd");

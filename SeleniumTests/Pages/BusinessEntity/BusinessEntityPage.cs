@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
 
-namespace SeleniumTests.Tests.BusinessEntity
+namespace SeleniumTests.Pages.BusinessEntity
 {
     public class BusinessEntityPage
     {
@@ -37,69 +37,66 @@ namespace SeleniumTests.Tests.BusinessEntity
         [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-business-entity > div > div.d-flex.gap-2.justify-content-start > div > ul > li.ms-auto.align-items-center.pt-3.mobileHideFilter > div > div:nth-child(4) > span")]
         private IWebElement FilterFailedCategoryButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-business-entity > div > div.card-header.border-0.pt-5 > div > div:nth-child(1) > a")]
+        [FindsBy(How = How.CssSelector, Using = "a.btn.btn-sm.btn-light-primary")]
         private IWebElement ImportButton { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = "#kt_body > ngb-modal-window > div > div > app-upload-modal > div > div.modal-footer.justify-content-end.d-flex.ng-star-inserted > button.btn.btn-primary.mx-2")]
         private IWebElement UploadButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "#kt_body > ngb-modal-window > div > div > app-upload-modal > div > div.modal-body.px-20 > div > div > div.d-flex.align-items-center > button")]
+        [FindsBy(How = How.CssSelector, Using = "button.btn.btn-sm.btn-primary.mx-2")]
         private IWebElement DownloadButton { get; set; }
+
 
         [FindsBy(How = How.CssSelector, Using = "#kt_content_container > app-business-entity > div > div.card-header.border-0.pt-5 > div > div:nth-child(2) > a")]
         private IWebElement ExportButton { get; set; }
 
 
-        [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_content_container\"]/app-business-entity/div/div[3]/div/div[3]/a")]
+        [FindsBy(How = How.CssSelector, Using = "a.btn.btn-sm.btn-primary")]
         private IWebElement NewButton { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_body\"]/ngb-modal-window/div/div/app-business-entity-modal/div/div[3]/div/div[2]/button")]
+        [FindsBy(How = How.CssSelector, Using = "button.btn.btn-lg.btn-primary.me-3")]
         private IWebElement ContinueButton { get; set; }
 
-        
-
-        // New Elements
-        [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_create_account_form\"]/div/app-step1s/div/form/div/div/div[1]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='name']")]
         public IWebElement BEnameInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step1s/div/form/div/div/div[2]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='tin']")]
         public IWebElement BETinNumberInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_create_account_form\"]/div/app-step1s/div/form/div/div/div[3]/div[2]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='registID']")]
         private IWebElement BERegisterIDInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step1s/div/form/div/div/div[4]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='sst']")]
         private IWebElement BEsstInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step1s/div/form/div/div/div[5]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='tax']")]
         private IWebElement BETTRegisterNumberInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[2]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='contact']")]
         private IWebElement BEContactNumberInput { get; set; }
-        
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[3]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='email']")]
         private IWebElement BEemailInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[4]/div[1]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='city']")]
         private IWebElement BECityInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[4]/div[3]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='postcode']")]
         private IWebElement BEPosCodeInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[6]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='address1']")]
         private IWebElement BEAddress1Input { get; set; }
-        
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[7]/input")]
+
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='address2']")]
         private IWebElement BEAddress2Input { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[2]/div/div/div[2]/div/app-step2s/div/div/form/div/div/div[8]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[formcontrolname='address3']")]
         private IWebElement BEAddress3Input { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-business-entity-modal/div/div[3]/div/div[2]/button")]
+        [FindsBy(How = How.CssSelector, Using = "button.btn.btn-lg.btn-primary[type='button']")]
         private IWebElement SaveButton { get; set; }
 
-        // Methods
+
         public void SearchBusinessEntity(string searchText)
         {
             var searchBox = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
@@ -141,18 +138,6 @@ namespace SeleniumTests.Tests.BusinessEntity
         }
 
 
-
-        public void DeleteStoreCountryByCode(string code)
-        {
-            // Locate the row by its code
-            string xpath = $"//tr[normalize-space(td)='{code}']//button[contains(@class, 'btn-delete-hover')]";
-            var deleteButton = _wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(xpath)));
-
-            // Click the delete button
-            deleteButton.Click();
-        }
-
-
         public void ClickImportButton()
         {
             ImportButton.Click();
@@ -173,7 +158,6 @@ namespace SeleniumTests.Tests.BusinessEntity
             ExportButton.Click();
         }
 
-        // New Methods for Form Fields
         public void EnterBEname(string BEname)
         {
             BEnameInput.Clear();
@@ -295,23 +279,14 @@ namespace SeleniumTests.Tests.BusinessEntity
             filterFailedButton.Click();
         }
 
-        public void ConfirmDelete(bool confirm)
+        public bool IsContinueButtonEnabled()
         {
-            // Wait for the confirmation dialog to appear
-            var dialogContainer = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".dialog-container")));
+            return ContinueButton.Enabled;
+        }
 
-            if (confirm)
-            {
-                // Click the "OK" button to confirm the deletion
-                var okButton = dialogContainer.FindElement(By.CssSelector("button.btn.primaryActionBtn"));
-                okButton.Click();
-            }
-            else
-            {
-                // Click the "Cancel" button to cancel the deletion
-                var cancelButton = dialogContainer.FindElement(By.CssSelector("button.btn.secondaryActionBtn"));
-                cancelButton.Click();
-            }
+        public bool IsSaveButtonEnabled()
+        {
+            return SaveButton.Enabled;
         }
 
         public bool WaitForFileDownload(string downloadPath, string filePrefix, TimeSpan timeout)
@@ -339,8 +314,5 @@ namespace SeleniumTests.Tests.BusinessEntity
 
             return false;
         }
-
-
-
     }
 }

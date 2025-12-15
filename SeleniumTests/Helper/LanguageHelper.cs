@@ -1,31 +1,31 @@
-﻿using OpenQA.Selenium;
-using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.Support.UI;
-using SeleniumTests.Pages;
-using SeleniumTests.Pages.Stores;
+﻿//using OpenQA.Selenium;
+//using SeleniumExtras.WaitHelpers;
+//using OpenQA.Selenium.Support.UI;
+//using SeleniumTests.Pages;
+//using SeleniumTests.Pages.Stores;
 
-namespace SeleniumTests.Helpers
-{
-    public class LanguageHelper
-    {
-        private IWebDriver _driver;
-        private WebDriverWait _wait;
-        private Pages.Dashboard _dashboardPage;
+//namespace SeleniumTests.Helpers
+//{
+//    public class LanguageHelper
+//    {
+//        private IWebDriver _driver;
+//        private WebDriverWait _wait;
+//        private Pages.Dashboard _dashboardPage;
 
-        public LanguageHelper(IWebDriver driver, WebDriverWait wait)
-        {
-            _driver = driver;
-            _wait = wait;
-            _dashboardPage = new Pages.Dashboard(_driver);
-        }
+//        public LanguageHelper(IWebDriver driver, WebDriverWait wait)
+//        {
+//            _driver = driver;
+//            _wait = wait;
+//            _dashboardPage = new Pages.Dashboard(_driver);
+//        }
 
-        public void SwitchLanguage(string languageCode)
-        {
-            // Switch the language using the method from the Dashboard page object
-            _dashboardPage.SwitchLanguage(languageCode);
+//        public void SwitchLanguage(string languageCode)
+//        {
+//            // Switch the language using the method from the Dashboard page object
+//            _dashboardPage.SwitchLanguage(languageCode);
 
-            // Wait for the breadcrumb text to change after switching the language
-            _wait.Until(ExpectedConditions.TextToBePresentInElement(_dashboardPage.BreadCrumb, "expectedTextAfterSwitch"));
-        }
-    }
-}
+//            // Wait for the breadcrumb text to change after switching the language
+//            _wait.Until(ExpectedConditions.TextToBePresentInElement(_dashboardPage.BreadCrumb, "expectedTextAfterSwitch"));
+//        }
+//    }
+//}

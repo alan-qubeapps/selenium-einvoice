@@ -72,11 +72,22 @@ namespace SeleniumTests.Pages.User
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[2]/div[2]/div[2]/input")]
         public IWebElement CustEmailInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[1]/div[1]/input")]
+        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[1]/div/input")]
+        private IWebElement UserCurrentPasswordInput { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[1]/div/input")]
         private IWebElement UserPasswordInput { get; set; }
 
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[2]/div/input")]
         private IWebElement UserConfirmPasswordInput { get; set; }
+
+
+        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[2]/div[1]/div/input")]
+        private IWebElement UserProfilePasswordInput { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/form/div[3]/div[2]/div[2]/div[2]/div/input")]
+        private IWebElement UserProfileConfirmPasswordInput { get; set; }
+
 
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/div/div[2]/div/app-step1/div/form/div/div/div[5]/input")]
         private IWebElement CustsstInput { get; set; }
@@ -110,6 +121,9 @@ namespace SeleniumTests.Pages.User
         private IWebElement SaveButton { get; set; }
 
         [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_content_container\"]/app-user/form/div/app-user-role-table/div/app-user-role-details/div/div[2]/div[2]/div[2]/div/a")]
+        private IWebElement SignoutsessionButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"kt_content_container\"]/app-profile-details/div/div[2]/div/div/div[1]/div[2]")]
         private IWebElement SaveUserRoleButton { get; set; }
 
         // Methods
@@ -117,6 +131,16 @@ namespace SeleniumTests.Pages.User
         {
             var searchBox = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div/div/div/div/app-content/app-user/form/div/app-user-table/div/div/div[2]/h3/div/input")));
+
+            searchBox.Clear();
+            searchBox.SendKeys(searchText);
+
+        }
+
+        public void SearchUserRole(string searchText)
+        {
+            var searchBox = new WebDriverWait(_driver, TimeSpan.FromSeconds(5))
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-user/form/div/app-user-role-table/div/div[1]/h3/div/input")));
 
             searchBox.Clear();
             searchBox.SendKeys(searchText);
@@ -161,52 +185,44 @@ namespace SeleniumTests.Pages.User
 
         public void ClickEditUserButton(string User)
         {
-            // Search for the role using the search input
+            // Search input
             var searchInput = _wait.Until(ExpectedConditions.ElementIsVisible(
                 By.XPath("//input[@type='text' and @placeholder='Search']")));
             searchInput.Clear();
             searchInput.SendKeys(User);
-            searchInput.SendKeys(Keys.Enter); // Trigger AJAX or filtering
+            searchInput.SendKeys(Keys.Enter);
 
-            // Wait until the specific row with the Rolename appears
-            string rowXpath = $"//table/tbody/tr[td[contains(normalize-space(), '{User}')]]";
+            // Row detection (dynamic span text)
+            string rowXpath = $"//table/tbody/tr[td//span[contains(normalize-space(), '{User}')]]";
+
             var row = _wait.Until(driver =>
             {
                 var rows = driver.FindElements(By.XPath(rowXpath));
                 return rows.Count > 0 ? rows[0] : null;
             });
 
-            // Within that row, find the correct Edit icon in td[7]
-            var editIcon = row.FindElement(By.XPath("/html/body/app-layout/div/div/div/div/app-content/app-user/form/div/app-user-table/div/div/div[3]/div/div[1]/div/table/tbody/tr[1]/td[9]/div/a[2]"));
+            // Locate edit icon inside row
+            var editIcon = row.FindElement(By.CssSelector("i.bi.bi-pencil"));
 
-            // Click the Edit icon
-            _wait.Until(ExpectedConditions.ElementToBeClickable(editIcon)).Click();
+            // ===== SAFE CLICK =====
+            try
+            {
+                // Scroll into view
+                ((IJavaScriptExecutor)_driver).ExecuteScript(
+                    "arguments[0].scrollIntoView({block: 'center', inline: 'center'});",
+                    editIcon);
+
+                Thread.Sleep(250); // stabilize
+
+                _wait.Until(ExpectedConditions.ElementToBeClickable(editIcon)).Click();
+            }
+            catch
+            {
+                // fallback JS click
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", editIcon);
+            }
         }
 
-
-
-
-        public void DeleteStoreCountryByCode(string code)
-        {
-            // Locate the row by its code
-            string xpath = $"//tr[normalize-space(td)='{code}']//button[contains(@class, 'btn-delete-hover')]";
-            var deleteButton = _wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(xpath)));
-
-            // Click the delete button
-            deleteButton.Click();
-        }
-
-
-        public void ClickImportButton()
-        {
-            ImportButton.Click();
-        }
-
-        public void ClickUploadButton()
-        {
-            UploadButton.Click();
-        }
-        
 
         public void ClickExportButton()
         {
@@ -238,13 +254,11 @@ namespace SeleniumTests.Pages.User
             CustEmailInput.SendKeys(CustEmail);
         }
 
-
-        public void EnterCustsst(string Custsst)
+        public void EnterUserCurrentPassword(string UserCurrentPassword)
         {
-            CustsstInput.Clear();
-            CustsstInput.SendKeys(Custsst);
+            UserCurrentPasswordInput.Clear();
+            UserCurrentPasswordInput.SendKeys(UserCurrentPassword);
         }
-
         public void EnterUserPassword(string UserPassword)
         {
             UserPasswordInput.Clear();
@@ -257,71 +271,23 @@ namespace SeleniumTests.Pages.User
             UserConfirmPasswordInput.SendKeys(UserConfirmPassword);
         }
 
-        public void EnterCustContactNumber(string BEContactNumber)
+        public void EnterUserProfilePassword(string UserProfilePassword)
         {
-            CustContactNumberInput.Clear();
-            CustContactNumberInput.SendKeys(BEContactNumber);
-        }
-        
-
-        public void EnterBEemail(string BEemail)
-        {
-            BEemailInput.Clear();
-            BEemailInput.SendKeys(BEemail);
+            UserProfilePasswordInput.Clear();
+            UserProfilePasswordInput.SendKeys(UserProfilePassword);
         }
 
-        public void EnterUserCity(string CustCity)
+        public void EnterUserProfileConfirmPassword(string UserProfileConfirmPassword)
         {
-            UserCityInput.Clear();
-            UserCityInput.SendKeys(CustCity);
+            UserProfileConfirmPasswordInput.Clear();
+            UserProfileConfirmPasswordInput.SendKeys(UserProfileConfirmPassword);
         }
 
-        public void EnterCustPosCode(string BEPosCode)
-        {
-            CustPosCodeInput.Clear();
-            CustPosCodeInput.SendKeys(BEPosCode);
-        }
-
-        public void EnterCustAddress1(string CustAddress1)
-        {
-            CustAddress1Input.Clear();
-            CustAddress1Input.SendKeys(CustAddress1);
-        }
-
-        public void EnterCustAddress2(string CustAddress2)
-        {
-            CustAddress2Input.Clear();
-            CustAddress2Input.SendKeys(CustAddress2);
-        }
-        public void EnterCustAddress3(string CustAddress3)
-        {
-            CustAddress3Input.Clear();
-            CustAddress3Input.SendKeys(CustAddress3);
-        }
-
-        public void EnterCustExternalCode(string CustExternalCode)
-        {
-            CustExternalCodeInput.Clear();
-            CustExternalCodeInput.SendKeys(CustExternalCode);
-        }
         public void ClickSaveButton()
         {
             var saveButton = _wait.Until(ExpectedConditions.ElementToBeClickable(SaveButton));
             saveButton.Click();
         }
-
-        public void ClickSaveUserRoleButton()
-        {
-            var saveUserRoleButton = _wait.Until(ExpectedConditions.ElementToBeClickable(SaveUserRoleButton));
-            saveUserRoleButton.Click();
-        }
-        
-        public void ClickContinueButton()
-        {
-            var continueButton = _wait.Until(ExpectedConditions.ElementToBeClickable(ContinueButton));
-            continueButton.Click();
-        }
-        
 
         public void ClickFilterALLCategoryButton()
         {
@@ -339,25 +305,7 @@ namespace SeleniumTests.Pages.User
         {
             var filterInactiveButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterInactiveCategoryButton));
             filterInactiveButton.Click();
-        }
-
-        public void ClickFilterPendingCategoryButton()
-        {
-            var filterPendingButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterPendingCategoryButton));
-            filterPendingButton.Click();
-        }
-
-        public void ClickFilterSuccessCategoryButton()
-        {
-            var filterSuccessButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterSuccessCategoryButton));
-            filterSuccessButton.Click();
-        }
-
-        public void ClickFilterFailedCategoryButton()
-        {
-            var filterFailedButton = _wait.Until(ExpectedConditions.ElementToBeClickable(FilterFailedCategoryButton));
-            filterFailedButton.Click();
-        }
+        }        
 
         public void SetCheckboxByLabel(string labelText)
         {
@@ -415,25 +363,7 @@ namespace SeleniumTests.Pages.User
             }
         }
 
-        public void ConfirmDelete(bool confirm)
-        {
-            // Wait for the confirmation dialog to appear
-            var dialogContainer = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(".dialog-container")));
-
-            if (confirm)
-            {
-                // Click the "OK" button to confirm the deletion
-                var okButton = dialogContainer.FindElement(By.CssSelector("button.btn.primaryActionBtn"));
-                okButton.Click();
-            }
-            else
-            {
-                // Click the "Cancel" button to cancel the deletion
-                var cancelButton = dialogContainer.FindElement(By.CssSelector("button.btn.secondaryActionBtn"));
-                cancelButton.Click();
-            }
-        }
-
+        
         public bool WaitForFileDownload(string folderPath, string filePrefix, TimeSpan timeout)
         {
             string todayDate = DateTime.Now.ToString("yyyyMMdd");
