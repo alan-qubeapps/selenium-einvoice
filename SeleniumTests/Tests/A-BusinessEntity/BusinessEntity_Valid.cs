@@ -340,6 +340,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity  
+        /// Action: Fill out the Business Entity creation form with valid details, upload a logo, set status, and save.  
+        /// Verification: Verify that the system shows a success message and that the new Business Entity appears in the table with all input details correctly displayed.  
+        /// Test Data: Uses multiple sets of valid Business Entity details from 'CreateBusinessEntityTestData'.  
+        /// Purpose: Ensure that the system correctly handles creation of new Business Entities, including field entry, logo upload, status toggle, and table verification.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(1)]
@@ -599,6 +610,21 @@ namespace SeleniumTests.Tests.A_BusinessEntity
             }
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Search Business Entity - General Match  
+        /// Action: Enter search text in the Business Entity search field and check the table for matching records. Supports partial matches.  
+        /// Verification: Verify that at least one table cell contains the search text, navigating through pagination if needed.  
+        /// Test Data: Uses multiple search keywords from 'SearchBusinessEntityTestData'.  
+        /// Purpose: Ensure the search functionality correctly filters and displays matching Business Entities, including across multiple pages.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(2)]
@@ -697,6 +723,22 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Update Business Entity - Positive Case  
+        /// Action: Edit an existing Business Entity record by updating fields such as Name, TIN, SST, TT Register Number, MSIC, Contact, Email, Address, Status, etc.  
+        /// Verification:  
+        ///     1. Ensure Save button is enabled for valid input.  
+        ///     2. Verify system displays success modal after saving.  
+        ///     3. Confirm that all updated fields are correctly reflected in the table, including pagination if necessary.  
+        /// Test Data: Uses multiple update scenarios from 'UpdateBusinessEntityTestData'.  
+        /// Purpose: Ensure the Business Entity update function works correctly with valid data and reflects accurately in the table.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(3)]
@@ -925,6 +967,19 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Export Business Entity Report  
+        /// Action: Click the 'Export' button on the Business Entity page to download the report.  
+        /// Verification:  
+        ///     1. Ensure the export button is clickable.  
+        ///     2. Verify a new file with prefix 'Business Entity Index' is downloaded to the configured download path.  
+        /// Test Data: N/A (uses current table data).  
+        /// Purpose: Confirm that the Business Entity export functionality works and generates a downloadable file.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(4)]
@@ -972,6 +1027,23 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Filter Business Entity by Category  
+        /// Action: Apply the filter buttons on the Business Entity page for categories: All, Active, Inactive  
+        /// Verification:  
+        ///     1. Check that the table displays only rows matching the selected category.  
+        ///     2. If no rows exist, verify that the "No Data Available" message is shown.  
+        ///     3. Capture screenshot after applying filter.  
+        /// Test Data: SearchCategoryTestData (category values: "All", "Active", "Inactive")  
+        /// Purpose: Ensure that the Business Entity filter feature works correctly and updates table content as expected.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(5)]
@@ -1119,6 +1191,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Filter Business Entity by LHDN Status  
+        /// Action: Apply LHDN status filter buttons on the Business Entity page for statuses: Pending, Success, Failed  
+        /// Verification:  
+        ///     1. If "No data available" is shown, the test passes.  
+        ///     2. If data rows exist, all rows must have LHDN Status equal to the selected filter.  
+        ///     3. Capture screenshot after applying the filter.  
+        /// Test Data: FilterLHDNStatusTestData (status values: "Pending", "Success", "Failed")  
+        /// Purpose: Ensure the Business Entity LHDN Status filter works correctly and updates the table content as expected.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(6)]
@@ -1241,6 +1325,33 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Import Business Entity via CSV  
+        /// Action:  
+        ///     1. Open the Import modal on Business Entity page.  
+        ///     2. Download the CSV template.  
+        ///     3. Upload a prepared CSV file containing business entity data.  
+        ///     4. Handle Import Error popup (fail if shown).  
+        ///     5. Wait for 'Completed' button and confirm import success modal.  
+        ///     6. Verify each row from the CSV exists in the Business Entity table, checking:  
+        ///        - Entity Name  
+        ///        - TIN Number  
+        ///        - Registration Type + Registration ID  
+        ///        - SST Number  
+        ///        - Email  
+        ///        - Contact Number  
+        ///     7. Handle pagination if needed.  
+        /// Verification:  
+        ///     - CSV imported successfully without errors.  
+        ///     - All business entities from the CSV match the data in the table.  
+        ///     - Screenshots captured for each step.  
+        /// Test Data: AppConfig.ImportBECSVFile (full path to CSV file)  
+        /// Purpose: Ensure that CSV import works end-to-end and data integrity is maintained after import.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(7)]

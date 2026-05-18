@@ -17,6 +17,7 @@ using OfficeOpenXml;
 using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Style;
+using OpenQA.Selenium.Interactions;
 
 
 
@@ -255,6 +256,39 @@ namespace SeleniumTests.Tests.K_Setting
             }
         }
 
+
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Setting - Positive Scenario
+        /// Action:
+        ///     1. Navigate to Settings page.
+        ///     2. Select display density based on test data ('view').
+        ///     3. Clear existing Convert and Consolidate Cut-Off Date fields.
+        ///     4. Enter Convert Cut-Off Date and Consolidate Cut-Off Date from test data.
+        ///     5. Set Security Token checkbox based on test data.
+        ///     6. Upload sample receipt image via hidden file input and handle crop modal.
+        ///     7. Click final 'Save' button to submit settings.
+        /// Verification:
+        ///     - Image preview should display successfully before saving.
+        ///     - System should display a success message after saving.
+        ///     - Screenshot is captured after submission for reporting.
+        /// Purpose:
+        ///     Ensure that the application allows creation of settings with valid cut-off dates, valid file upload, 
+        ///     correct display density, and proper handling of the security token checkbox.
+        /// Test Data:
+        ///     - CutOffDate: B2C conversion cut-off date
+        ///     - ConsolidateCutOffDate: Consolidate cut-off date
+        ///     - securityToken: true/false to indicate if security token checkbox is checked
+        ///     - view: Display density option (e.g., 'Compact', 'Comfortable')
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
         [Order(1)]
@@ -267,29 +301,23 @@ namespace SeleniumTests.Tests.K_Setting
 
             try
             {
-
-                // ===== Select Display Density Based on 'view' Variable =====
+                // ===== 1. Select Display Density =====
                 if (!string.IsNullOrEmpty(view))
                 {
                     view = view.Trim().ToLower();
-
                     try
                     {
                         switch (view)
                         {
                             case "compact":
-                                var compactOption = _driver.FindElement(By.Name("displayDensityCompact"));
-                                compactOption.Click();
+                                _driver.FindElement(By.Name("displayDensityCompact")).Click();
                                 LogStep("✅ Selected 'Compact' display density.");
                                 break;
-
                             case "comfortable":
-                            case "comfortable side": // optional fallback
-                                var comfortableOption = _driver.FindElement(By.Name("displayDensitycomfortable"));
-                                comfortableOption.Click();
+                            case "comfortable side": // fallback
+                                _driver.FindElement(By.Name("displayDensitycomfortable")).Click();
                                 LogStep("✅ Selected 'Comfortable' display density.");
                                 break;
-
                             default:
                                 LogStep($"⚠️ Display density '{view}' not recognized. No action taken.");
                                 break;
@@ -307,19 +335,16 @@ namespace SeleniumTests.Tests.K_Setting
 
                 WaitForUIEffect();
 
-                // 🔄 Clear fields before input
-
-                var convertInput = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("#kt_content_container > app-setting > app-general-setting > div.card.mb-10.mt-9 > div > div > div > div:nth-child(2) > div.col-sm-12.col-md-4 > input")));
+                // ===== 2. Clear input fields =====
+                var convertInput = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("input[name='consolidatePage']")));
                 convertInput.Clear();
-                LogStep("🧹 Cleared Convert Cut-Off Date field.");
+                LogStep("🧹 Cleared Consolidate Page field.");
 
-                var consolidateInput = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("#kt_content_container > app-setting > app-general-setting > div.card.mb-10.mt-9 > div > div > div > div:nth-child(3) > div.col-sm-12.col-md-4 > input")));
+                var consolidateInput = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("input[name='consolidateB2CPage']")));
                 consolidateInput.Clear();
-                LogStep("🧹 Cleared Consolidate Cut-Off Date field.");
+                LogStep("🧹 Cleared Consolidate B2C Page field.");
 
-
+                // ===== 3. Enter Cut-Off Dates =====
                 _SettingPage.EnterConvertCutOff(CutOffDate);
                 WaitForUIEffect();
                 LogStep($"Entered Convert Cut-Off Date: {CutOffDate}");
@@ -328,11 +353,13 @@ namespace SeleniumTests.Tests.K_Setting
                 WaitForUIEffect();
                 LogStep($"Entered Consolidate Cut-Off Date: {ConsolidateCutOffDate}");
 
+                // ===== 4. Set Security Token Checkbox =====
                 bool isSecurityTokenChecked = bool.TryParse(securityToken, out var result) && result;
                 _SettingPage.SetCheckboxState(isSecurityTokenChecked);
-                WaitForUIEffect();
+                WaitForUIEffect(1000);
                 LogStep($"Security Token Checkbox set to: {securityToken}");
 
+                // ===== 5. File Upload via Hidden Input =====
                 string filePath = AppConfig.SampleReceiptImage;
                 if (!File.Exists(filePath))
                 {
@@ -340,31 +367,36 @@ namespace SeleniumTests.Tests.K_Setting
                     Assert.Fail("File not found: " + filePath);
                 }
 
-                var fileInput = wait.Until(ExpectedConditions.ElementExists(
-                    By.CssSelector("#kt_content_container > app-setting > app-general-setting > div.card.mb-10.mt-9 > div > div > div > div:nth-child(5) > div.col-sm-12.col-md-7.row.align-items-center > input[type=file]")));
+                var fileInput = wait.Until(ExpectedConditions.ElementExists(By.CssSelector("input[type='file']")));
+                ((IJavaScriptExecutor)_driver).ExecuteScript(
+                    "arguments[0].style.display='block'; arguments[0].style.opacity=1;", fileInput);
                 fileInput.SendKeys(filePath);
-                WaitForUIEffect();
-                LogStep("📤 File upload initiated.");
+                WaitForUIEffect(500);
+                LogStep("📤 File uploaded via hidden input.");
 
+                // ===== 6. Crop Modal Handling =====
                 var cropSaveBtn = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("//ngb-modal-window//app-image-crop-modal//button[contains(., 'Save')]")));
-                cropSaveBtn.Click();
+                    By.XPath("//app-image-crop-modal//button[contains(text(),'Save')]")));
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", cropSaveBtn);
                 WaitForUIEffect();
                 LogStep("Clicked 'Save' on crop modal.");
 
-                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                    By.CssSelector("ngb-modal-window[role='dialog']")));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector("app-image-crop-modal")));
                 WaitForUIEffect();
                 LogStep("Crop modal closed successfully.");
 
+                // ===== 7. Verify Image Preview =====
                 var previewImg = wait.Until(driver =>
                 {
                     try
                     {
-                        var img = driver.FindElement(By.XPath("//img[starts-with(@src, 'blob:')]"));
+                        var img = driver.FindElement(By.XPath("//img[contains(@src,'blob:')]"));
                         return !string.IsNullOrEmpty(img.GetAttribute("src")) ? img : null;
                     }
-                    catch { return null; }
+                    catch
+                    {
+                        return null;
+                    }
                 });
 
                 if (previewImg == null)
@@ -376,8 +408,8 @@ namespace SeleniumTests.Tests.K_Setting
                 WaitForUIEffect();
                 LogStep("🖼️ Image preview displayed successfully.");
 
-                IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-                js.ExecuteScript("window.scrollBy(0, 300);");   // scrolls down 300px
+                // ===== 8. Scroll and Save Settings =====
+                ((IJavaScriptExecutor)_driver).ExecuteScript("window.scrollBy(0, 1000);");
                 WaitForUIEffect();
                 LogStep("📜 Scrolled down to ensure 'Save' button is visible.");
 
@@ -385,6 +417,7 @@ namespace SeleniumTests.Tests.K_Setting
                 WaitForUIEffect();
                 LogStep("Clicked final 'Save' button to submit settings.");
 
+                // ===== 9. Validate Success Message =====
                 var modal = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/div/div")));
                 string message = modal.Text.Trim();
                 LogStep($"📢 System displayed message: {message}");
@@ -393,13 +426,10 @@ namespace SeleniumTests.Tests.K_Setting
                 if (messageNormalized.Contains("saved") || messageNormalized.Contains("success"))
                 {
                     LogStep("✅ Settings saved successfully.");
-                    Assert.IsTrue(true);
-
 
                     _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
                     var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
                     File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
 
                     var okBtn = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
                     okBtn.Click();
@@ -415,26 +445,54 @@ namespace SeleniumTests.Tests.K_Setting
             catch (Exception ex)
             {
                 LogStep($"❌ An unexpected error occurred during the test: {ex.Message}");
-
                 try
                 {
                     _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
                     var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
                     File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
                     LogStep("📸 Failure screenshot captured.");
                 }
                 catch (Exception innerEx)
                 {
                     LogStep($"⚠️ Could not capture failure screenshot: {innerEx.Message}");
                 }
-
                 Assert.Fail("Exception occurred: " + ex.Message);
             }
         }
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Reset Receipt Image Setting
+        /// Action:
+        ///     1. Navigate to Settings page.
+        ///     2. Select display density based on test data ('view').
+        ///     3. Clear existing Convert and Consolidate Cut-Off Date fields.
+        ///     4. Enter Convert Cut-Off Date and Consolidate Cut-Off Date from test data.
+        ///     5. Set Security Token checkbox based on test data.
+        ///     6. Scroll to locate the existing receipt image.
+        ///     7. Click 'Clear Image' button to remove the uploaded image.
+        ///     8. Confirm reset by clicking 'Proceed' on the dialog.
+        /// Verification:
+        ///     - System should allow clearing the default image if possible, or indicate it cannot be cleared.
+        ///     - System should display a success message after reset.
+        ///     - Screenshot is captured after reset for reporting.
+        /// Purpose:
+        ///     Ensure that the application allows users to reset/clear uploaded receipt images and correctly handles
+        ///     default images that cannot be cleared.
+        /// Test Data:
+        ///     - CutOffDateReset: B2C conversion cut-off date
+        ///     - ConsolidateCutOffDateReset: Consolidate cut-off date
+        ///     - securityTokenReset: true/false to indicate if security token checkbox is checked
+        ///     - view: Display density option (e.g., 'Compact', 'Comfortable')
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
         [Order(2)]
@@ -487,17 +545,21 @@ namespace SeleniumTests.Tests.K_Setting
 
                 WaitForUIEffect();
 
-                // 🔄 Clear fields before input
-
+                // Wait for the input to be visible
                 var convertInput = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("#kt_content_container > app-setting > app-general-setting > div.card.mb-10.mt-9 > div > div > div > div:nth-child(2) > div.col-sm-12.col-md-4 > input")));
-                convertInput.Clear();
-                LogStep("🧹 Cleared Convert Cut-Off Date field.");
+                    By.CssSelector("input[name='consolidatePage']")));
 
+                // Clear the input field
+                convertInput.Clear();
+                LogStep("🧹 Cleared Consolidate Page field.");
+
+                // Wait for the input to be visible
                 var consolidateInput = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.CssSelector("#kt_content_container > app-setting > app-general-setting > div.card.mb-10.mt-9 > div > div > div > div:nth-child(3) > div.col-sm-12.col-md-4 > input")));
+                    By.CssSelector("input[name='consolidateB2CPage']")));
+
+                // Clear the input field
                 consolidateInput.Clear();
-                LogStep("🧹 Cleared Consolidate Cut-Off Date field.");
+                LogStep("🧹 Cleared Consolidate B2C Page field.");
 
 
                 _SettingPage.EnterConvertCutOff(CutOffDateReset);
@@ -513,9 +575,15 @@ namespace SeleniumTests.Tests.K_Setting
                 WaitForUIEffect();
                 LogStep($"Security Token Checkbox set to: {securityTokenReset}");
 
+                IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
+                js.ExecuteScript("window.scrollBy(0, 1000);");   // scrolls down 300px
+                WaitForUIEffect();
+
                 // 🗑️ Try to find the Clear Image button
-                IReadOnlyCollection<IWebElement> clearBtnElements = _driver.FindElements(By.XPath(
-                    "/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/div/div/div/div/div[5]/div[1]/div/button"));
+                // Locate all "clear" buttons using the new class
+                IReadOnlyCollection<IWebElement> clearBtnElements = _driver.FindElements(
+                    By.CssSelector("button.close-btn.ng-star-inserted"));
+
 
                 if (clearBtnElements.Count == 0)
                 {
@@ -524,17 +592,35 @@ namespace SeleniumTests.Tests.K_Setting
                     return; // stop here
                 }
 
-                var clearBtn = wait.Until(ExpectedConditions.ElementToBeClickable(clearBtnElements.First()));
-                clearBtn.Click();
+                // Wait until the button is visible and clickable
+                var clearBtn = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(
+                    By.CssSelector("div.col-sm-12.col-lg-5 > div > button.close-btn.ng-star-inserted")));
+
+                // Scroll into view
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", clearBtn);
+
+                // Try normal click
+                try
+                {
+                    clearBtn.Click();
+                }
+                catch
+                {
+                    // Fallback: click via JS if normal click fails
+                    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", clearBtn);
+                }
+
                 WaitForUIEffect();
                 LogStep("🗑️ Clicked 'Clear Image' button.");
 
+
+
                 // ✅ Confirm reset (Save button in dialog)
-                var confirmBtn = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/div/div/div[6]/button[1]")));
+                var confirmBtn = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(
+                    By.CssSelector("button.swal2-confirm.btn.fw-bold.btn-primary")));
                 confirmBtn.Click();
                 WaitForUIEffect();
-                LogStep("✅ Clicked 'Save' button on reset dialog.");
+                LogStep("✅ Clicked 'Proceed' button on reset dialog.");
 
                 var modal = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/div/div")));
                 string message = modal.Text.Trim();
@@ -583,9 +669,38 @@ namespace SeleniumTests.Tests.K_Setting
         }
 
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Setting Store Setting
+        /// Action:
+        ///     1. Navigate to Settings page and open the 'Store' tab.
+        ///     2. Select or unselect entities based on test data (Entities parameter).
+        ///     3. Expand all store sections dynamically.
+        ///     4. Select or unselect stores based on test data (Stores parameter).
+        ///     5. Click 'Save' button to submit the settings.
+        ///     6. Click 'Proceed' button on confirmation modal.
+        /// Verification:
+        ///     - Entities and stores are selected/unselected according to input data.
+        ///     - System displays a success message after saving.
+        ///     - Screenshot is captured after saving for reporting.
+        /// Purpose:
+        ///     Ensure that the application correctly handles store-specific settings for entities and stores,
+        ///     and properly persists selections in the system.
+        /// Test Data:
+        ///     - Entities: comma-separated list of entities to select (or 'All' to select all)
+        ///     - Stores: comma-separated list of stores to select (or 'All' to select all)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
-        [Order(1)]
+        [Order(3)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Create")]
         [TestCaseSource(nameof(SettingStoreTestData))]
@@ -836,7 +951,7 @@ namespace SeleniumTests.Tests.K_Setting
                 okButton?.Click();
                 LogStep("✅ Clicked 'Ok, got it!'");
 
-                WaitForUIEffect();
+                WaitForUIEffect(1000);
                 LogStep("✅ Store settings test completed successfully. [IMPORTANT] Please relogin on your existing browser tab.");
 
             }

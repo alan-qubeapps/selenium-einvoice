@@ -408,6 +408,37 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User Role
+        /// Action:
+        ///     1. Navigate to the User Role tab.
+        ///     2. Click the "New User Role" button.
+        ///     3. Enter Role Name and Role Description.
+        ///     4. Open the color picker and select the specified color.
+        ///     5. Click Edit Store Permission and set the checkbox based on input.
+        ///     6. Submit Edit Store Permissions.
+        ///     7. Tick "All Module Permission" and scroll the window as needed.
+        ///     8. Click the Submit button to create the User Role.
+        ///     9. Handle the success modal and confirm the message.
+        ///     10. Verify that the newly created User Role exists in the User Role table, handling pagination if necessary.
+        /// Verification:
+        ///     - User Role is successfully created.
+        ///     - All input fields match expected values in the table.
+        /// Purpose:
+        ///     Ensure that a new User Role can be created with all required attributes and permissions, and is correctly displayed in the User Role table.
+        /// Test Data:
+        ///     - Rolename: string
+        ///     - RoleDesc: string
+        ///     - colorClass: string
+        ///     - EditStorePermission: string (true/false)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(1)]
@@ -597,6 +628,32 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update User Role
+        /// Action:
+        ///     1. Navigate to the User Role tab.
+        ///     2. Click the Edit button for the specified User Role.
+        ///     3. Update Role Name and Role Description.
+        ///     4. Open the color picker and select the specified color.
+        ///     5. Click Edit Store Permission and set the checkbox based on input.
+        ///     6. Submit Edit Store Permissions.
+        ///     7. Tick "All Module Permission" and scroll the window as needed.
+        ///     8. Click the Submit button to save updates.
+        ///     9. Handle the success modal and confirm the message.
+        ///     10. Verify that the updated User Role exists in the User Role table, handling pagination if necessary.
+        /// Verification:
+        ///     - User Role is successfully updated.
+        ///     - All updated fields match expected values in the table.
+        /// Purpose:
+        ///     Ensure that an existing User Role can be updated with new attributes and permissions, and changes are correctly reflected in the User Role table.
+        /// Test Data:
+        ///     - Rolename: string
+        ///     - RoleDesc: string
+        ///     - colorClass: string
+        ///     - EditStorePermission: string (true/false)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(2)]
@@ -780,6 +837,36 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User
+        /// Action:
+        ///     1. Click 'New' button to open the user creation modal.
+        ///     2. Upload profile image (if file exists).
+        ///     3. Enter Username and User Email.
+        ///     4. Set role checkbox according to input.
+        ///     5. Enter Password and Confirm Password.
+        ///     6. Click show password/confirm password icons.
+        ///     7. Set Active checkbox if specified.
+        ///     8. Click Save button to submit the form.
+        ///     9. Handle modal message and confirm 'Ok, got it!' button.
+        ///     10. Verify that the newly created user appears in the User table, including Email, Role, and Status, handling pagination if necessary.
+        /// Verification:
+        ///     - User is successfully created and visible in the User table.
+        ///     - All fields (Username, Email, Role, Status) match the expected input values.
+        /// Purpose:
+        ///     Ensure that a new user can be created with the specified attributes, roles, and status, and that the changes are correctly reflected in the system.
+        /// Test Data:
+        ///     - Username: string
+        ///     - UserEmail: string
+        ///     - role: string
+        ///     - UserPassword: string
+        ///     - UserConfirmPassword: string
+        ///     - activeUser: string (true/false)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(3)]
@@ -965,6 +1052,26 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Search User
+        /// Action:
+        ///     1. Enter search text in the User search box.
+        ///     2. Wait for the User table to refresh.
+        ///     3. Scan all rows of the table on the current page:
+        ///         - Skip 'No data' or placeholder rows.
+        ///         - Check each cell (or span within cell) for a partial match of the search text.
+        ///     4. If no match found on current page, navigate through pagination (Next button) and repeat scanning.
+        /// Verification:
+        ///     - Partial matches of the search text should be detected in any table row across all pages.
+        ///     - Table refresh correctly shows 0 rows if no match is found.
+        /// Purpose:
+        ///     Ensure the User search function supports partial matching and correctly updates the table and pagination.
+        /// Test Data:
+        ///     - searchText: string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(4)]
@@ -1086,6 +1193,45 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Update User
+        /// Action:
+        ///     1. Click [Edit] for the specified user.
+        ///     2. Upload a profile image if available.
+        ///     3. Update user details:
+        ///         - Username
+        ///         - Email
+        ///         - Role checkbox
+        ///         - Password and Confirm Password
+        ///         - Active status checkbox
+        ///     4. Click show/hide password icons to verify password visibility toggles.
+        ///     5. Click Save button.
+        ///     6. Handle modal feedback:
+        ///         - Confirm success message.
+        ///         - Detect duplicate TIN message if present.
+        ///     7. Verify updated user in the table:
+        ///         - Compare Username, Email, Role, and Status with expected values.
+        ///         - Iterate through all pagination pages if necessary.
+        /// Verification:
+        ///     - Modal shows "updated successful" message.
+        ///     - User table reflects all updated values correctly.
+        ///     - Pagination handled properly if user is not on the first page.
+        /// Purpose:
+        ///     Ensure that the User Edit/Update function correctly updates all user fields and persists changes in the table across pagination.
+        /// Test Data:
+        ///     - User: string (existing user to edit)
+        ///     - Username: string (new username)
+        ///     - UserEmail: string (new email)
+        ///     - role: string (role checkbox to select)
+        ///     - UserPassword: string
+        ///     - UserConfirmPassword: string
+        ///     - activeUser: string ("true"/"false" to indicate active status)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(6)]
         [AllureSeverity(SeverityLevel.normal)]
@@ -1285,6 +1431,28 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Export User Report
+        /// Action:
+        ///     1. Click the Export button on the User page.
+        ///     2. Wait briefly for the UI to process the click.
+        ///     3. Capture a screenshot of the UI after clicking Export.
+        ///     4. Wait for the exported file to appear in the configured download directory.
+        /// Verification:
+        ///     - A file with the expected prefix ("User Index") is downloaded successfully.
+        /// Purpose:
+        ///     Ensure that the User Export function correctly generates and downloads the user report to the configured directory.
+        /// Test Data:
+        ///     - downloadPath: string (directory path for downloads, from AppConfig)
+        ///     - filePrefix: string (expected prefix of downloaded file)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(7)]
@@ -1311,6 +1479,33 @@ namespace SeleniumTests.Tests.D_User
             Assert.IsTrue(fileDownloaded, "❌ No new download detected.");
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Filter User By Category
+        /// Action:
+        ///     1. Apply a category filter on the User table (All / Active / Inactive).
+        ///     2. Wait for the User table to refresh.
+        ///     3. Take a screenshot after filter is applied.
+        ///     4. If table shows "No data available", log and exit.
+        ///     5. Otherwise, scan all table rows:
+        ///         - Extract the Status column for each row.
+        ///         - Verify that each row matches the expected category (Active/Inactive).
+        /// Verification:
+        ///     - Table correctly displays rows matching the selected category.
+        ///     - No rows with invalid status exist.
+        ///     - Table refreshes correctly and "No data available" message appears if no records match.
+        /// Purpose:
+        ///     Ensure the User category filter functions correctly for All, Active, and Inactive categories.
+        /// Test Data:
+        ///     - category: string (All / Active / Inactive)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(8)]
@@ -1446,6 +1641,31 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Search User Role
+        /// Action:
+        ///     1. Navigate to the User Role tab.
+        ///     2. Enter search text in the User Role search box.
+        ///     3. Wait for the User Role table to refresh.
+        ///     4. Scan all rows of the table on the current page:
+        ///         - Skip 'No data' or placeholder rows.
+        ///         - Check each cell (or span within cell) for a partial match of the search text.
+        ///     5. If no match found on current page, navigate through pagination (Next button) and repeat scanning.
+        /// Verification:
+        ///     - Partial matches of the search text should be detected in any table row across all pages.
+        ///     - Table refresh correctly shows 0 rows if no match is found.
+        /// Purpose:
+        ///     Ensure the User Role search function supports partial matching and correctly updates the table and pagination.
+        /// Test Data:
+        ///     - searchText: string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(9)]

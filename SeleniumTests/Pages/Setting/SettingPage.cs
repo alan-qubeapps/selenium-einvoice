@@ -60,13 +60,13 @@ namespace SeleniumTests.Pages.Setting
         private IWebElement ContinueButton { get; set; }
 
         // New Elements
-        [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/app-general-setting/div[1]/div/div/div/div[2]/div[2]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[name='consolidatePage']")]
         public IWebElement ConvertCutOffInput { get; set; }
 
         [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div[1]/div/div/app-header/div/app-topbar/app-side-setting/div/div[2]/div[2]/input")]
         public IWebElement ConvertCutOffInputQS { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/app-general-setting/div[1]/div/div/div/div[3]/div[2]/input")]
+        [FindsBy(How = How.CssSelector, Using = "input[name='consolidateB2CPage']")]
         public IWebElement ConsolidateCutOffInput { get; set; }
 
         [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div[1]/div/div/app-header/div/app-topbar/app-side-setting/div/div[2]/div[3]/input")]
@@ -106,8 +106,10 @@ namespace SeleniumTests.Pages.Setting
         [FindsBy(How = How.XPath, Using = "/html/body/ngb-modal-window/div/div/app-user-modal/div/div[2]/div/div/div[2]/div/app-step2/div/form/div/div/div[7]/input")]
         private IWebElement CustExternalCodeInput { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/app-general-setting/div[2]/div/button")]
-        private IWebElement SaveButton { get; set; }
+        [FindsBy(How = How.XPath, Using = "//button[contains(@class,'btn-sm btn-primary') and normalize-space(text())='Save Changes']")]
+        public IWebElement SaveButton { get; set; }
+
+
 
         [FindsBy(How = How.XPath, Using = "/html/body/app-layout/div/div/div/app-header/div/app-topbar/app-side-setting/div/div[3]/div[2]/button[2]")]
         private IWebElement SaveButtonQS { get; set; }
@@ -151,15 +153,18 @@ namespace SeleniumTests.Pages.Setting
 
         public void SetCheckboxState(bool isChecked)
         {
-            var checkbox = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(
-                By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/app-general-setting/div[1]/div/div/div/div[4]/div[2]/label/input")
-            ));
+            // Wait until the checkbox is present
+            var checkbox = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(
+                By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-setting/app-general-setting/div[3]/div/div/div[2]/div[2]/label/input")));
 
+            // Check or uncheck based on input
             if (checkbox.Selected != isChecked)
             {
                 checkbox.Click();
             }
+
         }
+
 
         public void SetCheckboxStateQS(bool isChecked)
         {

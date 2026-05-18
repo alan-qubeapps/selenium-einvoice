@@ -328,6 +328,30 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Store
+        /// Action:
+        ///     1. Click 'New' to open the Store creation modal.
+        ///     2. Fill all mandatory fields: Store Name, City, State, Postcode, Country, Address1, Address2, Business Entity, External Code.
+        ///     3. Set Status toggle based on input ('Active', 'Inactive', 'All').
+        ///     4. Click 'Save' button and wait for the success modal.
+        /// Verification:
+        ///     - Confirm the success modal contains 'Success'.
+        ///     - Capture a screenshot for evidence.
+        ///     - Verify the newly created Store appears in the table with the correct Name, Status, and combined Address.
+        ///     - Pagination is handled to locate the Store if it is not on the first page.
+        /// Purpose: Ensure that creating a Store with valid inputs works correctly and the record is properly reflected in the Stores table.
+        /// Notes:
+        ///     - Status = 'All' will skip toggle interaction.
+        ///     - Combined Address verification format: Address1,Address2,Postcode,City,State,Country.
+        ///     - Screenshots are captured for both modal and table verification steps.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(1)]
@@ -575,11 +599,30 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
-      
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Search Store
+        /// Action:
+        ///     1. Input the search text into the Store search field.
+        ///     2. Wait for the table to load and update according to the search.
+        ///     3. Iterate through all visible rows and all cells in each row.
+        ///     4. Perform a partial match (ignoring spaces and case) against the search text.
+        ///     5. Handle pagination: click "Next" button if available and continue searching until the last page.
+        /// Verification:
+        ///     - Confirm at least one cell contains the search text (partial match accepted).
+        ///     - Capture a screenshot at the moment the first match is found or when reaching the last page without a match.
+        /// Purpose: Ensure the search functionality returns at least one row matching the input text and handles pagination correctly.
+        /// Notes:
+        ///     - Partial matches are accepted (spaces are ignored and search is case-insensitive).
+        ///     - Screenshots are taken automatically for evidence.
+        ///     - Pagination is handled dynamically; test does not assume a fixed number of pages.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
-        [Order(3)]
+        [Order(2)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Store Search - General Match (Partial Match Accepted)")]
         [TestCaseSource(nameof(SearchStoreTestData))]
@@ -667,9 +710,37 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update Store
+        /// Action:
+        ///     1. Search and click the 'Edit' button for the given StoreCode.
+        ///     2. Update all store details: Store Name, City, State, Postcode, Country, Address 1 & 2, Business Entity, External Code.
+        ///     3. Handle Status toggle according to input value (Active / Inactive / All).
+        ///     4. Click 'Save' and wait for confirmation modal.
+        /// Verification:
+        ///     - Confirm the modal message indicates success.
+        ///     - If the modal indicates errors (e.g., duplicate TIN), fail the test with proper logging and screenshot.
+        ///     - Search for the updated store in the table using StoreCode and verify:
+        ///         * Status matches expected value.
+        ///         * Combined address matches expected value.
+        ///     - Handle pagination if the store is not visible on the current page.
+        ///     - Capture screenshots at key steps: after clicking 'Save' and upon verification.
+        /// Purpose:
+        ///     Ensure that a store can be updated with new information correctly and the updates are reflected in the store table.
+        /// Notes:
+        ///     - Status toggle input "All" will not change the current state.
+        ///     - Business Entity selection uses a searchable dropdown and JavaScript click for reliability.
+        ///     - Pagination is handled dynamically if the store is not on the current page.
+        ///     - Exceptions and failures are logged with screenshots for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
-        [Order(4)]
+        [Order(3)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Store Update")]
         [TestCaseSource(nameof(UpdateStoreTestData))]
@@ -929,9 +1000,31 @@ namespace SeleniumTests.Tests.B_Stores
             }
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Export Store Report
+        /// Action:
+        ///     1. Click the 'Export' button on the Store page.
+        ///     2. Wait for the exported file to appear in the configured download folder.
+        /// Verification:
+        ///     - Confirm that a file with prefix "Store Index" exists in the download directory within the timeout period.
+        ///     - Capture a screenshot after clicking 'Export' for traceability.
+        /// Purpose:
+        ///     Ensure that the Store page's export functionality works correctly and generates a downloadable report file.
+        /// Notes:
+        ///     - The download path is taken from AppConfig.DownloadPath.
+        ///     - Wait timeout is set to 15 seconds; adjust if needed for slower environments.
+        ///     - Screenshot is captured to provide visual confirmation of the export action.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
-        [Order(5)]
+        [Order(4)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Create - Export Stores Report")]
         public void ExportStoreReport()
@@ -956,9 +1049,31 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Filter Store by Category
+        /// Action:
+        ///     1. Apply category filter on the Store page based on input: "All", "Active", or "Inactive".
+        ///     2. Wait for table to reload and capture screenshot.
+        /// Verification:
+        ///     - If table shows "No data available", confirm test passes as no invalid rows are displayed.
+        ///     - Otherwise, validate that the Status column of all displayed rows matches the selected category.
+        ///     - Log each row’s status and fail test if any mismatch occurs.
+        /// Purpose:
+        ///     Ensure the Store page filter functionality works correctly and only displays rows matching the selected category.
+        /// Notes:
+        ///     - Supports dynamic handling of both "No Data" scenario and populated tables.
+        ///     - Screenshot captured for traceability.
+        ///     - Category input is case-insensitive. Invalid category inputs will fail the test.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
-        [Order(6)]
+        [Order(5)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Filter - Filter By Category")]
         [TestCaseSource(nameof(FilterCategoryTestData))]
@@ -1091,9 +1206,39 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Import Store CSV File
+        /// Action:
+        ///     1. Click 'Import' button to open the modal.
+        ///     2. Optionally download the template file.
+        ///     3. Upload CSV file containing store data.
+        ///     4. Click 'Upload' and handle any Import Error popup.
+        ///     5. Wait for 'Completed' button and confirmation modal.
+        /// Verification:
+        ///     - Check that the modal displays a success message after upload.
+        ///     - Read the CSV file and extract store details (name, status, address, city, state, country).
+        ///     - Search for each store in the table and verify:
+        ///         * Store name matches CSV.
+        ///         * Store status matches CSV.
+        ///         * Full address matches CSV data (Address1, Address2, Postcode, City, State, Country).
+        ///     - Handle pagination if store appears on subsequent pages.
+        ///     - Fail test if any store record is missing or mismatched.
+        /// Purpose:
+        ///     Ensure the CSV import feature correctly uploads store data and that the table reflects the expected values.
+        /// Notes:
+        ///     - State and country codes are mapped to names using dictionaries. Unknown codes are logged.
+        ///     - Screenshots are captured at key steps for traceability.
+        ///     - Handles both Import Error popups and successful uploads.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
-        [Order(7)]
+        [Order(6)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Import - Upload CSV via Upload Button")]
         public void ImportStoreCSVFile()

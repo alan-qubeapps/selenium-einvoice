@@ -236,11 +236,15 @@ namespace SeleniumTests.Pages.User
             UsernameInput.SendKeys(Username);
         }
 
-        public void EnterRolename(string Rolename)
+        public void EnterRolename(string rolename)
         {
-            RolenameInput.Clear();
-            RolenameInput.SendKeys(Rolename);
+            RolenameInput.Click();
+            RolenameInput.SendKeys(Keys.Control + "a");
+            RolenameInput.SendKeys(Keys.Backspace);
+
+            RolenameInput.SendKeys(rolename);
         }
+
 
         public void EnterRoleDesc(string RoleDesc)
         {

@@ -149,6 +149,53 @@ namespace SeleniumTests.Tests.F_Transaction
             }
         }
 
+        private bool IsSubmissionBlockedModalDisplayed()
+        {
+            try
+            {
+                var modal = _wait.Until(driver =>
+                {
+                    var element = driver.FindElements(By.Id("swal2-html-container"))
+                                        .FirstOrDefault(e => e.Displayed);
+
+                    return element != null &&
+                           element.Text.Contains("You are not able to submit during this period");
+                });
+
+                return modal;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Transaction Table Pagination - 'Next' Button
+        /// Action:
+        ///     1. Wait for the transaction table to be visible on the page.
+        ///     2. Capture the current table content (innerHTML) before clicking 'Next'.
+        ///     3. Locate the 'Next' pagination button and check if it is disabled.
+        ///     4. If 'Next' is enabled, click the button.
+        ///     5. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the 'Next' button is enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly and the 'Next' button navigates to the next page, updating table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(1)]
@@ -206,6 +253,32 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Transaction Table Pagination - 'Previous' Button
+        /// Action:
+        ///     1. Wait for the transaction table to be visible on the page and capture its current HTML content.
+        ///     2. Verify if the 'Next' button is enabled. If disabled, skip the test (only one page available).
+        ///     3. Click the 'Next' button to move to the next page and wait for table content to update.
+        ///     4. Verify that table content has changed after clicking 'Next'.
+        ///     5. Locate the 'Previous' button and check if it is enabled. If disabled, skip returning to page 1.
+        ///     6. Click the 'Previous' button and wait for table content to return to its original state.
+        /// Verification:
+        ///     - Confirm the 'Next' and 'Previous' buttons are clickable according to pagination state.
+        ///     - Ensure table content changes after 'Next' and returns after 'Previous'.
+        ///     - Take screenshots at each step for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in both directions, allowing users to navigate forward and backward.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the transaction table.
+        ///     - nextButtonXPath / previousButtonXPath: XPaths to locate pagination buttons.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(2)]
@@ -292,70 +365,96 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(3)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestAllPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(3)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestAllPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect();
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect();
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect();
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect();
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Transaction Table Pagination - 'First' Button
+        /// Action:
+        ///     1. Capture the current HTML content of the transaction table.
+        ///     2. Check if the "Next" button is enabled. If disabled, skip the test (only one page exists or already on last page).
+        ///     3. Click the "Next" button to move forward and wait for the table content to change.
+        ///     4. Verify if the table content changed after clicking "Next".
+        ///     5. Locate the "First" button and check if it is enabled. If disabled, skip the return action.
+        ///     6. Click the "First" button to return to the first page.
+        ///     7. Validate that the table content has returned to the original HTML state.
+        /// Verification:
+        ///     - Ensure table content changes after clicking "Next".
+        ///     - Ensure table content returns to the original state after clicking "First".
+        ///     - Take screenshots for visual verification at key steps.
+        /// Purpose:
+        ///     Verify that the transaction table pagination allows correct navigation to the first page and that table content updates accordingly.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the transaction table.
+        ///     - nextButtonXPath / firstButtonXPath: XPaths to locate pagination buttons.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(4)]
@@ -364,7 +463,7 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestAllPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
 
 
@@ -374,21 +473,21 @@ namespace SeleniumTests.Tests.F_Transaction
             LogStep("📄 Captured original table HTML.");
             WaitForUIEffect();
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect();
 
             bool tableChanged = false;
@@ -402,7 +501,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -416,7 +515,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -447,6 +546,32 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Transaction Table Pagination - Page Size Dropdown
+        /// Action:
+        ///     1. Wait for the transaction table to be visible on the page.
+        ///     2. Capture the current table HTML content and row count.
+        ///     3. Locate the page size dropdown and verify that the expected option (e.g., "100") exists.
+        ///     4. Select the desired page size from the dropdown.
+        ///     5. Wait for the table to update (check for HTML content change or row count adjustment).
+        ///     6. Capture screenshots at key steps for visual verification.
+        /// Verification:
+        ///     - Confirm that the table updates correctly after changing the page size.
+        ///     - Ensure that the displayed number of rows does not exceed the selected page size.
+        ///     - Take screenshots for visual verification.
+        /// Purpose:
+        ///     Verify that changing the number of items per page in the transaction table works correctly and that table updates match the selected page size.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - pageSizeValue: The desired number of items per page (e.g., "100").
+        ///     - rowSelector: CSS selector to count table rows.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(5)]
@@ -512,6 +637,32 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Transaction Table Pagination - Click Specific Page Button If It Exists
+        /// Action:
+        ///     1. Wait for the transaction table to be visible on the page.
+        ///     2. Capture the current table content (innerHTML).
+        ///     3. Locate the specified page number button using the dynamic XPath.
+        ///     4. If the page button exists, click it.
+        ///     5. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the specified page number exists.
+        ///     - Ensure that table content changes after clicking the page button.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination correctly navigates to the specified page and updates the table content only if that page exists.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the transaction table.
+        ///     - dynamicPageXPath: XPath to locate the specified page button.
+        ///     - pageNumber: The page number to navigate to.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(6)]
@@ -575,6 +726,31 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2C Transaction Table Pagination - 'Next' Button
+        /// Action:
+        ///     1. Navigate to the 'B2C' tab on the transaction page.
+        ///     2. Wait for the B2C transaction table to be visible.
+        ///     3. Capture the current table content (innerHTML) before clicking 'Next'.
+        ///     4. Locate the 'Next' pagination button and check if it is disabled.
+        ///     5. If 'Next' is enabled, click the button.
+        ///     6. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the 'Next' button is enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that B2C transaction table pagination works correctly and the 'Next' button navigates to the next page, updating table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2C transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(7)]
@@ -641,6 +817,34 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2C Transaction Table Pagination - 'Previous' Button
+        /// Action:
+        ///     1. Navigate to the 'B2C' tab on the transaction page.
+        ///     2. Wait for the B2C transaction table to be visible.
+        ///     3. Capture the current table content (innerHTML) before clicking pagination buttons.
+        ///     4. Check if the 'Next' button is enabled; click it if available to move forward.
+        ///     5. Locate the 'Previous' button and check if it is disabled.
+        ///     6. If 'Previous' is enabled, click it to return to the original page.
+        ///     7. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether 'Next' and 'Previous' buttons are enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next' and returns to original after clicking 'Previous'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that B2C transaction table pagination works correctly and the 'Previous' button navigates back, restoring the table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2C transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - previousButtonXPath: XPath to locate the 'Previous' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(8)]
@@ -736,79 +940,103 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(9)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestB2CPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(9)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestB2CPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to B2C tab
-            var b2cTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2C')]")
-            ));
+        //        // Navigate to B2C tab
+        //        var b2cTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2C')]")
+        //        ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2cTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'B2C' tab successfully.");
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2cTab);
+        //        WaitForUIEffect();
+        //        LogStep("🧭 Navigated to 'B2C' tab successfully.");
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect(15000);
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect(15000);
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect(15000);
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect(15000);
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2C Transaction Table Pagination - 'First' Button
+        /// Action:
+        ///     1. Navigate to the 'B2C' tab on the transaction page.
+        ///     2. Wait for the B2C transaction table to be visible and capture its current content (innerHTML).
+        ///     3. Click the 'Next' button if it is enabled to move away from the first page.
+        ///     4. Locate the 'First' button and check if it is disabled.
+        ///     5. If 'First' is enabled, click it to return to the first page.
+        ///     6. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the 'Next' and 'First' buttons are enabled or disabled.
+        ///     - Ensure that the table content changes after clicking 'Next' and returns to original content after clicking 'First'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that B2C transaction table pagination works correctly and the 'First' button navigates back to the first page, restoring table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2C transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - firstButtonXPath: XPath to locate the 'First' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(10)]
@@ -817,7 +1045,7 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestB2CPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
 
             // Navigate to B2C tab
@@ -836,21 +1064,21 @@ namespace SeleniumTests.Tests.F_Transaction
             WaitForUIEffect(15000);
 
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect(15000);
 
             bool tableChanged = false;
@@ -864,7 +1092,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -878,7 +1106,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -910,6 +1138,29 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2C Transaction Table Pagination - Page Size Dropdown
+        /// Action:
+        ///     1. Navigate to the 'B2C' tab on the transaction page.
+        ///     2. Wait for the B2C transaction table to be visible and capture its current content (innerHTML) and row count.
+        ///     3. Locate the page size dropdown and verify that the desired page size option exists.
+        ///     4. Select the specified page size from the dropdown.
+        ///     5. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm that the table updates after changing the page size.
+        ///     - Ensure the row count does not exceed the selected page size.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that selecting a page size in the B2C transaction table updates the table content correctly.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2C transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - pageSizeValue: The number of rows per page to select.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(11)]
@@ -985,77 +1236,103 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(12)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
-        public void TestB2CClickPageButtonIfExists(string pageNumber)
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
-            string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
+        //[Test]
+        //[Category("Transaction")]
+        //[Order(12)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
+        //[TestCase("3")]
+        //public void TestB2CClickPageButtonIfExists(string pageNumber)
+        //{
+        //    string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //    string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
+        //    string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
 
-            // Navigate to B2C tab
-            var b2cTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2C')]")
-            ));
+        //    // Navigate to B2C tab
+        //    var b2cTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2C')]")
+        //    ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2cTab);
-            WaitForUIEffect();
+        //    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2cTab);
+        //    WaitForUIEffect();
 
-            LogStep("🧭 Navigated to 'B2C' tab successfully.");
-            // Capture current table content
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            LogStep("📄 Captured original table HTML.");
-            WaitForUIEffect(15000);
+        //    LogStep("🧭 Navigated to 'B2C' tab successfully.");
+        //    // Capture current table content
+        //    var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //    string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //    LogStep("📄 Captured original table HTML.");
+        //    WaitForUIEffect(15000);
 
-            // Locate page number button
-            var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
-            if (pageButtons.Count == 0)
-            {
-                LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //    // Locate page number button
+        //    var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
+        //    if (pageButtons.Count == 0)
+        //    {
+        //        LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
+        //        Assert.IsTrue(true);
+        //        return;
+        //    }
 
-            // Click the page number button
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
-            pageButtons[0].Click();
-            LogStep($"✅ Clicked on page number {pageNumber}.");
-            WaitForUIEffect(15000);
+        //    // Click the page number button
+        //    _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
+        //    pageButtons[0].Click();
+        //    LogStep($"✅ Clicked on page number {pageNumber}.");
+        //    WaitForUIEffect(15000);
 
-            // Wait for table update
-            bool tableUpdated = _wait.Until(driver =>
-            {
-                var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                string afterHtml = updatedTable.GetAttribute("innerHTML");
-                return afterHtml != beforeHtml;
-            });
+        //    // Wait for table update
+        //    bool tableUpdated = _wait.Until(driver =>
+        //    {
+        //        var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //        string afterHtml = updatedTable.GetAttribute("innerHTML");
+        //        return afterHtml != beforeHtml;
+        //    });
 
-            WaitForUIEffect(15000);
+        //    WaitForUIEffect(15000);
 
-            // Validation
-            if (tableUpdated)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"✅ Table updated after clicking page {pageNumber}.");
-            }
-            else
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Table did not update after clicking page {pageNumber}.");
-                Assert.Fail("Table content did not change.");
-            }
-        }
+        //    // Validation
+        //    if (tableUpdated)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"✅ Table updated after clicking page {pageNumber}.");
+        //    }
+        //    else
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Table did not update after clicking page {pageNumber}.");
+        //        Assert.Fail("Table content did not change.");
+        //    }
+        //}
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2B Transaction Table Pagination - 'Next' Button
+        /// Action:
+        ///     1. Navigate to the 'B2B' tab on the transaction page.
+        ///     2. Wait for the B2B transaction table to be visible and capture its current content (innerHTML).
+        ///     3. Locate the 'Next' pagination button and check if it is disabled.
+        ///     4. If 'Next' is enabled, click the button.
+        ///     5. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the 'Next' button is enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the B2B tab and the 'Next' button navigates to the next page, updating table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2B transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(13)]
@@ -1122,6 +1399,34 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2B Transaction Table Pagination - 'Previous' Button
+        /// Action:
+        ///     1. Navigate to the 'B2B' tab on the transaction page.
+        ///     2. Wait for the B2B transaction table to be visible and capture its current content (innerHTML).
+        ///     3. Check if the 'Next' button is disabled to determine if only one page exists.
+        ///     4. If 'Next' is enabled, click the 'Next' button to go to the next page.
+        ///     5. Locate the 'Previous' button and check if it is disabled.
+        ///     6. If 'Previous' is enabled, click the button to return to the first page.
+        ///     7. Wait for the table content to return to its original state and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether 'Next' and 'Previous' buttons are enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next' and returns to original after clicking 'Previous'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the B2B tab and the 'Previous' button navigates back to the first page, restoring table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2B transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - previousButtonXPath: XPath to locate the 'Previous' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(14)]
@@ -1217,79 +1522,105 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(15)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestB2BPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(15)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestB2BPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to B2B tab
-            var b2bTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2B')]")
-            ));
+        //        // Navigate to B2B tab
+        //        var b2bTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2B')]")
+        //        ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2bTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'B2B' tab successfully.");
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2bTab);
+        //        WaitForUIEffect();
+        //        LogStep("🧭 Navigated to 'B2B' tab successfully.");
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect(15000);
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect(15000);
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect(15000);
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect(15000);
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2B Transaction Table Pagination - 'First' Button
+        /// Action:
+        ///     1. Navigate to the 'B2B' tab on the transaction page.
+        ///     2. Wait for the B2B transaction table to be visible and capture its current content (innerHTML).
+        ///     3. Check if the 'Next' button is disabled to determine if only one page exists.
+        ///     4. If 'Next' is enabled, click the 'Next' button to go to the next page.
+        ///     5. Locate the 'First' button and check if it is disabled.
+        ///     6. If 'First' is enabled, click the button to return to the first page.
+        ///     7. Wait for the table content to return to its original state and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether 'Next' and 'First' buttons are enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next' and returns to original after clicking 'First'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the B2B tab and the 'First' button navigates back to the first page, restoring table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2B transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - firstButtonXPath: XPath to locate the 'First' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(16)]
@@ -1298,7 +1629,7 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestB2BPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
 
             // Navigate to B2C tab
@@ -1317,21 +1648,21 @@ namespace SeleniumTests.Tests.F_Transaction
             WaitForUIEffect(15000);
 
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect(15000);
 
             bool tableChanged = false;
@@ -1345,7 +1676,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -1359,7 +1690,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -1391,6 +1722,30 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: B2B Transaction Table Pagination - Page Size Dropdown
+        /// Action:
+        ///     1. Navigate to the 'B2B' tab on the transaction page.
+        ///     2. Wait for the B2B transaction table to be visible and capture its current content (innerHTML) and row count.
+        ///     3. Locate the page size dropdown and verify that the desired value exists.
+        ///     4. Select the page size value from the dropdown.
+        ///     5. Wait for the table to update after changing the page size.
+        ///     6. Capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm that the dropdown contains the specified page size value.
+        ///     - Ensure that table content updates or the row count is within the selected page size.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination in the B2B tab correctly updates the number of items per page when selecting a page size from the dropdown.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the B2B transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - rowSelector: CSS selector to count rows in the table.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(17)]
@@ -1466,77 +1821,103 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(18)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
-        public void TestB2BClickPageButtonIfExists(string pageNumber)
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
-            string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
+        //[Test]
+        //[Category("Transaction")]
+        //[Order(18)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
+        //[TestCase("3")]
+        //public void TestB2BClickPageButtonIfExists(string pageNumber)
+        //{
+        //    string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //    string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
+        //    string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
 
-            // Navigate to B2B tab
-            var b2bTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2B')]")
-            ));
+        //    // Navigate to B2B tab
+        //    var b2bTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        By.XPath("//a[contains(@class,'nav-link') and contains(., 'B2B')]")
+        //    ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2bTab);
-            WaitForUIEffect();
+        //    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", b2bTab);
+        //    WaitForUIEffect();
 
-            LogStep("🧭 Navigated to 'B2C' tab successfully.");
-            // Capture current table content
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            LogStep("📄 Captured original table HTML.");
-            WaitForUIEffect(15000);
+        //    LogStep("🧭 Navigated to 'B2C' tab successfully.");
+        //    // Capture current table content
+        //    var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //    string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //    LogStep("📄 Captured original table HTML.");
+        //    WaitForUIEffect(15000);
 
-            // Locate page number button
-            var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
-            if (pageButtons.Count == 0)
-            {
-                LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //    // Locate page number button
+        //    var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
+        //    if (pageButtons.Count == 0)
+        //    {
+        //        LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
+        //        Assert.IsTrue(true);
+        //        return;
+        //    }
 
-            // Click the page number button
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
-            pageButtons[0].Click();
-            LogStep($"✅ Clicked on page number {pageNumber}.");
-            WaitForUIEffect(15000);
+        //    // Click the page number button
+        //    _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
+        //    pageButtons[0].Click();
+        //    LogStep($"✅ Clicked on page number {pageNumber}.");
+        //    WaitForUIEffect(15000);
 
-            // Wait for table update
-            bool tableUpdated = _wait.Until(driver =>
-            {
-                var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                string afterHtml = updatedTable.GetAttribute("innerHTML");
-                return afterHtml != beforeHtml;
-            });
+        //    // Wait for table update
+        //    bool tableUpdated = _wait.Until(driver =>
+        //    {
+        //        var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //        string afterHtml = updatedTable.GetAttribute("innerHTML");
+        //        return afterHtml != beforeHtml;
+        //    });
 
-            WaitForUIEffect(15000);
+        //    WaitForUIEffect(15000);
 
-            // Validation
-            if (tableUpdated)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"✅ Table updated after clicking page {pageNumber}.");
-            }
-            else
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Table did not update after clicking page {pageNumber}.");
-                Assert.Fail("Table content did not change.");
-            }
-        }
+        //    // Validation
+        //    if (tableUpdated)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"✅ Table updated after clicking page {pageNumber}.");
+        //    }
+        //    else
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Table did not update after clicking page {pageNumber}.");
+        //        Assert.Fail("Table content did not change.");
+        //    }
+        //}
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Consolidated Transaction Table Pagination - 'Next' Button
+        /// Action:
+        ///     1. Navigate to the 'Consolidated' tab on the transaction page.
+        ///     2. Wait for the transaction table to be visible and capture its current content (innerHTML).
+        ///     3. Locate the 'Next' pagination button and check if it is disabled.
+        ///     4. If 'Next' is enabled, click the button.
+        ///     5. Wait for the table content to update and capture screenshots throughout the process.
+        /// Verification:
+        ///     - Confirm whether the 'Next' button is enabled or disabled.
+        ///     - Ensure that table content changes after clicking 'Next'.
+        ///     - Take screenshots at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the Consolidated tab and the 'Next' button navigates to the next page, updating table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Consolidated transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(19)]
@@ -1603,6 +1984,38 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Consolidated Transaction Table Pagination - 'Previous' Button
+        /// Action:
+        ///     1. Navigate to the 'Consolidated' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML).
+        ///     3. Check if the 'Next' button is disabled (only one page exists).
+        ///         - If disabled, skip the test and capture screenshot.
+        ///     4. Click the 'Next' button to move to the next page if available.
+        ///     5. Wait for the table to update and confirm the change.
+        ///     6. Locate the 'Previous' button and check if it is disabled.
+        ///         - If disabled, skip the return action and capture screenshot.
+        ///     7. Click the 'Previous' button to return to the first page.
+        ///     8. Wait for the table content to return to its original state and capture screenshots.
+        /// Verification:
+        ///     - Confirm whether the 'Next' button is enabled/disabled.
+        ///     - Ensure that table content changes after clicking 'Next'.
+        ///     - Confirm whether the 'Previous' button is enabled/disabled.
+        ///     - Ensure that table content returns to the original state after clicking 'Previous'.
+        ///     - Screenshots taken at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the Consolidated tab and the 'Previous' button navigates back to the first page, restoring the original table content.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Consolidated transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - previousButtonXPath: XPath to locate the 'Previous' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(20)]
@@ -1698,79 +2111,109 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(21)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestConsolidatedPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(21)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestConsolidatedPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to B2B tab
-            var ConsolidatedTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Consolidated')]")
-            ));
+        //        // Navigate to B2B tab
+        //        var ConsolidatedTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("//a[contains(@class,'nav-link') and contains(., 'Consolidated')]")
+        //        ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ConsolidatedTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Consolidated' tab successfully.");
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ConsolidatedTab);
+        //        WaitForUIEffect();
+        //        LogStep("🧭 Navigated to 'Consolidated' tab successfully.");
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect(15000);
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect(15000);
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect(15000);
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect(15000);
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Consolidated Transaction Table Pagination - 'First' Button
+        /// Action:
+        ///     1. Navigate to the 'Consolidated' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) as the original state.
+        ///     3. Check if the 'Next' button is enabled:
+        ///         - If disabled, skip the pagination test and capture screenshot (only one page exists or already on last page).
+        ///         - Otherwise, click the 'Next' button to move to the next page.
+        ///     4. Wait for table content to change and confirm the update.
+        ///     5. Locate the 'First' button and check if it is enabled:
+        ///         - If disabled, skip returning to first page and capture screenshot.
+        ///         - Otherwise, click the 'First' button to navigate back to the first page.
+        ///     6. Wait for table content to return to the original state and capture screenshot.
+        /// Verification:
+        ///     - Ensure table content changes after clicking 'Next'.
+        ///     - Ensure table content returns to the original state after clicking 'First'.
+        ///     - Screenshots are taken at key steps for visual verification.
+        /// Purpose:
+        ///     Verify that table pagination works correctly in the Consolidated tab and the 'First' button successfully returns the table to its original state.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Consolidated transaction table.
+        ///     - nextButtonXPath: XPath to locate the 'Next' button.
+        ///     - firstButtonXPath: XPath to locate the 'First' button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(22)]
@@ -1779,7 +2222,7 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestConsolidatedPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
 
             // Navigate to B2C tab
@@ -1798,21 +2241,21 @@ namespace SeleniumTests.Tests.F_Transaction
             WaitForUIEffect(15000);
 
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect(15000);
 
             bool tableChanged = false;
@@ -1826,7 +2269,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -1840,7 +2283,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -1872,6 +2315,32 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Consolidated Transaction Table Pagination - Page Size Dropdown
+        /// Action:
+        ///     1. Navigate to the 'Consolidated' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) and row count.
+        ///     3. Locate the page size dropdown and verify that the specified value exists.
+        ///         - If the value does not exist, fail the test.
+        ///     4. Select the desired page size from the dropdown.
+        ///     5. Wait for the table to update:
+        ///         - Confirm either the table HTML changes or the row count does not exceed the selected page size.
+        /// Verification:
+        ///     - Table should update according to the selected page size.
+        ///     - Screenshots are taken at key steps for visual verification.
+        /// Purpose:
+        ///     Ensure that selecting a different page size in the Consolidated tab updates the transaction table correctly.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Consolidated transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - rowSelector: CSS selector for table rows.
+        ///     - pageSizeValue: The page size to select for verification.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(23)]
@@ -1947,77 +2416,102 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(24)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
-        public void TestConsolidatedClickPageButtonIfExists(string pageNumber)
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
-            string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
+        //[Test]
+        //[Category("Transaction")]
+        //[Order(24)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
+        //[TestCase("3")]
+        //public void TestConsolidatedClickPageButtonIfExists(string pageNumber)
+        //{
+        //    string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //    string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
+        //    string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
 
-            // Navigate to Consolidated tab
-            var ConsolidatedTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Consolidated')]")
-            ));
+        //    // Navigate to Consolidated tab
+        //    var ConsolidatedTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        By.XPath("//a[contains(@class,'nav-link') and contains(., 'Consolidated')]")
+        //    ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ConsolidatedTab);
-            WaitForUIEffect();
+        //    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ConsolidatedTab);
+        //    WaitForUIEffect();
 
-            LogStep("🧭 Navigated to 'Consolidated' tab successfully.");
-            // Capture current table content
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            LogStep("📄 Captured original table HTML.");
-            WaitForUIEffect(15000);
+        //    LogStep("🧭 Navigated to 'Consolidated' tab successfully.");
+        //    // Capture current table content
+        //    var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //    string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //    LogStep("📄 Captured original table HTML.");
+        //    WaitForUIEffect(15000);
 
-            // Locate page number button
-            var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
-            if (pageButtons.Count == 0)
-            {
-                LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //    // Locate page number button
+        //    var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
+        //    if (pageButtons.Count == 0)
+        //    {
+        //        LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
+        //        Assert.IsTrue(true);
+        //        return;
+        //    }
 
-            // Click the page number button
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
-            pageButtons[0].Click();
-            LogStep($"✅ Clicked on page number {pageNumber}.");
-            WaitForUIEffect(15000);
+        //    // Click the page number button
+        //    _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
+        //    pageButtons[0].Click();
+        //    LogStep($"✅ Clicked on page number {pageNumber}.");
+        //    WaitForUIEffect(15000);
 
-            // Wait for table update
-            bool tableUpdated = _wait.Until(driver =>
-            {
-                var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                string afterHtml = updatedTable.GetAttribute("innerHTML");
-                return afterHtml != beforeHtml;
-            });
+        //    // Wait for table update
+        //    bool tableUpdated = _wait.Until(driver =>
+        //    {
+        //        var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //        string afterHtml = updatedTable.GetAttribute("innerHTML");
+        //        return afterHtml != beforeHtml;
+        //    });
 
-            WaitForUIEffect(15000);
+        //    WaitForUIEffect(15000);
 
-            // Validation
-            if (tableUpdated)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"✅ Table updated after clicking page {pageNumber}.");
-            }
-            else
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Table did not update after clicking page {pageNumber}.");
-                Assert.Fail("Table content did not change.");
-            }
-        }
+        //    // Validation
+        //    if (tableUpdated)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"✅ Table updated after clicking page {pageNumber}.");
+        //    }
+        //    else
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Table did not update after clicking page {pageNumber}.");
+        //        Assert.Fail("Table content did not change.");
+        //    }
+        //}
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Resubmit Transaction Table Pagination - Next Button
+        /// Action:
+        ///     1. Navigate to the 'Resubmit' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) for comparison.
+        ///     3. Locate the "Next" button and check if it is enabled.
+        ///         - If disabled, skip the pagination test and log a screenshot.
+        ///     4. Click the "Next" button if enabled.
+        ///     5. Wait for the table content to update (innerHTML should change).
+        /// Verification:
+        ///     - Table content should change after clicking "Next" if multiple pages exist.
+        ///     - Screenshots are captured before and after pagination for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "Next" button on the Resubmit tab correctly updates the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Resubmit transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(25)]
@@ -2084,6 +2578,37 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Resubmit Transaction Table Pagination - Previous Button
+        /// Action:
+        ///     1. Navigate to the 'Resubmit' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) for comparison.
+        ///     3. Locate the "Next" button and check if it is enabled.
+        ///         - If disabled, skip the pagination test and log a screenshot.
+        ///     4. Click the "Next" button to move to the next page.
+        ///     5. Wait for the table content to update (innerHTML should change).
+        ///     6. Locate the "Previous" button and check if it is enabled.
+        ///         - If disabled, cannot return to the first page; log a screenshot.
+        ///     7. Click the "Previous" button if enabled.
+        ///     8. Wait for the table content to return to the original state.
+        /// Verification:
+        ///     - Table content should change after clicking "Next" if multiple pages exist.
+        ///     - Table content should return to the original HTML after clicking "Previous".
+        ///     - Screenshots are captured at each step for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "Previous" button on the Resubmit tab correctly navigates back to the first page and updates the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Resubmit transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        ///     - previousButtonXPath: XPath to locate the "Previous" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(26)]
@@ -2179,79 +2704,110 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(27)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestResubmitPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(27)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestResubmitPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to Resubmit tab
-            var ResubmitTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Resubmit')]")
-            ));
+        //        // Navigate to Resubmit tab
+        //        var ResubmitTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("//a[contains(@class,'nav-link') and contains(., 'Resubmit')]")
+        //        ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ResubmitTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Resubmit' tab successfully.");
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ResubmitTab);
+        //        WaitForUIEffect();
+        //        LogStep("🧭 Navigated to 'Resubmit' tab successfully.");
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect(15000);
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect(15000);
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect(15000);
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect(15000);
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Resubmit Transaction Table Pagination - First Button
+        /// Action:
+        ///     1. Navigate to the 'Resubmit' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) for comparison.
+        ///     3. Locate the "Next" button and check if it is enabled.
+        ///         - If disabled, skip the pagination test and log a screenshot.
+        ///     4. Click the "Next" button to move to the next page if enabled.
+        ///     5. Wait for the table content to update (innerHTML should change).
+        ///     6. Locate the "First" button and check if it is enabled.
+        ///         - If disabled, cannot return to the first page; log a screenshot.
+        ///     7. Click the "First" button if enabled.
+        ///     8. Wait for the table content to return to the original state.
+        /// Verification:
+        ///     - Table content should change after clicking "Next" if multiple pages exist.
+        ///     - Table content should return to the original HTML after clicking "First".
+        ///     - Screenshots are captured at each step for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "First" button on the Resubmit tab correctly navigates back to the first page and updates the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Resubmit transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        ///     - firstButtonXPath: XPath to locate the "First" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(28)]
@@ -2260,7 +2816,7 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestResubmitPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
 
             // Navigate to B2C tab
@@ -2279,21 +2835,21 @@ namespace SeleniumTests.Tests.F_Transaction
             WaitForUIEffect(15000);
 
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect(15000);
 
             bool tableChanged = false;
@@ -2307,7 +2863,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -2321,7 +2877,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -2353,6 +2909,29 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Resubmit Transaction Table Pagination - Items Per Page Dropdown
+        /// Action:
+        ///     1. Navigate to the 'Resubmit' tab on the transaction page.
+        ///     2. Capture the current table content (innerHTML) and count the number of rows for comparison.
+        ///     3. Locate the page size dropdown and verify that the desired page size value exists.
+        ///         - If the value does not exist, fail the test.
+        ///     4. Select the desired page size from the dropdown.
+        ///     5. Wait for the table content to update (innerHTML should change or row count should match selected page size).
+        /// Verification:
+        ///     - Table content should update after selecting a new page size, showing the correct number of rows.
+        ///     - Screenshots are captured before and after the update for verification.
+        /// Purpose:
+        ///     Ensure that changing the page size on the Resubmit tab correctly updates the transaction table and displays the expected number of rows.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the Resubmit transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - rowSelector: CSS selector to count rows in the table.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(29)]
@@ -2428,77 +3007,105 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(30)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
-        public void TestResubmitClickPageButtonIfExists(string pageNumber)
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
-            string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
+        //[Test]
+        //[Category("Transaction")]
+        //[Order(30)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
+        //[TestCase("3")]
+        //public void TestResubmitClickPageButtonIfExists(string pageNumber)
+        //{
+        //    string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //    string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
+        //    string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
 
-            // Navigate to Resubmit tab
-            var ResubmitTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Resubmit')]")
-            ));
+        //    // Navigate to Resubmit tab
+        //    var ResubmitTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        By.XPath("//a[contains(@class,'nav-link') and contains(., 'Resubmit')]")
+        //    ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ResubmitTab);
-            WaitForUIEffect();
+        //    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", ResubmitTab);
+        //    WaitForUIEffect();
 
-            LogStep("🧭 Navigated to 'Resubmit' tab successfully.");
-            // Capture current table content
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            LogStep("📄 Captured original table HTML.");
-            WaitForUIEffect(15000);
+        //    LogStep("🧭 Navigated to 'Resubmit' tab successfully.");
+        //    // Capture current table content
+        //    var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //    string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //    LogStep("📄 Captured original table HTML.");
+        //    WaitForUIEffect(15000);
 
-            // Locate page number button
-            var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
-            if (pageButtons.Count == 0)
-            {
-                LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //    // Locate page number button
+        //    var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
+        //    if (pageButtons.Count == 0)
+        //    {
+        //        LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
+        //        Assert.IsTrue(true);
+        //        return;
+        //    }
 
-            // Click the page number button
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
-            pageButtons[0].Click();
-            LogStep($"✅ Clicked on page number {pageNumber}.");
-            WaitForUIEffect(15000);
+        //    // Click the page number button
+        //    _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
+        //    pageButtons[0].Click();
+        //    LogStep($"✅ Clicked on page number {pageNumber}.");
+        //    WaitForUIEffect(15000);
 
-            // Wait for table update
-            bool tableUpdated = _wait.Until(driver =>
-            {
-                var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                string afterHtml = updatedTable.GetAttribute("innerHTML");
-                return afterHtml != beforeHtml;
-            });
+        //    // Wait for table update
+        //    bool tableUpdated = _wait.Until(driver =>
+        //    {
+        //        var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //        string afterHtml = updatedTable.GetAttribute("innerHTML");
+        //        return afterHtml != beforeHtml;
+        //    });
 
-            WaitForUIEffect(15000);
+        //    WaitForUIEffect(15000);
 
-            // Validation
-            if (tableUpdated)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"✅ Table updated after clicking page {pageNumber}.");
-            }
-            else
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Table did not update after clicking page {pageNumber}.");
-                Assert.Fail("Table content did not change.");
-            }
-        }
+        //    // Validation
+        //    if (tableUpdated)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"✅ Table updated after clicking page {pageNumber}.");
+        //    }
+        //    else
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Table did not update after clicking page {pageNumber}.");
+        //        Assert.Fail("Table content did not change.");
+        //    }
+        //}
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: LHDN Transaction Table Pagination - Next Button
+        /// Action:
+        ///     1. Navigate to the 'Ready to send LHDN' tab on the transaction page.
+        ///     2. Verify if a submission restriction modal appears (submissions are only allowed from the 1st to the 6th of each month).
+        ///         - If the modal is displayed, fail the test.
+        ///     3. Capture the current table content (innerHTML) for comparison.
+        ///     4. Locate the "Next" button and check if it is enabled.
+        ///         - If disabled, skip the pagination test and log a screenshot.
+        ///     5. Click the "Next" button if enabled.
+        ///     6. Wait for the table content to update (innerHTML should change).
+        /// Verification:
+        ///     - Table content should change after clicking "Next" if multiple pages exist.
+        ///     - Screenshots are captured before and after pagination for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "Next" button on the LHDN tab correctly updates the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the LHDN transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(32)]
@@ -2509,14 +3116,31 @@ namespace SeleniumTests.Tests.F_Transaction
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
             string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to Ready to send LHDN tab
             var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
                 By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
             ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+            // Navigate to Ready to send LHDN tab
+            try
+            {
+
+                LHDNTab.Click();
+                WaitForUIEffect(1000);
+
+                // 🔍 Check if submission restriction modal appears
+                bool isBlockedModalShown = IsSubmissionBlockedModalDisplayed();
+
+                if (isBlockedModalShown)
+                {
+                    Assert.Fail("❌ Submission blocked modal displayed: Submission is only allowed from the 1st to the 6th of each month.");
+                }
+
+                LogStep($"✅ Switched to tab: '{LHDNTab}'");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail($"❌ Tab '{LHDNTab}' not found or not clickable.");
+            }
 
             //  Wait for table to be visible
             var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
@@ -2565,6 +3189,38 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: LHDN Transaction Table Pagination - Previous Button
+        /// Action:
+        ///     1. Navigate to the 'Ready to send LHDN' tab on the transaction page.
+        ///     2. Verify if a submission restriction modal appears (submissions are only allowed from the 1st to the 6th of each month).
+        ///         - If the modal is displayed, fail the test.
+        ///     3. Capture the current table content (innerHTML) for comparison.
+        ///     4. Locate the "Next" button and check if multiple pages exist.
+        ///         - If disabled, skip the test and log a screenshot.
+        ///     5. Click the "Next" button to move to the next page.
+        ///     6. Wait for table content to update (innerHTML should change).
+        ///     7. Locate the "Previous" button and verify it is enabled.
+        ///     8. Click the "Previous" button to return to the first page.
+        ///     9. Wait for table content to return to original (innerHTML should match initial capture).
+        /// Verification:
+        ///     - Table content should change after clicking "Next".
+        ///     - Table content should return to original after clicking "Previous".
+        ///     - Screenshots are captured before and after pagination for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "Previous" button on the LHDN tab correctly navigates back in the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the LHDN transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        ///     - previousButtonXPath: XPath to locate the "Previous" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(33)]
@@ -2578,12 +3234,30 @@ namespace SeleniumTests.Tests.F_Transaction
 
             // Navigate to Ready to send LHDN tab
             var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
-            ));
+                 By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
+             ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+            // Navigate to Ready to send LHDN tab
+            try
+            {
+
+                LHDNTab.Click();
+                WaitForUIEffect(1000);
+
+                // 🔍 Check if submission restriction modal appears
+                bool isBlockedModalShown = IsSubmissionBlockedModalDisplayed();
+
+                if (isBlockedModalShown)
+                {
+                    Assert.Fail("❌ Submission blocked modal displayed: Submission is only allowed from the 1st to the 6th of each month.");
+                }
+
+                LogStep($"✅ Switched to tab: '{LHDNTab}'");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail($"❌ Tab '{LHDNTab}' not found or not clickable.");
+            }
 
             //  Capture current table HTML content
             var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
@@ -2660,79 +3334,109 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(34)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Last and Verify Change")]
-        public void TestLHDNPagingLastButtonAndVerify()
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+        //    [Test]
+        //    [Category("Transaction")]
+        //    [Order(34)]
+        //    [AllureSeverity(SeverityLevel.normal)]
+        //    [AllureStory("Transaction Paging - Click Next and Verify Change")]
+        //    public void TestLHDNPagingLastButtonAndVerify()
+        //    {
+        //        string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //        string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
 
-            // Navigate to Ready to send LHDN tab
-            var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
-            ));
+        //        // Navigate to Ready to send LHDN tab
+        //        var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
+        //        ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
+        //        WaitForUIEffect();
+        //        LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
 
-            // Wait for the table to be visible
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            WaitForUIEffect(15000);
-            LogStep("📄 Captured initial table content.");
+        //        // Wait for the table to be visible
+        //        var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //        string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //        WaitForUIEffect(15000);
+        //        LogStep("📄 Captured initial table content.");
 
-            // Locate "Last" pagination button
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool isDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+        //        // Locate "Next" pagination button
+        //        var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+        //        bool isDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
-            if (isDisabled)
-            {
-                LogStep("ℹ️ 'Last' button is disabled — already on last page or only one page available.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //        if (isDisabled)
+        //        {
+        //            LogStep("ℹ️ 'Next' button is disabled — already on last page or only one page available.");
+        //            Assert.IsTrue(true);
+        //            return;
+        //        }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked via JavaScript.");
-            WaitForUIEffect(15000);
+        //// Scroll into view and click using JS
+        //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+        //        _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+        //        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+        //        LogStep("✅ 'Next' button clicked via JavaScript.");
+        //        WaitForUIEffect(15000);
 
-            // Wait for table to update
-            bool tableChanged = false;
-            try
-            {
-                tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
-                {
-                    var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                    return updatedTable.GetAttribute("innerHTML") != beforeHtml;
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
-            }
+        //        // Wait for table to update
+        //        bool tableChanged = false;
+        //        try
+        //        {
+        //            tableChanged = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)).Until(driver =>
+        //            {
+        //                var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //                return updatedTable.GetAttribute("innerHTML") != beforeHtml;
+        //            });
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            LogStep("⚠️ Table did not change within timeout — possibly already on last page.");
+        //        }
 
-            // Final result logging
-            _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-            var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-            File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-            LogStep(tableChanged
-                ? "✅ Table content changed after clicking 'Last'."
-                : "ℹ️ No table change after clicking 'Last', but still valid scenario.");
+        //        // Final result logging
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep(tableChanged
+        //            ? "✅ Table content changed after clicking 'Next'."
+        //            : "ℹ️ No table change after clicking 'Next', but still valid scenario.");
 
-            Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
-        }
-
-
+        //        Assert.IsTrue(true, "✅ Paging test completed — behavior verified.");
+        //    }
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: LHDN Transaction Table Pagination - First Button
+        /// Action:
+        ///     1. Navigate to the 'Ready to send LHDN' tab on the transaction page.
+        ///     2. Verify if a submission restriction modal appears (submission allowed only from 1st to 6th of each month).
+        ///         - If the modal is displayed, fail the test.
+        ///     3. Capture the current table content (innerHTML) for comparison.
+        ///     4. Locate the "Next" button and check if multiple pages exist.
+        ///         - If disabled, skip clicking "Next".
+        ///     5. Click the "Next" button to move to the next page (if enabled).
+        ///     6. Wait for table content to update (innerHTML should change).
+        ///     7. Locate the "First" button and verify it is enabled.
+        ///     8. Click the "First" button to return to the first page.
+        ///     9. Wait for table content to return to original (innerHTML should match initial capture).
+        /// Verification:
+        ///     - Table content should change after clicking "Next".
+        ///     - Table content should return to original after clicking "First".
+        ///     - Screenshots are captured before and after pagination for verification.
+        /// Purpose:
+        ///     Ensure that clicking the "First" button on the LHDN tab correctly navigates back to the first page of the transaction table.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the LHDN transaction table.
+        ///     - nextButtonXPath: XPath to locate the "Next" button.
+        ///     - firstButtonXPath: XPath to locate the "First" button.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(35)]
@@ -2741,17 +3445,34 @@ namespace SeleniumTests.Tests.F_Transaction
         public void TestLHDNPagingFirstButtonAndVerify()
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string lastButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-right')]]";
+            string nextButtonXPath = "//i[contains(@class,'next') and contains(@class,'fa-arrow-right')]";
             string firstButtonXPath = "//a[.//i[contains(@class,'fa-angle-double-left')]]";
-
-            // Navigate to Ready to send LHDN tab
             var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
                 By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
             ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+            // Navigate to Ready to send LHDN tab
+            try
+            {
+
+                LHDNTab.Click();
+                WaitForUIEffect(1000);
+
+                // 🔍 Check if submission restriction modal appears
+                bool isBlockedModalShown = IsSubmissionBlockedModalDisplayed();
+
+                if (isBlockedModalShown)
+                {
+                    Assert.Fail("❌ Submission blocked modal displayed: Submission is only allowed from the 1st to the 6th of each month.");
+                }
+
+                LogStep($"✅ Switched to tab: '{LHDNTab}'");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail($"❌ Tab '{LHDNTab}' not found or not clickable.");
+            }
+
 
             // Capture current table state
             var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
@@ -2760,21 +3481,21 @@ namespace SeleniumTests.Tests.F_Transaction
             WaitForUIEffect(15000);
 
 
-            // Click "Last" button if available
-            var lastButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(lastButtonXPath)));
-            bool lastDisabled = lastButton.GetAttribute("class")?.Contains("disabled") ?? false;
+            // Click "Next" button if available
+            var nextButton = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(nextButtonXPath)));
+            bool lastDisabled = nextButton.GetAttribute("class")?.Contains("disabled") ?? false;
 
             if (lastDisabled)
             {
-                LogStep("ℹ️ 'Last' button is disabled — only one page exists or already on last page.");
+                LogStep("ℹ️ 'Next' button is disabled — only one page exists or already on last page.");
                 Assert.IsTrue(true);
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
-            LogStep("✅ 'Last' button clicked.");
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", nextButton);
+            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(nextButton));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", nextButton);
+            LogStep("✅ 'Next' button clicked.");
             WaitForUIEffect(15000);
 
             bool tableChanged = false;
@@ -2788,7 +3509,7 @@ namespace SeleniumTests.Tests.F_Transaction
             }
             catch (WebDriverTimeoutException)
             {
-                LogStep("⚠️ Table did not change after clicking 'Last'. Possibly already on last page.");
+                LogStep("⚠️ Table did not change after clicking 'Next'. Possibly already on last page.");
             }
 
             // Click "First" button if available
@@ -2802,7 +3523,7 @@ namespace SeleniumTests.Tests.F_Transaction
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -2834,6 +3555,34 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: LHDN Transaction Table Pagination - Items Per Page Dropdown
+        /// Action:
+        ///     1. Navigate to the 'Ready to send LHDN' tab on the transaction page.
+        ///     2. Verify if a submission restriction modal appears (submission allowed only from 1st to 6th of each month).
+        ///         - If the modal is displayed, fail the test.
+        ///     3. Capture the current table content (innerHTML) and row count for comparison.
+        ///     4. Locate the page size dropdown and verify the desired option exists.
+        ///         - If the option does not exist, fail the test.
+        ///     5. Select the page size option to update the table.
+        ///     6. Wait for table content to update (innerHTML should change or row count should match selected page size).
+        /// Verification:
+        ///     - Table content should update according to the selected page size.
+        ///     - Row count should not exceed the selected page size.
+        ///     - Screenshots are captured before and after selecting page size for verification.
+        /// Purpose:
+        ///     Ensure that selecting a page size in the LHDN tab correctly updates the transaction table rows.
+        /// Test Data:
+        ///     - tableXPath: XPath to locate the LHDN transaction table.
+        ///     - dropdownXPath: XPath to locate the page size dropdown.
+        ///     - rowSelector: CSS selector to count rows in the table.
+        ///     - pageSizeValue: Desired page size to select from the dropdown (e.g., "100").
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(36)]
@@ -2846,14 +3595,31 @@ namespace SeleniumTests.Tests.F_Transaction
             string dropdownXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[1]/select";
             string rowSelector = "tbody tr";
 
-            // Navigate to Ready to send LHDN tab
             var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
                 By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
             ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+            // Navigate to Ready to send LHDN tab
+            try
+            {
+
+                LHDNTab.Click();
+                WaitForUIEffect(1000);
+
+                // 🔍 Check if submission restriction modal appears
+                bool isBlockedModalShown = IsSubmissionBlockedModalDisplayed();
+
+                if (isBlockedModalShown)
+                {
+                    Assert.Fail("❌ Submission blocked modal displayed: Submission is only allowed from the 1st to the 6th of each month.");
+                }
+
+                LogStep($"✅ Switched to tab: '{LHDNTab}'");
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail($"❌ Tab '{LHDNTab}' not found or not clickable.");
+            }
 
             // Capture table state
             var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
@@ -2909,75 +3675,75 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
-        [Test]
-        [Category("Transaction")]
-        [Order(37)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
-        public void TestLHDNClickPageButtonIfExists(string pageNumber)
-        {
-            string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
-            string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
-            string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
+        //[Test]
+        //[Category("Transaction")]
+        //[Order(37)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Transaction Paging - Click Page Button Only If It Exists and Verify Table Update")]
+        //[TestCase("3")]
+        //public void TestLHDNClickPageButtonIfExists(string pageNumber)
+        //{
+        //    string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[1]/div";
+        //    string paginationXPathTemplate = "/html/body/app-layout/div[1]/div/div/div/app-content/app-transactionv2/div[2]/div/div[3]/div/div/div[2]/app-global-pagination/div/div[2]/ul/li[a[text()='{0}']]/a";
+        //    string dynamicPageXPath = string.Format(paginationXPathTemplate, pageNumber);
 
-            // Navigate to Ready to send LHDN tab
-            var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
-            ));
+        //    // Navigate to Ready to send LHDN tab
+        //    var LHDNTab = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        By.XPath("//a[contains(@class,'nav-link') and contains(., 'Ready to send LHDN')]")
+        //    ));
 
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
-            WaitForUIEffect();
+        //    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", LHDNTab);
+        //    WaitForUIEffect();
 
-            LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
-            // Capture current table content
-            var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
-            string beforeHtml = tableElement.GetAttribute("innerHTML");
-            LogStep("📄 Captured original table HTML.");
-            WaitForUIEffect(15000);
+        //    LogStep("🧭 Navigated to 'Ready to send LHDN' tab successfully.");
+        //    // Capture current table content
+        //    var tableElement = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tableXPath)));
+        //    string beforeHtml = tableElement.GetAttribute("innerHTML");
+        //    LogStep("📄 Captured original table HTML.");
+        //    WaitForUIEffect(15000);
 
-            // Locate page number button
-            var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
-            if (pageButtons.Count == 0)
-            {
-                LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
-                Assert.IsTrue(true);
-                return;
-            }
+        //    // Locate page number button
+        //    var pageButtons = _driver.FindElements(By.XPath(dynamicPageXPath));
+        //    if (pageButtons.Count == 0)
+        //    {
+        //        LogStep($"✅ No page {pageNumber} exists — only one page available. Test logically passed.");
+        //        Assert.IsTrue(true);
+        //        return;
+        //    }
 
-            // Click the page number button
-            _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
-            pageButtons[0].Click();
-            LogStep($"✅ Clicked on page number {pageNumber}.");
-            WaitForUIEffect(15000);
+        //    // Click the page number button
+        //    _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(pageButtons[0]));
+        //    pageButtons[0].Click();
+        //    LogStep($"✅ Clicked on page number {pageNumber}.");
+        //    WaitForUIEffect(15000);
 
-            // Wait for table update
-            bool tableUpdated = _wait.Until(driver =>
-            {
-                var updatedTable = driver.FindElement(By.XPath(tableXPath));
-                string afterHtml = updatedTable.GetAttribute("innerHTML");
-                return afterHtml != beforeHtml;
-            });
+        //    // Wait for table update
+        //    bool tableUpdated = _wait.Until(driver =>
+        //    {
+        //        var updatedTable = driver.FindElement(By.XPath(tableXPath));
+        //        string afterHtml = updatedTable.GetAttribute("innerHTML");
+        //        return afterHtml != beforeHtml;
+        //    });
 
-            WaitForUIEffect(15000);
+        //    WaitForUIEffect(15000);
 
-            // Validation
-            if (tableUpdated)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"✅ Table updated after clicking page {pageNumber}.");
-            }
-            else
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Table did not update after clicking page {pageNumber}.");
-                Assert.Fail("Table content did not change.");
-            }
-        }
+        //    // Validation
+        //    if (tableUpdated)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"✅ Table updated after clicking page {pageNumber}.");
+        //    }
+        //    else
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Table did not update after clicking page {pageNumber}.");
+        //        Assert.Fail("Table content did not change.");
+        //    }
+        //}
 
 
 

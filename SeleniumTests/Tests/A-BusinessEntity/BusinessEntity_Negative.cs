@@ -533,6 +533,15 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Attempt to create a new Business Entity without filling any mandatory fields.  
+        /// Verification: Verify that 'Continue' and 'Save' buttons are disabled, preventing progression to the next step or saving incomplete data.  
+        /// Purpose: Ensure the system enforces mandatory field validation and blocks incomplete submissions.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+
         [Test]
         [Category("BusinessEntity")]
         [Order(1)]
@@ -580,7 +589,15 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
-
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Attempt to create a new Business Entity by filling only some mandatory fields (e.g., BE Name).  
+        /// Verification: Verify that 'Continue' and 'Save' buttons remain disabled until all Step 1 mandatory fields are completed.  
+        /// Test Data: Multiple input variations from 'FPartialMandatoryFieldsTestData' to cover partial field scenarios.  
+        /// Purpose: Ensure the system enforces mandatory field validation and prevents incomplete submissions.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
         [Test]
         [Category("BusinessEntity")]
         [Order(2)]
@@ -635,6 +652,15 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Fill all Step 1 mandatory fields, click Continue, then leave Step 2 mandatory fields blank.  
+        /// Verification: Verify that the 'Save' button remains disabled when Step 2 mandatory fields are not filled.  
+        /// Test Data: Uses multiple input variations from 'SPartialMandatoryFieldsTestData' to cover partial Step 2 scenarios.  
+        /// Purpose: Ensure the system prevents saving incomplete Business Entity forms and enforces Step 2 mandatory field validation.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(3)]
@@ -718,7 +744,15 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
-
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Fill all mandatory fields in Step 1, proceed to Step 2, and enter an invalid email address.  
+        /// Verification: Verify that the 'Save' button remains disabled when an invalid email is entered, preventing form submission.  
+        /// Test Data: Uses multiple invalid email variations from 'InvalidEmailTestData'.  
+        /// Purpose: Ensure the system enforces email format validation and prevents saving invalid contact information.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(4)]
@@ -726,8 +760,8 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         [AllureStory("Create - Negative: Invalid Email")]
         [TestCaseSource(nameof(InvalidEmailTestData))]
         public void Create_BE_InvalidEmail(string BEname, string BETinNumber, string BEregisterType, string BERegisterID,
-    string BEsst, string BETTRegisterNumber, string BEMSIC, string BEContactNumber, string BEemail,
-    string BECity, string BEState, string BEPosCode, string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
+        string BEsst, string BETTRegisterNumber, string BEMSIC, string BEContactNumber, string BEemail,
+        string BECity, string BEState, string BEPosCode, string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
         {
             try
             {
@@ -818,6 +852,16 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Fill all Step 1 mandatory fields, proceed to Step 2, and enter an invalid contact number.  
+        /// Verification: Verify that the 'Save' button remains disabled when an invalid contact number is entered, preventing form submission.  
+        /// Test Data: Uses multiple invalid contact number variations from 'InvalidContactNumberTestData'.  
+        /// Purpose: Ensure the system enforces contact number format validation and prevents saving invalid contact information.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(5)]
@@ -825,8 +869,8 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         [AllureStory("Create - Negative: Invalid Contact Number")]
         [TestCaseSource(nameof(InvalidContactNumberTestData))]
         public void Create_BE_InvalidContactNumber(string BEname, string BETinNumber, string BEregisterType, string BERegisterID,
- string BEsst, string BETTRegisterNumber, string BEMSIC, string BEContactNumber, string BEemail,
- string BECity, string BEState, string BEPosCode, string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
+        string BEsst, string BETTRegisterNumber, string BEMSIC, string BEContactNumber, string BEemail,
+        string BECity, string BEState, string BEPosCode, string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
         {
             try
             {
@@ -920,7 +964,14 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
-
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Negative Scenario  
+        /// Action: Attempt to create a new Business Entity without filling any mandatory fields in Step 1.  
+        /// Verification: Verify that both 'Continue' and 'Save' buttons remain disabled, preventing progression or saving incomplete data.  
+        /// Purpose: Ensure the system enforces mandatory field validation and blocks submissions when no mandatory fields are filled.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(6)]
@@ -962,8 +1013,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
             }
         }
 
-        
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Business Entity - Duplicate Scenario  
+        /// Action: Attempt to create a new Business Entity with data that may duplicate an existing TIN or other unique identifier.  
+        /// Verification: Verify that the system displays an appropriate duplicate warning message and prevents saving a duplicate entity.  
+        /// Test Data: Uses multiple input variations from 'DuplicateBusinessEntityTestData' to cover possible duplication scenarios.  
+        /// Purpose: Ensure the system enforces uniqueness constraints for critical fields (e.g., TIN) and prevents duplicate entries.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(7)]
@@ -1129,6 +1190,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Update Business Entity - Negative Scenario  
+        /// Action: Edit an existing Business Entity and enter an invalid email address in Step 2.  
+        /// Verification: Verify that the 'Save' button remains disabled or that an error modal is displayed, preventing the update with invalid email.  
+        /// Test Data: Uses multiple invalid email variations from 'UpdateInvalidEmailTestData'.  
+        /// Purpose: Ensure the system enforces email format validation during updates and prevents saving invalid contact information.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(8)]
@@ -1136,9 +1208,9 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         [AllureStory("BusinessEntity Update - Negative: Invalid Email")]
         [TestCaseSource(nameof(UpdateInvalidEmailTestData))]
         public void Update_BE_InvalidEmail(
-    string BEname, string BETinNumber, string BEsst, string BETTRegisterNumber, string BEMSIC,
-    string BEContactNumber, string BEemail, string BECity, string BEState, string BEPosCode,
-    string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
+        string BEname, string BETinNumber, string BEsst, string BETTRegisterNumber, string BEMSIC,
+        string BEContactNumber, string BEemail, string BECity, string BEState, string BEPosCode,
+        string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
         {
             try
             {
@@ -1249,6 +1321,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Update Business Entity - Negative Scenario  
+        /// Action: Edit an existing Business Entity and enter an invalid contact number in Step 2.  
+        /// Verification: Verify that the 'Save' button remains disabled or that an error modal is displayed, preventing the update with invalid contact number.  
+        /// Test Data: Uses multiple invalid contact number variations from 'UpdateContactNumberTestData'.  
+        /// Purpose: Ensure the system enforces contact number format validation during updates and prevents saving invalid contact information.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(9)]
@@ -1256,9 +1339,9 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         [AllureStory("BusinessEntity Update - Negative: Invalid Contact Number")]
         [TestCaseSource(nameof(UpdateContactNumberTestData))]
         public void Update_BE_InvalidContactNumber(
-    string BEname, string BETinNumber, string BEsst, string BETTRegisterNumber, string BEMSIC,
-    string BEContactNumber, string BEemail, string BECity, string BEState, string BEPosCode,
-    string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
+        string BEname, string BETinNumber, string BEsst, string BETTRegisterNumber, string BEMSIC,
+        string BEContactNumber, string BEemail, string BECity, string BEState, string BEPosCode,
+        string BECountry, string BEAddress1, string BEAddress2, string BEAddress3)
         {
             try
             {
@@ -1360,6 +1443,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Import Business Entity - Negative Scenario  
+        /// Action: Attempt to import a Business Entity file with an invalid file type (non-CSV).  
+        /// Verification: Verify that the system rejects the file and displays an alert or modal with the message 'Only CSV files are allowed!'.  
+        /// Test Data: Uses multiple invalid file paths from 'InvalidFileTypeTestData'.  
+        /// Purpose: Ensure the system enforces file type validation and prevents importing unsupported file formats.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(10)]
@@ -1470,6 +1565,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Update - Negative Scenario (Invalid Logo Upload)  
+        /// Action: Attempt to upload a Business Entity logo with an invalid file type or unsupported format.  
+        /// Verification: Verify that the system rejects the file and displays a modal with an appropriate error message such as 'invalid file type' or 'not allowed'.  
+        /// Test Data: Uses multiple invalid file paths from 'UpdateInvalidLogoTestData'.  
+        /// Purpose: Ensure the system enforces file type validation and prevents uploading unsupported logo files.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BusinessEntity")]
         [Order(11)] // Start from 11
@@ -1572,6 +1679,10 @@ namespace SeleniumTests.Tests.A_BusinessEntity
                     Assert.IsTrue(true, "Test passed despite non-timeout exception.");
                 }
             }
+
+
+
+
 
 
         [TearDown]

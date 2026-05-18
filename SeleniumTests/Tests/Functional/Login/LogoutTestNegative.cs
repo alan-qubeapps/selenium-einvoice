@@ -195,6 +195,27 @@ namespace SeleniumTests.Tests.L_Functional.Login
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Logout & Post-Logout Access Restriction (Negative Scenario)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Login with valid credentials (from TestCaseSource).
+        ///     3. Perform logout by clicking the logout dropdown and selecting "Sign Out".
+        ///     4. Verify that the user is redirected to the login page.
+        ///     5. Negative Test: Attempt to access the dashboard URL directly after logout.
+        /// Verification:
+        ///     - User is redirected to login page after successful logout.
+        ///     - Direct access to dashboard after logout is blocked (URL should not contain "/dashboard").
+        ///     - Screenshots are captured at login success, logout success, and post-logout access attempt.
+        /// Purpose:
+        ///     Ensure that session termination properly prevents unauthorized access to protected pages after logout.
+        /// Test Data:
+        ///     - isValidLogin: "1" = valid login, "0" = invalid login
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureStory("Logout - Post-Logout Access Negative Test")]

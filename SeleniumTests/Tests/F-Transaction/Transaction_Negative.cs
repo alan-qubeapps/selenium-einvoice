@@ -475,6 +475,28 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2C Transaction - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2C transaction type.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2C transaction import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(1)]
@@ -606,6 +628,31 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Transaction - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Invoice tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B transaction import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(2)]
@@ -744,6 +791,29 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Transaction - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Invoice tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B transaction import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(3)]
@@ -882,6 +952,29 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Credit - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Credit Note tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Credit Note import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(4)]
@@ -1020,6 +1113,30 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Debit - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Debit Note tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Debit Note import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(5)]
@@ -1159,6 +1276,31 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Self Billed Invoice - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Self Billed Invoice tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Self Billed Invoice import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(6)]
@@ -1297,6 +1439,32 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Self Billed Refund - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Self Billed Refund tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Self Billed Refund import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(7)]
@@ -1435,6 +1603,32 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Self Billed Credit Note - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Self Billed Credit Note tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Self Billed Credit Note import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(8)]
@@ -1573,6 +1767,31 @@ namespace SeleniumTests.Tests.F_Transaction
         }
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Import B2B Self Billed Debit Note - Negative: Invalid File Type
+        /// Action:
+        ///     1. Open the Import modal.
+        ///     2. Select the B2B transaction type and switch to the Self Billed Debit Note tab.
+        ///     3. Select a file with an invalid type (non-CSV).
+        ///     4. Click the Upload button.
+        ///     5. Check for alert messages or unexpected success buttons.
+        /// Verification:
+        ///     - An alert message should appear: "Only CSV files are allowed!".
+        ///     - No "Completed" or "Ok, got it!" success buttons should appear.
+        ///     - Screenshot is captured after attempted upload.
+        /// Purpose:
+        ///     Ensure that the B2B Self Billed Debit Note import function validates file types correctly and rejects non-CSV files.
+        /// Test Data:
+        ///     - filePath: path to an invalid file type (e.g., XLSX, TXT)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction")]
         [Order(9)]
@@ -1712,6 +1931,30 @@ namespace SeleniumTests.Tests.F_Transaction
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Export Transaction Report
+        /// Action:
+        ///     1. Navigate to the specified transaction tab (parameter: tab).
+        ///     2. Click the Export button.
+        ///     3. Wait for export process (check button disabled state or spinner visibility).
+        ///     4. Handle potential modal indicating background processing for large files.
+        ///     5. Verify file download in the configured download directory.
+        /// Verification:
+        ///     - If a modal appears stating "under processing due to large size", ensure it is handled correctly and skip file check.
+        ///     - If no modal, confirm that the exported file with prefix 'Transaction Index' is downloaded successfully within 90 seconds.
+        ///     - Screenshot is captured after attempted export.
+        /// Purpose:
+        ///     Ensure the transaction report export function works correctly, handles large file processing, and produces downloadable files.
+        /// Test Data:
+        ///     - tab: Name of the transaction tab to export from (e.g., 'All Transactions', 'B2B', 'Self Billed Invoice').
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Transaction Exported")]
         [Order(20)]

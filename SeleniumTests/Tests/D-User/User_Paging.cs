@@ -149,6 +149,29 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Next Button
+        /// Action:
+        ///     1. Wait for the user table to load.
+        ///     2. Capture current table HTML content.
+        ///     3. Locate the 'Next' pagination button.
+        ///     4. Check if 'Next' is disabled; if yes, capture screenshot and exit.
+        ///     5. Click 'Next' button to move to the next page.
+        ///     6. Wait for table content to update or display "No data available".
+        /// Verification:
+        ///     - Table content must change OR "No data available" message is shown.
+        ///     - Screenshot is captured for evidence.
+        /// Purpose:
+        ///     Ensure the pagination functionality for the User table works correctly when clicking the 'Next' button.
+        /// Test Data:
+        ///     - Table content on current page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(1)]
@@ -229,8 +252,35 @@ namespace SeleniumTests.Tests.D_User
                 Assert.Fail("❌ Timeout: No table content change or 'No data available' after clicking 'Next'.");
             }
         }
-     
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Previous Button
+        /// Action:
+        ///     1. Wait for the user table to load and capture current HTML content.
+        ///     2. Locate and evaluate the 'Next' button.
+        ///     3. If 'Next' is disabled (only one page exists), skip the test.
+        ///     4. Click 'Next' button to move to page 2.
+        ///     5. Verify table content updated (or handle empty data page).
+        ///     6. Locate the 'Previous' button and verify it is enabled.
+        ///     7. Click 'Previous' button to return to original page.
+        ///     8. Verify table returned to original HTML content.
+        /// Verification:
+        ///     - Table content updates when moving to next page.
+        ///     - 'Previous' button navigates back to original table content.
+        ///     - Screenshots captured at each critical step.
+        /// Purpose:
+        ///     Ensure the pagination functionality works correctly in both directions (Next → Previous) in the User table.
+        /// Test Data:
+        ///     - Table content on the current page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(2)]
@@ -325,6 +375,28 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Click 'Last' Icon Button
+        /// Action:
+        ///     1. Wait for the user table to load and capture current HTML content.
+        ///     2. Locate the 'Last' page button (double right arrow icon).
+        ///     3. Check if 'Last' button is disabled (already on last page or single page).
+        ///         - If disabled, capture screenshot and pass the test.
+        ///     4. Scroll 'Last' button into view and click it using JavaScript.
+        ///     5. Wait for table content to update.
+        /// Verification:
+        ///     - Table content changes after clicking 'Last' icon (or no change if already last page).
+        ///     - Screenshot captured after table update.
+        /// Purpose:
+        ///     Ensure that clicking the 'Last' page icon navigates correctly to the last page in the User table.
+        /// Test Data:
+        ///     - Table content on the current page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(3)]
@@ -388,6 +460,30 @@ namespace SeleniumTests.Tests.D_User
             Assert.IsTrue(true); // Always pass
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Click 'First' Icon Button
+        /// Action:
+        ///     1. Wait for the User table to load and capture the current HTML content.
+        ///     2. Click the 'Last' page button to navigate away from page 1 (if applicable).
+        ///     3. Capture screenshot after table changes.
+        ///     4. Locate and click the 'First' page button (double left arrow icon).
+        ///     5. Wait for table content to return to the original state.
+        /// Verification:
+        ///     - Table content should update after clicking 'Last' (if multiple pages exist).
+        ///     - Table content should return to original after clicking 'First'.
+        ///     - Screenshots captured at each step.
+        /// Purpose:
+        ///     Ensure that clicking the 'First' page icon correctly navigates back to the first page in the User table.
+        /// Test Data:
+        ///     - Table content on the current page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(4)]
@@ -413,7 +509,7 @@ namespace SeleniumTests.Tests.D_User
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", lastButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", lastButton);
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
             WaitForUIEffect();
             LogStep("✅ 'Last' page button clicked.");
@@ -453,7 +549,7 @@ namespace SeleniumTests.Tests.D_User
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", firstButton);
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             WaitForUIEffect();
 
@@ -483,6 +579,29 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Change Page Size from Dropdown
+        /// Action:
+        ///     1. Wait for the User table to load and capture the current HTML and row count.
+        ///     2. Locate the Page Size dropdown and verify the desired option exists.
+        ///     3. Select the given page size value (e.g., 100).
+        ///     4. Wait for the table content to update accordingly.
+        ///     5. Capture screenshot after table update.
+        /// Verification:
+        ///     - Table content should update after changing page size.
+        ///     - Row count should not exceed the selected page size value.
+        /// Purpose:
+        ///     Ensure that selecting a different page size from the dropdown correctly updates the number of displayed rows in the User table.
+        /// Test Data:
+        ///     - Page size option: 100 (parameterized)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(5)]
@@ -533,6 +652,28 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Table Paging - Click Specific Page Number If It Exists
+        /// Action:
+        ///     1. Wait for the User table to load and capture its current HTML.
+        ///     2. Locate the requested page number button dynamically.
+        ///     3. If the page number button does not exist, pass the test (only one page available).
+        ///     4. If the page exists, click the page number button.
+        ///     5. Wait for the table content to update.
+        ///     6. Capture a screenshot after table update.
+        /// Verification:
+        ///     - Table content should update when the page number button is clicked.
+        ///     - If page button does not exist, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking a specific page number correctly updates the User table content when multiple pages exist.
+        /// Test Data:
+        ///     - Page number: 3 (parameterized)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(6)]
@@ -583,6 +724,28 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click Next Button and Verify Table Update
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Wait for the User Role table to load and capture its current HTML content.
+        ///     3. Locate the 'Next' pagination button.
+        ///     4. If the 'Next' button is disabled, skip the test (only one page exists).
+        ///     5. If the button is enabled, click the 'Next' button.
+        ///     6. Wait for the table content to update and capture a screenshot.
+        /// Verification:
+        ///     - Table content should update after clicking the 'Next' button.
+        ///     - If 'Next' button is disabled, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking the 'Next' button in the User Role table correctly updates the table content when multiple pages exist.
+        /// Test Data:
+        ///     - None (UI-driven test)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(7)]
@@ -634,6 +797,32 @@ namespace SeleniumTests.Tests.D_User
             LogStep("✅ Table content changed after clicking 'Next'.");
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click Previous Button and Verify Table Update
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Wait for the User Role table to load and capture its current HTML content.
+        ///     3. Locate the 'Next' pagination button and click it if enabled to move away from the first page.
+        ///     4. Wait for the table content to change after clicking 'Next'.
+        ///     5. Locate the 'Previous' pagination button.
+        ///     6. Click the 'Previous' button if it is enabled.
+        ///     7. Wait for the table content to return to the original state and capture a screenshot.
+        /// Verification:
+        ///     - Table content should return to its original state after clicking 'Previous'.
+        ///     - If 'Next' or 'Previous' button is disabled, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking the 'Previous' button in the User Role table correctly navigates back and restores the original table content when multiple pages exist.
+        /// Test Data:
+        ///     - None (UI-driven test)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(8)]
@@ -712,6 +901,30 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click Last Icon Button and Verify Table Update
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Wait for the User Role table to load and capture its current HTML content.
+        ///     3. Locate the 'Last' pagination icon button.
+        ///     4. If the 'Last' button is disabled, pass the test logically (already on last page).
+        ///     5. If enabled, scroll to and click the 'Last' button using JavaScript.
+        ///     6. Wait for the table content to update and capture a screenshot.
+        /// Verification:
+        ///     - Table content should update after clicking the 'Last' icon.
+        ///     - If 'Last' button is disabled, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking the 'Last' icon correctly navigates to the last page of the User Role table and updates the table content.
+        /// Test Data:
+        ///     - None (UI-driven test)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(9)]
@@ -777,6 +990,31 @@ namespace SeleniumTests.Tests.D_User
             Assert.IsTrue(true);
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click First Icon Button and Verify Return
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Capture the original HTML content of the User Role table.
+        ///     3. Click the 'Last' button to move to the last page (if enabled).
+        ///     4. Wait for the table content to update after 'Last' click.
+        ///     5. Click the 'First' button to return to the original page (if enabled).
+        ///     6. Wait for the table content to return to the original state and capture a screenshot.
+        /// Verification:
+        ///     - Table content should update when navigating to the last page.
+        ///     - Table content should return to original when clicking 'First'.
+        ///     - If 'Last' or 'First' buttons are disabled, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking 'First' and 'Last' icon buttons correctly navigates the User Role table pages and updates the content accordingly.
+        /// Test Data:
+        ///     - None (UI-driven test)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(10)]
@@ -808,7 +1046,7 @@ namespace SeleniumTests.Tests.D_User
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", lastButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", lastButton);
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
             WaitForUIEffect();
 
@@ -839,7 +1077,7 @@ namespace SeleniumTests.Tests.D_User
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({ block: 'center' });", firstButton);
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             WaitForUIEffect();
 
@@ -871,6 +1109,28 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click Page Size Dropdown and Verify Table Update
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Capture the original HTML content and row count of the User Role table.
+        ///     3. Find the page size dropdown and verify the requested option exists.
+        ///     4. Select the desired page size from the dropdown.
+        ///     5. Wait for the table content to update or row count to match the selected page size.
+        ///     6. Capture a screenshot after table update.
+        /// Verification:
+        ///     - Table content should update when page size is changed.
+        ///     - Row count should not exceed the selected page size.
+        ///     - If the page size option does not exist, the test fails.
+        /// Purpose:
+        ///     Ensure that selecting a page size correctly updates the User Role table content and row count.
+        /// Test Data:
+        ///     - Page size value: 100 (parameterized)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(11)]
@@ -934,6 +1194,31 @@ namespace SeleniumTests.Tests.D_User
             }
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: User Role Table Paging - Click Specific Page Number If It Exists
+        /// Action:
+        ///     1. Switch to the User Role tab.
+        ///     2. Capture the original HTML content of the User Role table.
+        ///     3. Locate the requested page number button dynamically.
+        ///     4. If the page number button does not exist, pass the test (only one page available).
+        ///     5. If the page exists, click the page number button.
+        ///     6. Wait for the table content to update.
+        ///     7. Capture a screenshot after table update.
+        /// Verification:
+        ///     - Table content should update when the page number button is clicked.
+        ///     - If the page button does not exist, test passes logically.
+        /// Purpose:
+        ///     Ensure that clicking a specific page number correctly updates the User Role table content when multiple pages exist.
+        /// Test Data:
+        ///     - Page number: 3 (parameterized)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(12)]

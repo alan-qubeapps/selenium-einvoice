@@ -274,6 +274,36 @@ namespace SeleniumTests.Tests.E_User
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Edit User Profile - Mandatory Fields Validation
+        /// Action:
+        ///     1. Navigate to the user's profile via logout dropdown → My Profile.
+        ///     2. Click [Edit Profile] button.
+        ///     3. Upload profile image.
+        ///     4. Fill in username, customer email, and current password.
+        ///     5. Enter new password and confirm password.
+        ///     6. Set Active checkbox according to input.
+        ///     7. Click Save button.
+        /// Verification:
+        ///     - If any mandatory field is missing, the modal should prevent saving and show proper validation.
+        ///     - If the modal shows 'success' unexpectedly, the test should fail.
+        ///     - Screenshot is taken after action for logging.
+        /// Purpose:
+        ///     Ensure that mandatory fields are validated correctly when editing a user profile.
+        /// Test Data:
+        ///     - Username: string
+        ///     - CustEmail: string
+        ///     - role: string
+        ///     - UserCurrentPassword: string
+        ///     - UserPassword: string
+        ///     - UserConfirmPassword: string
+        ///     - activeUser: string (true/false)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(1)]
@@ -393,6 +423,35 @@ namespace SeleniumTests.Tests.E_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Edit User Profile - Invalid Password Format
+        /// Action:
+        ///     1. Navigate to the user's profile via logout dropdown → My Profile.
+        ///     2. Click [Edit Profile] button.
+        ///     3. Upload profile image.
+        ///     4. Fill in username, customer email, and current password.
+        ///     5. Enter new password and confirm password using invalid/weak format.
+        ///     6. Set Active checkbox according to input.
+        ///     7. Click Save button.
+        /// Verification:
+        ///     - Modal should display expected error message for invalid password format.
+        ///     - If the modal shows 'success' unexpectedly, the test should fail.
+        ///     - Screenshot is taken after action for logging.
+        /// Purpose:
+        ///     Ensure that password format validation works correctly when editing a user profile.
+        /// Test Data:
+        ///     - Username: string
+        ///     - CustEmail: string
+        ///     - role: string
+        ///     - UserCurrentPassword: string
+        ///     - UserPassword: string (invalid format)
+        ///     - UserConfirmPassword: string
+        ///     - activeUser: string (true/false)
+        ///     - expectedErrorMessage: string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(2)]
@@ -400,8 +459,8 @@ namespace SeleniumTests.Tests.E_User
         [AllureStory("Negative - Password Format")]
         [TestCaseSource(nameof(UserProfilePasswordTestData))]
         public void Edit_User_Profile_InvalidPasswordFormat(
-     string Username, string CustEmail, string role, string UserCurrentPassword,
-     string UserPassword, string UserConfirmPassword, string activeUser, string expectedErrorMessage)
+        string Username, string CustEmail, string role, string UserCurrentPassword,
+        string UserPassword, string UserConfirmPassword, string activeUser, string expectedErrorMessage)
         {
             try
             {
@@ -517,6 +576,34 @@ namespace SeleniumTests.Tests.E_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Edit User Profile - Wrong Current Password
+        /// Action:
+        ///     1. Navigate to the user's profile via logout dropdown → My Profile.
+        ///     2. Click [Edit Profile] button.
+        ///     3. Upload profile image.
+        ///     4. Fill in username, customer email, and an incorrect current password.
+        ///     5. Enter new password and confirm password.
+        ///     6. Set Active checkbox according to input.
+        ///     7. Click Save button.
+        /// Verification:
+        ///     - Modal should display "Old password is incorrect" message.
+        ///     - If the modal shows 'success' unexpectedly, the test should fail.
+        ///     - Screenshot is taken after action for logging.
+        /// Purpose:
+        ///     Ensure that editing a user profile with an incorrect current password is correctly rejected by the system.
+        /// Test Data:
+        ///     - Username: string
+        ///     - CustEmail: string
+        ///     - role: string
+        ///     - UserCurrentPassword: string (incorrect)
+        ///     - UserPassword: string
+        ///     - UserConfirmPassword: string
+        ///     - activeUser: string (true/false)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(4)]
@@ -634,6 +721,26 @@ namespace SeleniumTests.Tests.E_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: User Profile - Sign Out Sessions (Negative Test)
+        /// Action:
+        ///     1. Open logout dropdown and navigate to My Profile.
+        ///     2. Open Event and Log tab.
+        ///     3. Click the "Sign Out Session" button.
+        ///     4. Verify user is redirected to the login page.
+        ///     5. Attempt to manually access the dashboard URL after logout.
+        /// Verification:
+        ///     - User should be redirected to login page after signing out.
+        ///     - Access to dashboard is blocked after sign out.
+        ///     - Screenshot is captured after actions.
+        /// Purpose:
+        ///     Ensure that signing out terminates active sessions and prevents unauthorized access to protected pages.
+        /// Test Data:
+        ///     - BaseUrl: string (from AppConfig)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(5)]

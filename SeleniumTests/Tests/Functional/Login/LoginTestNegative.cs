@@ -434,6 +434,31 @@ namespace SeleniumTests.Tests.L_Functional.Login
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Negative Scenario (Wrong Username and Password)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Enter invalid username and password from test data.
+        ///     3. Check if the login button is enabled.
+        ///         - If enabled, click the login button.
+        ///     4. Wait for the page to respond.
+        /// Verification:
+        ///     - User should remain on the login page after submitting invalid credentials.
+        ///     - Screenshot is captured to document the failed login attempt.
+        /// Purpose:
+        ///     Ensure that login fails as expected when invalid username and password are entered, 
+        ///     preventing unauthorized access.
+        /// Test Data:
+        ///     - username: Invalid username provided via TestCaseSource `WrongUserAndPasswordTestData`.
+        ///     - password: Invalid password provided via TestCaseSource `WrongUserAndPasswordTestData`.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(1)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -471,6 +496,33 @@ namespace SeleniumTests.Tests.L_Functional.Login
             }
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Negative Scenario (Valid Username, Wrong Password)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Enter a valid username and an invalid password from test data.
+        ///     3. Check if the login button is enabled.
+        ///         - If enabled, click the login button.
+        ///     4. Wait for the page to respond.
+        /// Verification:
+        ///     - User should remain on the login page after submitting the wrong password.
+        ///     - Screenshot is captured to document the failed login attempt.
+        /// Purpose:
+        ///     Ensure that login fails when a valid username is entered with an incorrect password,
+        ///     preventing unauthorized access.
+        /// Test Data:
+        ///     - username: Valid username provided via TestCaseSource `ValidUserWrongPasswordTestData`.
+        ///     - password: Invalid password provided via TestCaseSource `ValidUserWrongPasswordTestData`.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(2)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -505,6 +557,30 @@ namespace SeleniumTests.Tests.L_Functional.Login
             }
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Negative Scenario (Empty Username)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Enter an empty username and a password from test data.
+        ///     3. Check if the login button is enabled.
+        /// Verification:
+        ///     - The login button must be disabled when the username field is empty.
+        ///     - Screenshot is captured to document the disabled login button.
+        /// Purpose:
+        ///     Ensure that the system prevents login attempts when the username is empty,
+        ///     enforcing proper input validation.
+        /// Test Data:
+        ///     - username: Empty string from TestCaseSource `EmptyUsernameTestData`.
+        ///     - password: Corresponding password from TestCaseSource `EmptyUsernameTestData`.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(3)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -533,6 +609,31 @@ namespace SeleniumTests.Tests.L_Functional.Login
                 "Login button should be disabled when username is empty, but it was enabled.");
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Negative Scenario (Empty Password)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Enter a username and an empty password from test data.
+        ///     3. Check if the login button is enabled.
+        /// Verification:
+        ///     - The login button must be disabled when the password field is empty.
+        ///     - Screenshot is captured to document the disabled login button.
+        /// Purpose:
+        ///     Ensure that the system prevents login attempts when the password is empty,
+        ///     enforcing proper input validation.
+        /// Test Data:
+        ///     - username: Corresponding username from TestCaseSource `EmptyPasswordTestData`.
+        ///     - password: Empty string from TestCaseSource `EmptyPasswordTestData`.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(4)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -561,6 +662,31 @@ namespace SeleniumTests.Tests.L_Functional.Login
                 "Login button should be disabled when password is empty, but it was enabled.");
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Negative Scenario (Invalid Email Format)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Enter a username with invalid email format and a password from test data.
+        ///     3. Check if the login button is enabled.
+        /// Verification:
+        ///     - The login button must be disabled when the email format is invalid.
+        ///     - Screenshot is captured to document the disabled login button.
+        /// Purpose:
+        ///     Ensure that the system enforces proper email format validation on login,
+        ///     preventing users from submitting invalid credentials.
+        /// Test Data:
+        ///     - username: Invalid email format from TestCase (e.g., "invalidEmailFormat").
+        ///     - password: Corresponding password from TestCase (e.g., "somePass").
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(5)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -591,6 +717,28 @@ namespace SeleniumTests.Tests.L_Functional.Login
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Forgot Password Page - Negative Scenario (Empty Email)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Click the "Forgot Password" link.
+        ///     3. Enter an empty email value from test data.
+        ///     4. Check if the submit button is enabled.
+        /// Verification:
+        ///     - The submit button must remain disabled when email input is empty.
+        ///     - Screenshot is captured to document the disabled submit button.
+        /// Purpose:
+        ///     Ensure that the system prevents users from submitting the forgot password form with an empty email,
+        ///     enforcing proper input validation.
+        /// Test Data:
+        ///     - email: Empty string from TestCaseSource (e.g., "").
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(6)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -616,10 +764,33 @@ namespace SeleniumTests.Tests.L_Functional.Login
             _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Login_Disabled_InvalidEmailFormat_{DateTime.Now:yyyyMMdd_HHmmss}.png");
             File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
             Assert.IsFalse(isButtonEnabled, "Submit button should be disabled for empty email.");
-
-
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Forgot Password Page - Negative Scenario (Whitespace-only Email)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Click the "Forgot Password" link.
+        ///     3. Enter an email containing only whitespace characters from test data.
+        ///     4. Check if the submit button is enabled.
+        /// Verification:
+        ///     - The submit button must remain disabled when the email contains only whitespace.
+        ///     - Screenshot is captured to document the disabled submit button.
+        /// Purpose:
+        ///     Ensure that the system prevents users from submitting the forgot password form with whitespace-only emails,
+        ///     enforcing proper input validation.
+        /// Test Data:
+        ///     - email: Whitespace-only string from TestCaseSource (e.g., "   ").
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(7)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -645,10 +816,33 @@ namespace SeleniumTests.Tests.L_Functional.Login
             _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Login_Disabled_InvalidEmailFormat_{DateTime.Now:yyyyMMdd_HHmmss}.png");
             File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
             Assert.IsFalse(isButtonEnabled, "Submit button should be disabled for whitespace-only email.");
-
-
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Forgot Password Page - Negative Scenario (Invalid Email Format)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Click the "Forgot Password" link.
+        ///     3. Enter an email with an invalid format from TestCaseSource.
+        ///     4. Check if the submit button is enabled.
+        /// Verification:
+        ///     - The submit button must remain disabled for emails that do not match the proper format.
+        ///     - Screenshot is captured to document the disabled submit button.
+        /// Purpose:
+        ///     Ensure that the system enforces proper email format validation in the forgot password form,
+        ///     preventing users from submitting invalid email addresses.
+        /// Test Data:
+        ///     - email: Invalid format string from TestCaseSource (e.g., "abc@", "user#domain.com").
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(8)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -674,10 +868,35 @@ namespace SeleniumTests.Tests.L_Functional.Login
             _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Login_Disabled_InvalidEmailFormat_{DateTime.Now:yyyyMMdd_HHmmss}.png");
             File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
             Assert.IsFalse(isButtonEnabled, "Submit button should be disabled for invalid email format.");
-
-
         }
 
+
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Forgot Password Page - Negative Scenario (Unregistered Email)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Click the "Forgot Password" link.
+        ///     3. Enter an email address that is NOT registered in the system (from TestCaseSource).
+        ///     4. Verify that the submit button is enabled.
+        ///     5. Click the submit button.
+        /// Verification:
+        ///     - System should display an appropriate error message indicating the email is not registered.
+        ///     - Screenshot is captured for reference.
+        /// Purpose:
+        ///     Ensure that the system handles unregistered emails correctly by allowing form submission
+        ///     but providing a clear error message.
+        /// Test Data:
+        ///     - email: Unregistered email addresses from TestCaseSource.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(9)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -728,6 +947,11 @@ namespace SeleniumTests.Tests.L_Functional.Login
                 Assert.IsTrue(true);
             }
         }
+
+
+
+
+
 
 
         [TearDown]

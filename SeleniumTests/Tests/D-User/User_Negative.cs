@@ -560,9 +560,28 @@ namespace SeleniumTests.Tests.D_User
 
 
 
-        
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User Role - Negative: Missing Rolename
+        /// Action:
+        ///     1. Navigate to User Role tab.
+        ///     2. Click "New User Role" button.
+        ///     3. Leave Role Name empty and fill other fields (Role Description, Color, Edit Store Permission, Module Permissions).
+        ///     4. Attempt to submit the form.
+        /// Verification:
+        ///     - Validation feedback should appear (modal or inline error) indicating the Rolename is required.
+        ///     - Screenshots captured at submission and validation steps.
+        /// Purpose:
+        ///     Ensure that the system correctly validates required fields and prevents creation of a user role with missing Rolename.
+        /// Test Data:
+        ///     - Provided by 'MissingRolenameTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(1)]
@@ -702,6 +721,24 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update User Role - Negative: Missing Rolename
+        /// Action:
+        ///     1. Navigate to User Role tab.
+        ///     2. Click "Edit" on the specified user role.
+        ///     3. Clear the Rolename field and fill other fields (Role Description, Color, Edit Store Permission, Module Permissions).
+        ///     4. Attempt to submit the form.
+        /// Verification:
+        ///     - Validation feedback should appear (modal or inline error) indicating the Rolename is required.
+        ///     - Screenshots captured at submission and validation steps.
+        /// Purpose:
+        ///     Ensure that the system correctly validates required fields and prevents updating a user role with missing Rolename.
+        /// Test Data:
+        ///     - Provided by 'UpdateMissingRolenameTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(2)]
@@ -730,6 +767,7 @@ namespace SeleniumTests.Tests.D_User
 
                 LogStep("📝 Enter Role Description");
                 _UserPage.EnterRoleDesc(RoleDesc);
+                WaitForUIEffect(1000);
 
                 LogStep("🎨 Select color");
                 var colorPickerBox = wait.Until(ExpectedConditions.ElementToBeClickable(
@@ -807,7 +845,7 @@ namespace SeleniumTests.Tests.D_User
 
                     try
                     {
-                        IWebElement inlineError = _driver.FindElement(By.XPath("//input[@formcontrolname='roleName']/following::div[contains(@class,'invalid-feedback')][1]"));
+                        IWebElement inlineError = _driver.FindElement(By.XPath("//*[@id=\"kt_profile_details_view\"]/div[2]/form/div/div[1]/div[1]/div/div/div"));
                         var inlineMsg = inlineError?.Text?.Trim() ?? "";
                         LogStep("📢 Inline validation: " + inlineMsg);
 
@@ -841,6 +879,25 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Invalid Email Format
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload profile image.
+        ///     3. Fill Username and an invalid Customer Email.
+        ///     4. Set Role checkbox, Password, Confirm Password, and Active state.
+        ///     5. Click Save.
+        /// Verification:
+        ///     - Validation message should appear indicating invalid email format (inline or modal).
+        ///     - Screenshots captured for each step and validation message.
+        /// Purpose:
+        ///     Ensure the system correctly validates email format and prevents saving users with invalid emails.
+        /// Test Data:
+        ///     - Provided by 'InvalidEmailTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(3)]
@@ -943,6 +1000,30 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Invalid Password Format
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload profile image.
+        ///     3. Fill Username, Customer Email, Role checkbox.
+        ///     4. Enter invalid Password and Confirm Password.
+        ///     5. Set Active checkbox.
+        ///     6. Click Save.
+        /// Verification:
+        ///     - Validation message should appear indicating invalid password format (inline or modal).
+        ///     - Screenshots captured for each step and validation message.
+        /// Purpose:
+        ///     Ensure the system correctly validates password format and prevents saving users with invalid passwords.
+        /// Test Data:
+        ///     - Provided by 'InvalidPasswordFormatTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(4)]
@@ -1044,6 +1125,28 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Invalid Profile Image Format
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload an invalid profile image file.
+        ///     3. Fill Username, Customer Email, Role checkbox, Password, Confirm Password, and Active checkbox.
+        ///     4. Click Save.
+        /// Verification:
+        ///     - Modal message should appear indicating invalid file format.
+        ///     - Test fails if the system shows a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system correctly validates profile image file format and prevents saving users with invalid files.
+        /// Test Data:
+        ///     - Provided by 'InvalidProfileImageTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(5)]
@@ -1131,6 +1234,29 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Mandatory Fields Empty (Username)
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill other required fields except for Username (leave empty).
+        ///     4. Click Save.
+        /// Verification:
+        ///     - Validation message should appear for the missing mandatory field (Username).
+        ///     - Test fails if the system shows a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system correctly validates mandatory fields and prevents saving users with missing Username.
+        /// Test Data:
+        ///     - Provided by 'MandatoryUsernameEmptyTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(6)]
@@ -1138,7 +1264,7 @@ namespace SeleniumTests.Tests.D_User
         [AllureStory("Create - Negative: Mandatory Fields Empty")]
         [TestCaseSource(nameof(MandatoryUsernameEmptyTestData))]
         public void Create_MandatoryFieldEmpty_Username(
-    string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
+        string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
         {
             try
             {
@@ -1232,6 +1358,29 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Mandatory Fields Empty (Customer Email)
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill other required fields except for Customer Email (leave empty).
+        ///     4. Click Save.
+        /// Verification:
+        ///     - Validation message should appear for the missing mandatory field (Customer Email).
+        ///     - Test fails if the system shows a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system correctly validates mandatory fields and prevents saving users with missing Customer Email.
+        /// Test Data:
+        ///     - Provided by 'MandatoryEmailEmptyTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(7)]
@@ -1239,7 +1388,7 @@ namespace SeleniumTests.Tests.D_User
         [AllureStory("Create - Negative: Mandatory Fields Empty")]
         [TestCaseSource(nameof(MandatoryEmailEmptyTestData))]
         public void Create_MandatoryFieldEmpty_Email(
-    string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
+        string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
         {
             try
             {
@@ -1333,6 +1482,27 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Mandatory Fields Empty (Password)
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill other required fields except for Password (leave empty).
+        ///     4. Click Save.
+        /// Verification:
+        ///     - Validation message should appear for the missing mandatory field (Password).
+        ///     - Test fails if the system shows a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system correctly validates mandatory fields and prevents saving users with missing Password.
+        /// Test Data:
+        ///     - Provided by 'MandatorPasswordEmptyTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(8)]
@@ -1340,7 +1510,7 @@ namespace SeleniumTests.Tests.D_User
         [AllureStory("Create - Negative: Mandatory Fields Empty")]
         [TestCaseSource(nameof(MandatorPasswordEmptyTestData))]
         public void Create_MandatoryFieldEmpty_Password(
-    string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
+        string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
         {
             try
             {
@@ -1434,6 +1604,27 @@ namespace SeleniumTests.Tests.D_User
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Mandatory Fields Empty (Confirm Password)
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill other required fields except for Confirm Password (leave empty).
+        ///     4. Click Save.
+        /// Verification:
+        ///     - Validation message should appear for the missing mandatory field (Confirm Password).
+        ///     - Test fails if the system shows a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system correctly validates mandatory fields and prevents saving users with missing Confirm Password.
+        /// Test Data:
+        ///     - Provided by 'MandatorCPasswordEmptyTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(9)]
@@ -1441,7 +1632,7 @@ namespace SeleniumTests.Tests.D_User
         [AllureStory("Create - Negative: Mandatory Fields Empty")]
         [TestCaseSource(nameof(MandatorCPasswordEmptyTestData))]
         public void Create_MandatoryFieldEmpty_ConfirmPassword(
-    string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
+        string Username, string CustEmail, string role, string UserPassword, string UserConfirmPassword, string activeUser, string expectedField)
         {
             try
             {
@@ -1539,6 +1730,26 @@ namespace SeleniumTests.Tests.D_User
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Duplicate Entry
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill all required fields with data that already exists in the system (Username / TIN).
+        ///     4. Click Save.
+        /// Verification:
+        ///     - System should display a modal with a duplicate entry message (e.g., "TIN has already been taken") or a failure message.
+        ///     - Test fails if a success message is displayed.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system prevents creating users with duplicate identifiers and validates uniqueness constraints.
+        /// Test Data:
+        ///     - Provided by 'DuplicateTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(10)]
@@ -1654,6 +1865,31 @@ namespace SeleniumTests.Tests.D_User
             }
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create User - Negative: Role Checkbox Not Available
+        /// Action:
+        ///     1. Click "New" to add a user.
+        ///     2. Upload a valid profile image.
+        ///     3. Fill username, email, password, confirm password, and active checkbox fields.
+        ///     4. Attempt to select a role checkbox that may not exist.
+        ///     5. Click Save.
+        /// Verification:
+        ///     - If the role checkbox does not exist, the test passes (expected negative case).
+        ///     - If the system displays a modal message, verify it is **not** a success message.
+        ///     - Screenshot captured for evidence.
+        /// Purpose:
+        ///     Ensure the system handles attempts to assign non-existent roles gracefully without allowing creation.
+        /// Test Data:
+        ///     - Provided by 'InvalidRoleCheckboxTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(11)]

@@ -523,6 +523,49 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        /// Test Case: Create Document Template and Verify Creation in Listing
+        ///
+        /// Action:
+        ///     1. Click 'New' button to open Document Template creation form.
+        ///     2. Capture auto-generated Template Code from input field.
+        ///     3. Scroll to full modal form for visibility.
+        ///     4. Enter Template Name.
+        ///     5. Enter Template Description.
+        ///     6. Select Template Type from dropdown.
+        ///     7. Select Business Entity from dropdown list.
+        ///     8. Enter Header content.
+        ///     9. Enter Footer content.
+        ///     10. Click 'Submit' button to create template.
+        ///     11. Wait for success modal and validate message.
+        ///     12. Close success modal.
+        ///
+        /// Verification:
+        ///     - Success modal must be displayed after submission.
+        ///     - Message must contain 'success'.
+        ///     - Newly created template must appear in listing table.
+        ///     - Search by Template Code should return correct record.
+        ///     - Template Name, Description, and Type must match expected values.
+        ///     - Pagination should be handled if record spans multiple pages.
+        ///
+        /// Purpose:
+        ///     Ensure Document Template creation works correctly and data is correctly persisted and displayed in the listing page.
+        ///
+        /// Test Data:
+        ///     - TemplateName
+        ///     - TemplateDescription
+        ///     - TemplateType
+        ///     - BusinessEntity
+        ///     - Header
+        ///     - Footer
+        ///
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         [Test]
         [Category("Template Editor")]
         [Order(1)]
@@ -540,6 +583,14 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 LogStep("Click 'New' button.");
                 _TemplateEditorPage.ClickNewButton();
                 WaitForUIEffect();
+
+                var codeInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+                By.CssSelector("input[name='code']")));
+
+                string codeValue = codeInput.GetAttribute("value");
+                string TemplateCode = codeValue;
+                LogStep($"📌 Code value: {TemplateCode}");
+
 
                 // Step 2: Scroll to full modal form
                 var modalForm = _wait.Until(ExpectedConditions.ElementIsVisible(
@@ -650,7 +701,7 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 bool isMatchFound = false;
 
                 // Search by Template Code
-                _TemplateEditorPage.SearchTemplate(Templatename);
+                _TemplateEditorPage.SearchTemplate(TemplateCode);
                 WaitForUIEffect(2000);
                 helperFunction.WaitForTemplateTableToLoad(_wait);
                 WaitForUIEffect(2000);
@@ -735,7 +786,47 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
-
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        /// Test Case: Update Document Template and Verify Updated Data in Listing
+        ///
+        /// Action:
+        ///     1. Search and open Document Template by Template Code.
+        ///     2. Update Template Description.
+        ///     3. Update Template Type (select from dropdown).
+        ///     4. Update Business Entity (select from dropdown).
+        ///     5. Update Template Header content.
+        ///     6. Update Template Footer content.
+        ///     7. Click 'Save' button to submit changes.
+        ///     8. Validate success modal message.
+        ///     9. Close success modal.
+        ///     10. Search updated Template Code in listing table.
+        ///     11. Verify updated data in table (with pagination handling if required).
+        ///
+        /// Verification:
+        ///     - Success modal must appear after saving changes.
+        ///     - Message must contain "success".
+        ///     - Template Code must exist in listing after update.
+        ///     - Template Name must match expected value.
+        ///     - Template Description must match expected value.
+        ///     - Template Type must match expected value.
+        ///     - Business Entity must match expected value.
+        ///     - All updated fields must be correctly reflected in table.
+        ///
+        /// Purpose:
+        ///     Ensure Document Template update functionality correctly saves and reflects all modified fields in the listing page.
+        ///
+        /// Test Data:
+        ///     - TemplateCode        : string
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateType        : string
+        ///     - BusinessEntity     : string
+        ///     - Header              : string
+        ///     - Footer              : string
+        ///
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         [Test]
         [Category("Template Editor")]
         [Order(2)]
@@ -955,6 +1046,35 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor - Filter By Category (All / Active / Inactive)
+        /// Action:
+        ///     1. Navigate to Template Editor list page.
+        ///     2. Apply filter based on input category (ALL / ACTIVE / INACTIVE).
+        ///     3. Wait for table to reload after filter is applied.
+        ///     4. Capture screenshot after filter execution.
+        ///     5. Retrieve table rows after filtering.
+        ///     6. Handle "No data available" scenario if no records exist.
+        ///     7. Validate status column values based on selected filter:
+        ///        - ACTIVE   → All rows must show "Active"
+        ///        - INACTIVE → All rows must show "Inactive"
+        ///        - ALL      → Display all statuses without strict validation
+        /// Verification:
+        ///     - Filter button must correctly trigger data refresh.
+        ///     - Table must update after filter selection.
+        ///     - Status column must match expected filter condition.
+        ///     - "No data available" message is allowed and treated as valid result.
+        ///     - Screenshot must be captured after filter execution.
+        /// Purpose:
+        ///     Ensure category filter works correctly and returns valid dataset based on selection.
+        /// Test Data:
+        ///     - category : string (ALL / ACTIVE / INACTIVE)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(3)]
@@ -1007,9 +1127,9 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 foreach (var row in rows)
                 {
                     var cells = row.FindElements(By.TagName("td"));
-                    if (cells.Count < 5) continue;
+                    if (cells.Count < 6) continue;
 
-                    string actualStatus = GetStatusFromCell(cells[5]);
+                    string actualStatus = GetStatusFromCell(cells[6]);
 
                     LogStep($"🔍 Validating Status: Expected = '{expectedStatus}', Found = '{actualStatus}'");
 
@@ -1091,6 +1211,34 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor - Filter Default Template Toggle
+        /// Action:
+        ///     1. Navigate to Template Editor list page.
+        ///     2. Read input category from test data (DEFAULT / ACTIVE / EMPTY).
+        ///     3. If category is "ACTIVE", enable Default Template checkbox filter.
+        ///     4. If category is empty or not "ACTIVE", leave Default Template filter unchecked.
+        ///     5. Wait for table to reload after filter change.
+        ///     6. Capture screenshot after applying filter.
+        ///     7. Retrieve table rows from result grid.
+        ///     8. Handle "No data available" scenario if no records exist.
+        ///     9. Log status values from each row for verification.
+        /// Verification:
+        ///     - Checkbox state must reflect input category condition.
+        ///     - Table must refresh after applying filter.
+        ///     - "No data available" should be treated as valid output.
+        ///     - Rows (if exist) must display valid status values.
+        ///     - Screenshot must be captured after execution.
+        /// Purpose:
+        ///     Ensure Default Template filter toggle correctly affects dataset visibility.
+        /// Test Data:
+        ///     - category : string (ACTIVE / EMPTY / DEFAULT logic control)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(4)]
@@ -1143,9 +1291,9 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 foreach (var row in rows)
                 {
                     var cells = row.FindElements(By.TagName("td"));
-                    if (cells.Count < 4) continue;
+                    if (cells.Count < 5) continue;
 
-                    string actualStatus = GetStatusFromCell(cells[4]);
+                    string actualStatus = GetStatusFromCell(cells[5]);
                     LogStep($"🔍 Validating Status: Expected = '{expectedStatus}', Found = '{actualStatus}'");
 
                     if (!actualStatus.Equals(expectedStatus, StringComparison.OrdinalIgnoreCase))
@@ -1200,15 +1348,42 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 foreach (var row in rows)
                 {
                     var cells = row.FindElements(By.TagName("td"));
-                    if (cells.Count < 4) continue;
+                    if (cells.Count < 5) continue;
 
-                    string actualStatus = GetStatusFromCell(cells[4]);
+                    string actualStatus = GetStatusFromCell(cells[5]);
                     LogStep($"🔍 Found Status = '{actualStatus}'");
                 }
             }
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Document Template Search - General Match (Partial Match Accepted)
+        /// Action:
+        ///     1. Input search text into Document Template search field.
+        ///     2. Execute search using Template Editor search function.
+        ///     3. Wait for table to reload after search is applied.
+        ///     4. Scan all rows in current page for matching text.
+        ///     5. If not found, navigate to next page using pagination.
+        ///     6. Repeat until match is found or last page is reached.
+        ///     7. Capture screenshot when match is found or when last page is reached.
+        ///     8. Validate that at least one cell contains the search keyword (partial match allowed).
+        /// Verification:
+        ///     - Search function must return relevant results across all pages.
+        ///     - Pagination must be correctly handled during search.
+        ///     - Partial match (ignoring spaces & case) is considered valid.
+        ///     - Screenshot must be captured upon match or end of search.
+        /// Purpose:
+        ///     Ensure Document Template search works correctly across paginated data and supports partial matching.
+        /// Test Data:
+        ///     - searchText : string (keyword or partial template name/code)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(5)]
@@ -1297,7 +1472,46 @@ namespace SeleniumTests.Tests.H_TemplateEditor
             Assert.IsTrue(isMatchFound, $"❌ Match not found for '{searchText}' in any table cell.");
         }
 
-        
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template - Create New Report Template
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'New' button to open Report Template creation modal.
+        ///     3. Enter Report Template Name.
+        ///     4. Enter Report Template Description.
+        ///     5. Configure Report Template status checkbox based on input data.
+        ///     6. Configure 'All Template' checkbox based on input data.
+        ///     7. Click the 'Submit' button to create the Report Template.
+        ///     8. Verify success confirmation modal is displayed.
+        ///     9. Capture screenshot after successful creation.
+        ///     10. Confirm success modal by clicking 'Ok, got it!'.
+        ///     11. Search newly created Report Template using Template Name.
+        ///     12. Validate created Report Template details from table records.
+        ///     13. Handle pagination if record is not found on current page.
+        /// Verification:
+        ///     - Report Template creation modal must open successfully.
+        ///     - Report Template must be created successfully.
+        ///     - Success message must be displayed after submission.
+        ///     - Created Report Template must exist in table listing.
+        ///     - Template Description and Template Status must match expected values.
+        ///     - Pagination must function correctly during verification.
+        ///     - Screenshot must be captured after validation.
+        /// Purpose:
+        ///     Ensure Report Template creation function works correctly and newly created data is properly displayed in Report Template listing.
+        /// Test Data:
+        ///     - Templatename  : string (Report Template Name)
+        ///     - TemplateDesc  : string (Report Template Description)
+        ///     - TemplateStatus: string (Active / Inactive)
+        ///     - AllTemplate   : string (All / Empty)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(6)]
@@ -1337,7 +1551,7 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                     bool isTemplateStatusChecked = TemplateStatus.Equals("Active", StringComparison.OrdinalIgnoreCase);
                     _TemplateEditorPage.SetReportCheckboxStatus(isTemplateStatusChecked);
                     WaitForUIEffect();
-                    LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
+                    LogStep($"Report Template status 'Active' Checkbox set to: {isTemplateStatusChecked}");
                 }
 
                 if (!string.IsNullOrEmpty(AllTemplate))
@@ -1345,7 +1559,7 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                     bool isAllTemplateChecked = AllTemplate.Equals("All", StringComparison.OrdinalIgnoreCase);
                     _TemplateEditorPage.SetAllReportCheckboxStatus(isAllTemplateChecked);
                     WaitForUIEffect();
-                    LogStep($"Report Template 'All' Checkbox set to: {isAllTemplateChecked}");
+                    LogStep($"Report Template Field 'All' Checkbox set to: {isAllTemplateChecked}");
                 }
 
 
@@ -1385,6 +1599,81 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 WaitForUIEffect();
 
                 LogStep("✅ Report Template creation test completed successfully.");
+
+                // ===== Step 6: Verification using input variables =====
+                LogStep("🔍 Verifying newly created Document Template in the table...");
+
+                bool isMatchFound = false;
+
+                // Search by Template Code
+                _TemplateEditorPage.SearchTemplate(Templatename);
+                WaitForUIEffect(2000);
+                helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                WaitForUIEffect(2000);
+
+                while (true)
+                {
+                    var rows = _driver.FindElements(By.XPath(
+                        "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-report-template/div/div[3]/div/div[1]/div/table/tbody/tr"));
+
+                    foreach (var row in rows)
+                    {
+                        var cells = row.FindElements(By.TagName("td"));
+                        if (cells.Count < 7) continue;
+
+                        string actualTemplateName = cells[1].Text.Trim();
+                        string actualTemplateDesc = cells[2].Text.Trim();
+                        string actualTemplateStatus = cells[3].Text.Trim();
+                        string TrimTemplateName = Templatename + " " + "New";
+
+                        if (actualTemplateName.Equals(TrimTemplateName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Combined verification log
+                            LogStep($"🔹 Verifying Document Template '{Templatename}' -> " +
+                                $"Template Description: Expected '{TemplateDesc}', Actual '{actualTemplateDesc}'; " +
+                                $"Template Type: Expected '{TemplateStatus}', Actual '{actualTemplateStatus}'; ");
+
+
+                            if (
+                                actualTemplateDesc.Equals(TemplateDesc, StringComparison.OrdinalIgnoreCase)
+                                && actualTemplateStatus.Equals(TemplateStatus, StringComparison.OrdinalIgnoreCase))
+                            {
+                                isMatchFound = true;
+                                LogStep($"🎉 All fields matched successfully for '{Templatename}'");
+                            }
+                            else
+                            {
+                                Assert.Fail($"❌ Verification failed for '{Templatename}', see log for details.");
+                            }
+
+                            break; // stop checking rows
+                        }
+                    }
+
+                    if (isMatchFound) break;
+
+                    // ===== Pagination Handling =====
+                    try
+                    {
+                        var nextButton = _driver.FindElement(By.CssSelector("i.next"));
+                        if (!nextButton.GetAttribute("class").Contains("disabled"))
+                        {
+                            nextButton.Click();
+                            WaitForUIEffect(1500);
+                            helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                        }
+                        else break;
+                    }
+                    catch { break; }
+                }
+
+                if (!isMatchFound)
+                {
+                    Assert.Fail($"❌ Template '{Templatename}' was not found in the table after creation.");
+                }
+
+                LogStep("🎉 Template updated and verification completed successfully.");
+
             }
             catch (Exception ex)
             {
@@ -1402,6 +1691,51 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Creation with Clear and Select Field Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'New' button to open the Report Template creation modal.
+        ///     3. Enter the Report Template Name.
+        ///     4. Enter the Report Template Description.
+        ///     5. Configure the Report Template status checkbox.
+        ///     6. Configure the 'All Template' checkbox.
+        ///     7. Configure the 'Clear Template' checkbox.
+        ///     8. Select Template Field values from the available field list.
+        ///     9. Click the 'Submit' button to save the Report Template.
+        ///     10. Verify the success modal message is displayed.
+        ///     11. Capture screenshot after successful creation.
+        ///     12. Click the confirmation button in the success modal.
+        ///     13. Search the created Report Template from the table.
+        ///     14. Validate Report Template details in the table.
+        ///     15. Handle pagination if the template is not found on the current page.
+        /// Verification:
+        ///     - Report Template modal should open successfully.
+        ///     - Template information should be accepted successfully.
+        ///     - Checkbox values should reflect the configured state.
+        ///     - Template Field selections should be applied successfully.
+        ///     - Success message should appear after submission.
+        ///     - Screenshot should be captured after successful creation.
+        ///     - Newly created Report Template should exist in the table.
+        ///     - Table values should match the expected data.
+        /// Purpose:
+        ///     Ensure Report Template creation with selectable fields, clear option, and checkbox configurations functions correctly and data is saved successfully.
+        /// Test Data:
+        ///     - Templatename   : string
+        ///     - TemplateDesc   : string
+        ///     - TemplateStatus : string
+        ///     - AllTemplate    : string
+        ///     - ClearTemplate  : string
+        ///     - TemplateField  : string
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(7)]
@@ -1521,6 +1855,82 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 WaitForUIEffect();
 
                 LogStep("✅ Report Template creation test completed successfully.");
+
+                // ===== Step 6: Verification using input variables =====
+                LogStep("🔍 Verifying newly created Document Template in the table...");
+
+                bool isMatchFound = false;
+
+                // Search by Template Code
+                _TemplateEditorPage.SearchTemplate(Templatename);
+                WaitForUIEffect(2000);
+                helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                WaitForUIEffect(2000);
+
+                while (true)
+                {
+                    var rows = _driver.FindElements(By.XPath(
+                        "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-report-template/div/div[3]/div/div[1]/div/table/tbody/tr"));
+
+                    foreach (var row in rows)
+                    {
+                        var cells = row.FindElements(By.TagName("td"));
+                        if (cells.Count < 7) continue;
+
+                        string actualTemplateName = cells[1].Text.Trim();
+                        string actualTemplateDesc = cells[2].Text.Trim();
+                        string actualTemplateStatus = cells[3].Text.Trim();
+                        string TrimTemplateName = Templatename + " " + "New";
+
+                        if (actualTemplateName.Equals(TrimTemplateName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Combined verification log
+                            LogStep($"🔹 Verifying Document Template '{Templatename}' -> " +
+                                $"Template Description: Expected '{TemplateDesc}', Actual '{actualTemplateDesc}'; " +
+                                $"Template Type: Expected '{TemplateStatus}', Actual '{actualTemplateStatus}'; ");
+
+
+                            if (
+                                actualTemplateDesc.Equals(TemplateDesc, StringComparison.OrdinalIgnoreCase)
+                                && actualTemplateStatus.Equals(TemplateStatus, StringComparison.OrdinalIgnoreCase))
+                            {
+                                isMatchFound = true;
+                                LogStep($"🎉 All fields matched successfully for '{Templatename}'");
+                            }
+                            else
+                            {
+                                Assert.Fail($"❌ Verification failed for '{Templatename}', see log for details.");
+                            }
+
+                            break; // stop checking rows
+                        }
+                    }
+
+                    if (isMatchFound) break;
+
+                    // ===== Pagination Handling =====
+                    try
+                    {
+                        var nextButton = _driver.FindElement(By.CssSelector("i.next"));
+                        if (!nextButton.GetAttribute("class").Contains("disabled"))
+                        {
+                            nextButton.Click();
+                            WaitForUIEffect(1500);
+                            helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                        }
+                        else break;
+                    }
+                    catch { break; }
+                }
+
+                if (!isMatchFound)
+                {
+                    Assert.Fail($"❌ Template '{Templatename}' was not found in the table after creation.");
+                }
+
+                LogStep("🎉 Template updated and verification completed successfully.");
+
+
             }
             catch (Exception ex)
             {
@@ -1537,6 +1947,48 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Creation with Select Field Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'New' button to open the Report Template creation modal.
+        ///     3. Enter the Report Template Name.
+        ///     4. Enter the Report Template Description.
+        ///     5. Configure the Report Template status checkbox.
+        ///     6. Select Template Field values from the available field list.
+        ///     7. Click the 'Submit' button to save the Report Template.
+        ///     8. Verify the success modal message is displayed.
+        ///     9. Capture screenshot after successful creation.
+        ///     10. Click the confirmation button in the success modal.
+        ///     11. Search the created Report Template from the table.
+        ///     12. Validate Report Template details in the table.
+        ///     13. Handle pagination if the template is not found on the current page.
+        /// Verification:
+        ///     - Report Template modal should open successfully.
+        ///     - Template information should be accepted successfully.
+        ///     - Status checkbox should reflect the configured state.
+        ///     - Template Field selections should be applied successfully.
+        ///     - Success message should appear after submission.
+        ///     - Screenshot should be captured after successful creation.
+        ///     - Newly created Report Template should exist in the table.
+        ///     - Table values should match the expected data.
+        /// Purpose:
+        ///     Ensure Report Template creation with selectable fields functions correctly and data is saved successfully.
+        /// Test Data:
+        ///     - Templatename   : string
+        ///     - TemplateDesc   : string
+        ///     - TemplateStatus : string
+        ///     - TemplateField  : string
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(8)]
@@ -1637,6 +2089,82 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 WaitForUIEffect();
 
                 LogStep("✅ Report Template creation test completed successfully.");
+
+                // ===== Step 6: Verification using input variables =====
+                LogStep("🔍 Verifying newly created Document Template in the table...");
+
+                bool isMatchFound = false;
+
+                // Search by Template Code
+                _TemplateEditorPage.SearchTemplate(Templatename);
+                WaitForUIEffect(2000);
+                helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                WaitForUIEffect(2000);
+
+                while (true)
+                {
+                    var rows = _driver.FindElements(By.XPath(
+                        "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-report-template/div/div[3]/div/div[1]/div/table/tbody/tr"));
+
+                    foreach (var row in rows)
+                    {
+                        var cells = row.FindElements(By.TagName("td"));
+                        if (cells.Count < 7) continue;
+
+                        string actualTemplateName = cells[1].Text.Trim();
+                        string actualTemplateDesc = cells[2].Text.Trim();
+                        string actualTemplateStatus = cells[3].Text.Trim();
+                        string TrimTemplateName = Templatename + " " + "New";
+
+                        if (actualTemplateName.Equals(TrimTemplateName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Combined verification log
+                            LogStep($"🔹 Verifying Document Template '{Templatename}' -> " +
+                                $"Template Description: Expected '{TemplateDesc}', Actual '{actualTemplateDesc}'; " +
+                                $"Template Type: Expected '{TemplateStatus}', Actual '{actualTemplateStatus}'; ");
+
+
+                            if (
+                                actualTemplateDesc.Equals(TemplateDesc, StringComparison.OrdinalIgnoreCase)
+                                && actualTemplateStatus.Equals(TemplateStatus, StringComparison.OrdinalIgnoreCase))
+                            {
+                                isMatchFound = true;
+                                LogStep($"🎉 All fields matched successfully for '{Templatename}'");
+                            }
+                            else
+                            {
+                                Assert.Fail($"❌ Verification failed for '{Templatename}', see log for details.");
+                            }
+
+                            break; // stop checking rows
+                        }
+                    }
+
+                    if (isMatchFound) break;
+
+                    // ===== Pagination Handling =====
+                    try
+                    {
+                        var nextButton = _driver.FindElement(By.CssSelector("i.next"));
+                        if (!nextButton.GetAttribute("class").Contains("disabled"))
+                        {
+                            nextButton.Click();
+                            WaitForUIEffect(1500);
+                            helperFunction.WaitForReportTemplateTableToLoad(_wait);
+                        }
+                        else break;
+                    }
+                    catch { break; }
+                }
+
+                if (!isMatchFound)
+                {
+                    Assert.Fail($"❌ Template '{Templatename}' was not found in the table after creation.");
+                }
+
+                LogStep("🎉 Template updated and verification completed successfully.");
+
+
             }
             catch (Exception ex)
             {
@@ -1653,6 +2181,51 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Update with Select Field Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'Edit' button based on the provided Template Code.
+        ///     3. Update the Report Template Description.
+        ///     4. Configure the Report Template status checkbox.
+        ///     5. Configure the 'All Template' checkbox if applicable.
+        ///     6. Select specific Template Field values if 'All Template' is not selected.
+        ///     7. Click the 'Submit' button to save the updated Report Template.
+        ///     8. Verify the success modal message is displayed.
+        ///     9. Capture screenshot after successful update.
+        ///     10. Click the confirmation button in the success modal.
+        ///     11. Search the updated Report Template from the table.
+        ///     12. Validate updated Report Template details in the table.
+        ///     13. Handle pagination if the template is not found on the current page.
+        /// Verification:
+        ///     - Report Template update modal should open successfully.
+        ///     - Template Description should be updated successfully.
+        ///     - Status checkbox should reflect the configured state.
+        ///     - 'All Template' checkbox or selected Template Fields should be applied successfully.
+        ///     - Success message should appear after submission.
+        ///     - Screenshot should be captured after successful update.
+        ///     - Updated Report Template should exist in the table.
+        ///     - Table values should match the expected updated data.
+        /// Purpose:
+        ///     Ensure Report Template update with selectable fields and 'All Template' configuration functions correctly and data is updated successfully.
+        /// Test Data:
+        ///     - TemplateCode   : string
+        ///     - Templatename   : string
+        ///     - TemplateDesc   : string
+        ///     - TemplateStatus : string
+        ///     - AllTemplate    : string
+        ///     - TemplateField  : string
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(9)]
@@ -1695,37 +2268,56 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                     LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
                 }
 
-                if (!string.IsNullOrEmpty(AllTemplate))
+                bool selectAll =
+                (!string.IsNullOrEmpty(AllTemplate) &&
+                 AllTemplate.Equals("All", StringComparison.OrdinalIgnoreCase))
+                ||
+                (!string.IsNullOrEmpty(TemplateField) &&
+                 TemplateField.Equals("All", StringComparison.OrdinalIgnoreCase));
+
+                if (selectAll)
                 {
-                    bool isAllTemplateChecked = AllTemplate.Equals("All", StringComparison.OrdinalIgnoreCase);
-                    _TemplateEditorPage.SetAllReportCheckboxStatus(isAllTemplateChecked);
+                    // ✅ Select ALL templates
+                    _TemplateEditorPage.SetAllReportCheckboxStatus(true);
                     WaitForUIEffect();
-                    LogStep($"Report Template 'All' Checkbox set to: {isAllTemplateChecked}");
+                    LogStep("✅ Report Template 'All' checkbox selected (via input).");
                 }
-
-
-                // User input could be multiple values separated by commas
-                string[] userInputs = TemplateField.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                                   .Select(x => x.Trim())  // remove extra spaces
-                                                   .ToArray();
-
-                // Main container XPath
-                var mainDiv = _driver.FindElement(By.XPath("/html/body/ngb-modal-window/div/div/app-report-editor-modal/div/div[2]/div[3]/div[1]/div"));
-
-                // Get all child divs (sub-values)
-                var subDivs = mainDiv.FindElements(By.XPath("./div"));
-
-                // Loop through each sub div to find a match
-                foreach (var div in subDivs)
+                else
                 {
-                    string divText = div.Text.Trim();
-                    if (userInputs.Contains(divText))
+                    // ✅ Select specific template fields
+
+                    string[] userInputs = TemplateField
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => x.Trim())
+                        .ToArray();
+
+                    var mainDiv = _driver.FindElement(By.XPath(
+                        "/html/body/ngb-modal-window/div/div/app-report-editor-modal/div/div[2]/div[3]/div[1]/div"));
+
+                    var subDivs = mainDiv.FindElements(By.XPath("./div"));
+
+                    bool anyClicked = false;
+
+                    foreach (var div in subDivs)
                     {
-                        div.Click();
-                        LogStep($"Clicked sub-value: {divText}");
+                        string divText = div.Text.Trim();
+
+                        if (userInputs.Any(x =>
+                            x.Equals(divText, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            div.Click();
+                            LogStep($"✅ Clicked sub-value: {divText}");
+                            anyClicked = true;
+                            WaitForUIEffect(300);
+                        }
+                    }
+
+                    if (!anyClicked)
+                    {
+                        Assert.Fail("❌ No matching template fields found to select.");
                     }
                 }
-                WaitForUIEffect();
+
 
                 // Step 5: Submit the Template
                 LogStep("Click 'Submit' button.");
@@ -1760,7 +2352,7 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
                 ScrollToElement(okButton);
                 okButton.Click();
-                WaitForUIEffect();
+                WaitForUIEffect(1000);
 
                 LogStep("✅ Report Template creation test completed successfully.");
 
@@ -1772,18 +2364,18 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 // Search by Template Code
                 _TemplateEditorPage.SearchTemplate(TemplateCode);
                 WaitForUIEffect(2000);
-                helperFunction.WaitForTemplateTableToLoad(_wait);
+                helperFunction.WaitForReportTemplateTableToLoad(_wait);
                 WaitForUIEffect(2000);
 
                 while (true)
                 {
                     var rows = _driver.FindElements(By.XPath(
-                        "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-pdf-editor/div/div[3]/div/div[1]/div/table/tbody/tr"));
+                        "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-report-template/div/div[3]/div/div[1]/div/table/tbody/tr"));
 
                     foreach (var row in rows)
                     {
                         var cells = row.FindElements(By.TagName("td"));
-                        if (cells.Count < 11) continue;
+                        if (cells.Count < 8) continue;
 
                         string actualTemplateCode = cells[0].Text.Trim();
                         string actualTemplateName = cells[1].Text.Trim();
@@ -1829,7 +2421,7 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                         {
                             nextButton.Click();
                             WaitForUIEffect(1500);
-                            helperFunction.WaitForTemplateTableToLoad(_wait);
+                            helperFunction.WaitForReportTemplateTableToLoad(_wait);
                         }
                         else break;
                     }
@@ -1861,6 +2453,40 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Filter By Category Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Select the filter category based on input value.
+        ///     3. Wait for the Report Template table to refresh.
+        ///     4. Capture screenshot after filter is applied.
+        ///     5. Check whether 'No data available' message is displayed.
+        ///     6. Validate table rows based on selected category filter.
+        ///     7. Validate Report Template status values from the table.
+        /// Verification:
+        ///     - Selected filter category should be applied successfully.
+        ///     - Table should refresh after filter selection.
+        ///     - Screenshot should be captured after filter execution.
+        ///     - 'No data available' message should display correctly when no records exist.
+        ///     - Active filter should display only Active status records.
+        ///     - Inactive filter should display only Inactive status records.
+        ///     - All filter should display all available statuses.
+        /// Purpose:
+        ///     Ensure Report Template category filtering functions correctly and displays expected table data based on selected category.
+        /// Test Data:
+        ///     - Category : string
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(10)]
@@ -1916,9 +2542,9 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 foreach (var row in rows)
                 {
                     var cells = row.FindElements(By.TagName("td"));
-                    if (cells.Count < 2) continue;
+                    if (cells.Count < 3) continue;
 
-                    string actualStatus = GetStatusFromCell(cells[2]);
+                    string actualStatus = GetStatusFromCell(cells[3]);
 
                     LogStep($"🔍 Validating Status: Expected = '{expectedStatus}', Found = '{actualStatus}'");
 
@@ -1990,15 +2616,45 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 foreach (var row in rows)
                 {
                     var cells = row.FindElements(By.TagName("td"));
-                    if (cells.Count < 2) continue;
+                    if (cells.Count < 3) continue;
 
-                    string actualStatus = GetStatusFromCell(cells[2]);
+                    string actualStatus = GetStatusFromCell(cells[3]);
                     LogStep($"🔍 Found Status = '{actualStatus}'");
                 }
             }
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Search Report Template Verification (General Match / Partial Match Supported)
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Enter search keyword into the search field.
+        ///     3. Wait for Report Template table to refresh.
+        ///     4. Iterate through all table rows across pagination.
+        ///     5. Compare each cell value with search input.
+        ///     6. Capture screenshot when a match is found.
+        ///     7. Continue pagination until last page if no match is found.
+        /// Verification:
+        ///     - Search function should return matching results based on partial or full keyword.
+        ///     - System should correctly search across all table columns.
+        ///     - Pagination should continue until last page if needed.
+        ///     - Screenshot should be captured upon successful match.
+        ///     - Final assertion should confirm at least one match is found.
+        /// Purpose:
+        ///     Ensure Report Template search function works correctly with partial matching and pagination handling.
+        /// Test Data:
+        ///     - SearchText : string
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(11)]

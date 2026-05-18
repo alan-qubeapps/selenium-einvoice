@@ -149,6 +149,28 @@ namespace SeleniumTests.Tests.B_Stores
             }
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Stores Paging - Next Button Functionality  
+        /// Action:  
+        ///     1. Wait for the Stores table to be visible.  
+        ///     2. Capture current table content (HTML) before pagination.  
+        ///     3. Locate the "Next" pagination button.  
+        ///     4. Verify if the "Next" button is enabled or disabled.  
+        ///     5. If enabled, click the "Next" button.  
+        ///     6. Wait for table content to update and verify that content changes.  
+        /// Verification:  
+        ///     - If the "Next" button is disabled, pagination is not possible (single page).  
+        ///     - If enabled, table content should update after clicking "Next".  
+        ///     - Screenshot is captured before and after pagination for documentation.  
+        /// Purpose: Ensure the "Next" button in Stores pagination works correctly and table updates as expected.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(1)]
@@ -206,6 +228,29 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Stores Paging - Previous Button Functionality  
+        /// Action:  
+        ///     1. Capture current Stores table HTML content.  
+        ///     2. Check if "Next" button is enabled.  
+        ///         - If disabled, skip test (single page).  
+        ///     3. Click "Next" button to move to the next page.  
+        ///     4. Wait for table content to change and verify update.  
+        ///     5. Check if "Previous" button is enabled.  
+        ///         - If disabled, skip going back.  
+        ///     6. Click "Previous" button to return to the first page.  
+        ///     7. Wait for table content to return to original state and verify.  
+        /// Verification:  
+        ///     - Table content should change after clicking "Next".  
+        ///     - Table content should return to original after clicking "Previous".  
+        ///     - Screenshots are captured before pagination, after "Next", and after "Previous" for documentation.  
+        /// Purpose: Ensure both "Next" and "Previous" buttons in Stores pagination work correctly and table updates/returns as expected.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(2)]
@@ -292,6 +337,25 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Stores Paging - Last Button Functionality  
+        /// Action:  
+        ///     1. Capture the current Stores table HTML content.  
+        ///     2. Locate the "Last" pagination button.  
+        ///         - If disabled (already on last page or single page), skip further actions.  
+        ///     3. Scroll "Last" button into view and click using JavaScript.  
+        ///     4. Wait for table content to update.  
+        ///         - Timeout handled in case table does not change.  
+        /// Verification:  
+        ///     - Table content should update after clicking "Last" if not already on last page.  
+        ///     - Screenshot captured after clicking "Last" for documentation.  
+        /// Purpose: Ensure "Last" button in Stores pagination navigates correctly and table updates as expected.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(3)]
@@ -319,8 +383,8 @@ namespace SeleniumTests.Tests.B_Stores
                 return;
             }
 
-    // Scroll into view and click using JS
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
+            // Scroll into view and click using JS
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
             LogStep("✅ 'Last' button clicked via JavaScript.");
@@ -356,6 +420,26 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Stores Paging - First Button Functionality  
+        /// Action:  
+        ///     1. Capture the current Stores table HTML content.  
+        ///     2. Click the "Last" button to navigate to the last page (if available).  
+        ///         - Skip if disabled (already on last page or single page).  
+        ///     3. Wait for table content to update after clicking "Last".  
+        ///     4. Click the "First" button to navigate back to the first page (if available).  
+        ///         - Skip if disabled (already on first page or single page).  
+        ///     5. Wait for table content to return to the original state.  
+        /// Verification:  
+        ///     - Table content should update after clicking "Last".  
+        ///     - Table content should return to original HTML after clicking "First".  
+        ///     - Screenshots are captured after each significant step for documentation.  
+        /// Purpose: Ensure "First" and "Last" pagination buttons in Stores table work correctly and table content updates accordingly.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(4)]
@@ -384,7 +468,7 @@ namespace SeleniumTests.Tests.B_Stores
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", lastButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(lastButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", lastButton);
             LogStep("✅ 'Last' button clicked.");
@@ -415,7 +499,7 @@ namespace SeleniumTests.Tests.B_Stores
                 return;
             }
 
-    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", firstButton);
             _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(firstButton));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", firstButton);
             LogStep("✅ 'First' button clicked.");
@@ -446,6 +530,23 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Stores Paging - Items Per Page Dropdown Verification  
+        /// Action:  
+        ///     1. Capture the current Stores table HTML content and row count.  
+        ///     2. Locate the page size dropdown and verify the target option exists.  
+        ///     3. Select the specified page size value from the dropdown.  
+        ///     4. Wait for the table to update after selection.  
+        /// Verification:  
+        ///     - Table content should update after changing the page size.  
+        ///     - The number of rows displayed should not exceed the selected page size.  
+        ///     - Screenshots are captured after the table update for documentation.  
+        /// Purpose: Ensure changing the "Items per Page" dropdown in Stores table correctly updates the table view.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(5)]
@@ -511,6 +612,24 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Stores Paging - Click Page Button Only If It Exists
+        /// Action:
+        ///     1. Capture the current Stores table HTML content.
+        ///     2. Locate the pagination button for the specified page number.
+        ///     3. If the page button exists, click it; otherwise, log that only one page is available.
+        ///     4. Wait for the table content to update after the click.
+        /// Verification:
+        ///     - Table content should change after clicking the page number button.
+        ///     - If the page button does not exist (only one page), the test passes logically.
+        ///     - Screenshots are captured after the table update or when no page exists for traceability.
+        /// Purpose: Ensure clicking a specific page number button updates the table content only if that page exists.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Stores")]
         [Order(6)]

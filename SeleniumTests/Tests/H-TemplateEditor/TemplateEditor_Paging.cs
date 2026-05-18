@@ -149,6 +149,34 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor Pagination - Next Button Verification
+        /// Action:
+        ///     1. Wait for the Template Editor table to load completely.
+        ///     2. Capture the initial table content.
+        ///     3. Locate the pagination 'Next' button.
+        ///     4. Check if the 'Next' button is disabled.
+        ///     5. If disabled, capture screenshot and skip the test.
+        ///     6. If enabled, click the 'Next' button.
+        ///     7. Wait for table content to refresh after pagination.
+        ///     8. Compare old and new table content to confirm data change.
+        ///     9. Capture screenshot after pagination action.
+        /// Verification:
+        ///     - If only one page exists, 'Next' button should be disabled.
+        ///     - If multiple pages exist, clicking 'Next' should update table content.
+        ///     - Table content must change after pagination.
+        ///     - Screenshot should be captured for both skipped and successful scenarios.
+        /// Purpose:
+        ///     Ensure pagination functionality works correctly in Template Editor list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(1)]
@@ -209,6 +237,38 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor Pagination - Previous Button Verification
+        /// Action:
+        ///     1. Wait for the Template Editor table to load completely.
+        ///     2. Capture the original table content.
+        ///     3. Check availability of the 'Next' button.
+        ///     4. If 'Next' button is disabled, skip the test.
+        ///     5. Click the 'Next' button to navigate to the next page.
+        ///     6. Wait for the table content to update after pagination.
+        ///     7. Locate the 'Previous' button.
+        ///     8. Check if the 'Previous' button is disabled.
+        ///     9. If disabled, skip return validation.
+        ///     10. Click the 'Previous' button.
+        ///     11. Wait for the table to reload previous data.
+        ///     12. Verify the table content matches the original state.
+        ///     13. Capture screenshot after validation.
+        /// Verification:
+        ///     - 'Next' button should navigate to a different page if enabled.
+        ///     - 'Previous' button should return the table to its original state if enabled.
+        ///     - Table content must change after navigation and restore correctly after returning.
+        ///     - Proper handling when pagination buttons are disabled.
+        ///     - Screenshot should be captured after successful validation.
+        /// Purpose:
+        ///     Ensure pagination (Next & Previous navigation) works correctly in Template Editor list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(2)]
@@ -283,6 +343,36 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor Pagination - Click Last Page Button and Verify Table Change
+        /// Action:
+        ///     1. Wait for the Template Editor table to load completely.
+        ///     2. Capture the initial table content.
+        ///     3. Locate the 'Last Page' pagination button.
+        ///     4. Check if the 'Last Page' button is disabled.
+        ///     5. If disabled, log information and mark test as passed.
+        ///     6. Scroll to the 'Last Page' button into view.
+        ///     7. Click the 'Last Page' button.
+        ///     8. Wait for table content to refresh after navigation.
+        ///     9. Compare updated table content with previous content.
+        ///     10. Capture screenshot after action.
+        /// Verification:
+        ///     - If already on last page, 'Last Page' button may be disabled.
+        ///     - Clicking 'Last Page' should navigate to the final page if enabled.
+        ///     - Table content should change when navigation occurs.
+        ///     - If no change occurs, it should be treated as valid if already on last page.
+        ///     - Screenshot should be captured for both changed and unchanged scenarios.
+        /// Purpose:
+        ///     Ensure 'Last Page' pagination button works correctly in Template Editor list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(3)]
@@ -465,6 +555,38 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor Pagination - First Page Button Verification
+        /// Action:
+        ///     1. Wait for the Template Editor table to load completely.
+        ///     2. Capture the original table content.
+        ///     3. Click the 'Last Page' button (if enabled) to navigate to the last page.
+        ///     4. Wait for table content to update after navigation.
+        ///     5. Verify whether table content has changed.
+        ///     6. Locate the 'First Page' button.
+        ///     7. Check if the 'First Page' button is disabled.
+        ///     8. If disabled, log information and exit test.
+        ///     9. Click the 'First Page' button.
+        ///     10. Wait for table content to return to the original state.
+        ///     11. Compare returned table content with the original content.
+        ///     12. Capture screenshot during verification steps.
+        /// Verification:
+        ///     - 'Last Page' button should navigate to the final page when enabled.
+        ///     - 'First Page' button should return the table to the initial page when enabled.
+        ///     - Table content should change when navigating to last page.
+        ///     - Table content should return to original state when clicking first page.
+        ///     - Proper handling when pagination buttons are disabled.
+        ///     - Screenshot should be captured for both navigation and validation states.
+        /// Purpose:
+        ///     Ensure full pagination flow works correctly in Template Editor (First & Last navigation).
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(5)]
@@ -541,12 +663,38 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Template Editor Pagination - Click Specific Page Button and Verify Table Update
+        /// Action:
+        ///     1. Wait for the Template Editor table to be visible and fully loaded.
+        ///     2. Capture the initial table content.
+        ///     3. Check whether the target page number exists in the pagination.
+        ///     4. If the page number does not exist, skip the test.
+        ///     5. If the page number exists, click the corresponding page button.
+        ///     6. Wait for the table content to refresh after navigation.
+        ///     7. Compare updated table content with the original content.
+        ///     8. Capture screenshot after pagination action.
+        /// Verification:
+        ///     - Page button should exist before interaction.
+        ///     - Clicking a valid page number should update the table content.
+        ///     - Table content must change after successful pagination.
+        ///     - If page does not exist, test should be skipped gracefully.
+        ///     - Screenshot should be captured after execution.
+        /// Purpose:
+        ///     Ensure pagination works correctly when navigating to a specific page number in Template Editor list view.
+        /// Test Data:
+        ///     - pageNumber : string (pagination page index)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(6)]
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("TemplateEditor Paging - Click Page Button Only If It Exists and Verify Table Update")]
-        [TestCase("3")]
+        [TestCase("2")]
         public void TestClickPageButtonIfExists(string pageNumber)
         {
             string tableXPath = "/html/body/app-layout/div[1]/div/div/div/app-content/app-template-editor/app-pdf-editor/div/div[3]/div/div[1]/div";
@@ -600,6 +748,37 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Pagination - Next Button Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to load completely.
+        ///     3. Capture the initial table content.
+        ///     4. Locate the 'Next' pagination button.
+        ///     5. Check if the 'Next' button is disabled.
+        ///     6. If disabled, capture screenshot and skip pagination test.
+        ///     7. If enabled, click the 'Next' button.
+        ///     8. Wait for table content to refresh after navigation.
+        ///     9. Compare updated table content with previous content.
+        ///     10. Capture screenshot after pagination action.
+        /// Verification:
+        ///     - 'Next' button should be clickable only when multiple pages exist.
+        ///     - Clicking 'Next' should update the Report Template table content.
+        ///     - Table content must change after pagination.
+        ///     - If only one page exists, test should be skipped gracefully.
+        ///     - Screenshot should be captured for both skipped and successful scenarios.
+        /// Purpose:
+        ///     Ensure pagination functionality works correctly in Report Template list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(7)]
@@ -662,6 +841,39 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Pagination - Previous Button Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to load completely.
+        ///     3. Capture the original table content.
+        ///     4. Check availability of the 'Next' button.
+        ///     5. If 'Next' button is disabled, skip the test.
+        ///     6. Click the 'Next' button to navigate to the next page.
+        ///     7. Wait for table content to update after pagination.
+        ///     8. Locate the 'Previous' button.
+        ///     9. Check if the 'Previous' button is disabled.
+        ///     10. If disabled, skip return validation.
+        ///     11. Click the 'Previous' button.
+        ///     12. Wait for table content to return to original state.
+        ///     13. Compare returned table content with original content.
+        ///     14. Capture screenshot after validation.
+        /// Verification:
+        ///     - 'Next' button should navigate to the next page when enabled.
+        ///     - 'Previous' button should return the table to the original page when enabled.
+        ///     - Table content must change after clicking 'Next'.
+        ///     - Table content must return to original state after clicking 'Previous'.
+        ///     - Proper handling when pagination buttons are disabled.
+        ///     - Screenshot should be captured for validation and evidence.
+        /// Purpose:
+        ///     Ensure pagination (Next & Previous) works correctly in Report Template list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(8)]
@@ -741,6 +953,37 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Pagination - Click Last Page Button and Verify Table Change
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to load completely.
+        ///     3. Capture the initial table content.
+        ///     4. Locate the 'Last Page' pagination button.
+        ///     5. Check if the 'Last Page' button is disabled.
+        ///     6. If disabled, log information and mark test as passed.
+        ///     7. Scroll the 'Last Page' button into view.
+        ///     8. Click the 'Last Page' button.
+        ///     9. Wait for table content to refresh after navigation.
+        ///     10. Compare updated table content with previous content.
+        ///     11. Capture screenshot after pagination action.
+        /// Verification:
+        ///     - 'Last Page' button should navigate to the final page when enabled.
+        ///     - Table content should change after clicking 'Last Page'.
+        ///     - If already on last page, no change in table content is acceptable.
+        ///     - Proper handling when pagination button is disabled.
+        ///     - Screenshot should be captured for both changed and unchanged scenarios.
+        /// Purpose:
+        ///     Ensure 'Last Page' pagination functionality works correctly in Report Template list view.
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(9)]
@@ -827,6 +1070,38 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Pagination - First Page Button Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to load completely.
+        ///     3. Capture the original table content.
+        ///     4. Click the 'Last Page' button (if enabled) to navigate to the last page.
+        ///     5. Wait for table content to update after navigation.
+        ///     6. Verify whether table content has changed.
+        ///     7. Locate the 'First Page' button.
+        ///     8. Check if the 'First Page' button is disabled.
+        ///     9. If disabled, log information and exit test.
+        ///     10. Click the 'First Page' button.
+        ///     11. Wait for table content to return to the original state.
+        ///     12. Compare returned table content with the original content.
+        ///     13. Capture screenshot during verification.
+        /// Verification:
+        ///     - 'Last Page' button should navigate to the final page when enabled.
+        ///     - 'First Page' button should return the table to the first page when enabled.
+        ///     - Table content should change when navigating to last page.
+        ///     - Table content should return to original state after clicking first page.
+        ///     - Proper handling when pagination buttons are disabled.
+        ///     - Screenshot should be captured for both navigation and validation steps.
+        /// Purpose:
+        ///     Ensure full pagination flow works correctly in Report Template list view (Last → First navigation).
+        /// Test Data:
+        ///     - No external test data required
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(10)]
@@ -933,6 +1208,31 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Report Template Pagination - Items Per Page Dropdown Verification
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to load completely.
+        ///     3. Capture the initial table content and row count.
+        ///     4. Locate the 'Items Per Page' dropdown.
+        ///     5. Verify that the expected page size option exists in the dropdown.
+        ///     6. Select the specified page size value from the dropdown.
+        ///     7. Wait for the table to refresh after applying the new page size.
+        ///     8. Compare updated table content and row count with the original state.
+        ///     9. Capture screenshot after applying the page size.
+        /// Verification:
+        ///     - Dropdown must contain the requested page size value.
+        ///     - Selecting a page size should refresh the table data.
+        ///     - Row count should be less than or equal to the selected page size.
+        ///     - Table content should update after changing page size.
+        ///     - Screenshot should be captured after validation.
+        /// Purpose:
+        ///     Ensure the 'Items Per Page' dropdown correctly controls pagination size in Report Template list view.
+        /// Test Data:
+        ///     - pageSizeValue : string (e.g., "100")
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("TemplateEditor")]
         [Order(11)]
@@ -1014,6 +1314,37 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        /// Test Case: Report Template Pagination - Click Specific Page Number and Verify Table Update
+        ///
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Wait for the Report Template table to be fully loaded.
+        ///     3. Capture the initial table state (HTML content).
+        ///     4. Check whether the target page number exists in the pagination section.
+        ///     5. If the page number does not exist, skip the test.
+        ///     6. If the page number exists, click the page button.
+        ///     7. Wait for the table content to refresh after pagination.
+        ///     8. Compare updated table content with the original state.
+        ///     9. Capture screenshot for validation.
+        ///
+        /// Verification:
+        ///     - Page number must exist in pagination before clicking.
+        ///     - Clicking page number should trigger table refresh.
+        ///     - Table content (HTML) should change after navigation.
+        ///     - Screenshot should be captured after update.
+        ///
+        /// Purpose:
+        ///     Ensure that pagination page number buttons correctly navigate and refresh the Report Template table.
+        ///
+        /// Test Data:
+        ///     - pageNumber : string (e.g., "3")
+        ///
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         [Test]
         [Category("TemplateEditor")]
         [Order(12)]

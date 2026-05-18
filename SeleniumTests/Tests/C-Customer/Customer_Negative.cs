@@ -557,6 +557,32 @@ namespace SeleniumTests.Tests.C_Customer
             }
         }
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer - Blank Mandatory Fields (Negative Scenarios)
+        /// Action:
+        ///     1. Click 'New' button to open Customer creation modal.
+        ///     2. Fill in fields based on input parameters, leaving some mandatory fields blank according to the test scenario.
+        ///     3. Attempt to click 'Continue' button.
+        /// Verification:
+        ///     - Check if the 'Continue' button is disabled or blocked (prevents progression).
+        ///     - If the button is clickable, click and verify system triggers validation messages.
+        ///     - Capture all validation messages displayed on the modal for mandatory field errors.
+        ///     - If a success modal appears unexpectedly, fail the test (negative scenario failure).
+        ///     - Take screenshots at key steps for evidence of correct negative behavior.
+        /// Purpose:
+        ///     Ensure the system prevents creation of customers when mandatory fields are blank,
+        ///     verifying proper validation and adherence to business rules.
+        /// Notes:
+        ///     - Test is driven by 'BlankMandatoryFieldsTestData' to cover multiple negative scenarios.
+        ///     - Screenshots are saved with scenario name and timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(1)]
@@ -665,6 +691,32 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer - Second Half Blank Mandatory Fields (Negative Scenarios)
+        /// Action:
+        ///     1. Click 'New' button to open Customer creation modal.
+        ///     2. Fill in customer fields based on input parameters, leaving certain mandatory fields blank (second-half fields).
+        ///     3. Attempt to click 'Save' button.
+        /// Verification:
+        ///     - Check if the 'Save' button is disabled or blocked (prevents progression).
+        ///     - If clickable, click and verify that validation messages appear for mandatory fields.
+        ///     - Capture all validation messages displayed on the modal.
+        ///     - If a success modal appears unexpectedly, fail the test (negative scenario failure).
+        ///     - Take screenshots at key steps to evidence proper negative behavior.
+        /// Purpose:
+        ///     Ensure the system correctly blocks customer creation when mandatory fields (second-half) are left blank,
+        ///     verifying proper validation logic and adherence to business rules.
+        /// Notes:
+        ///     - Test is driven by 'SecondHalfMandatoryTestData' to cover multiple negative scenarios.
+        ///     - Screenshots are saved with scenario name and timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(2)]
@@ -812,6 +864,33 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer - Invalid TIN (Negative Scenario)
+        /// Action:
+        ///     1. Click 'New' button to open the Customer creation modal.
+        ///     2. Fill in all customer fields using input parameters, including an invalid TIN.
+        ///     3. Click 'Save' button to attempt creation.
+        /// Verification:
+        ///     - Check for validation messages related to TIN or other fields.
+        ///     - If validation messages appear, log them and mark the test as passed (negative scenario success).
+        ///     - If a modal appears:
+        ///         - If it contains a "success" message, fail the test (creation should not succeed with invalid TIN).
+        ///         - Otherwise, confirm that invalid input was blocked and log success.
+        ///     - Take screenshots at key steps for evidence.
+        /// Purpose:
+        ///     Ensure the system prevents creation of a customer with an invalid TIN,
+        ///     validating proper input checks and compliance with business rules.
+        /// Notes:
+        ///     - Test is driven by 'InvalidTINTestData' covering multiple invalid TIN scenarios.
+        ///     - Screenshots include scenario name and timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(3)]
@@ -1090,6 +1169,32 @@ namespace SeleniumTests.Tests.C_Customer
         //}
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer - Invalid Phone Number (Negative Scenario)
+        /// Action:
+        ///     1. Click 'New' button to open the Customer creation modal.
+        ///     2. Fill in all customer fields using input parameters, including an invalid phone number.
+        ///     3. Click 'Save' button to attempt creation.
+        /// Verification:
+        ///     - Check for validation messages related to phone number or other fields.
+        ///     - If validation messages appear, log them and mark the test as passed (negative scenario success).
+        ///     - If a modal appears:
+        ///         - If it contains a "success" message, fail the test (creation should not succeed with invalid phone number).
+        ///         - Otherwise, confirm that invalid input was blocked and log success.
+        ///     - Take screenshots at key steps for evidence.
+        /// Purpose:
+        ///     Ensure the system prevents creation of a customer with an invalid phone number,
+        ///     validating proper input checks and compliance with business rules.
+        /// Notes:
+        ///     - Test is driven by 'InvalidPhoneNumberTestData' covering multiple invalid phone number scenarios.
+        ///     - Screenshots include scenario name and timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(5)]
@@ -1231,6 +1336,32 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer - Duplicate Check
+        /// Action:
+        ///     1. Click 'New' button to open the Customer creation modal.
+        ///     2. Fill in customer details using input parameters (including TIN and External Code).
+        ///     3. Click 'Save' button to attempt creation of a potentially duplicate customer.
+        /// Verification:
+        ///     - Capture and log the modal message displayed after saving.
+        ///     - If the message contains:
+        ///         - "TIN has already been taken" → Pass, duplicate TIN detected correctly.
+        ///         - "External Code has already been taken" → Pass, duplicate External Code detected correctly.
+        ///         - "success" → Fail, duplicate creation should not succeed.
+        ///         - "fail" → Pass, generic failure message detected as expected.
+        ///         - Any other message → Fail, unexpected modal message.
+        ///     - Screenshot is taken for evidence at each run.
+        /// Purpose:
+        ///     Ensure the system correctly prevents creation of duplicate customers based on TIN or External Code,
+        ///     and displays the appropriate validation or error message.
+        /// Notes:
+        ///     - Test is driven by 'DuplicateCustomerTestData', covering multiple duplicate scenarios.
+        ///     - Screenshots include timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(6)]
@@ -1332,7 +1463,28 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
-
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update Customer - Blank Mandatory Fields (Negative Test)
+        /// Action:
+        ///     1. Click the 'Edit' button for an existing customer using CustomerCode.
+        ///     2. Clear or leave blank the mandatory fields supplied via test data.
+        ///     3. Attempt to save the updated customer information.
+        /// Verification:
+        ///     - If the Save button is not visible or disabled → Pass, system correctly blocks the update.
+        ///     - If validation messages appear under mandatory fields → Pass, system correctly validates input.
+        ///     - If a modal appears:
+        ///         - Contains "success" → Fail, update should not succeed.
+        ///         - Any other failure message → Pass, system correctly prevented invalid update.
+        ///     - Screenshots are captured for each scenario for traceability.
+        /// Purpose:
+        ///     Ensure the system prevents updates when mandatory fields are missing or invalid,
+        ///     and displays appropriate validation or modal messages.
+        /// Notes:
+        ///     - Test is driven by 'UpdateBlankMandatoryTestData', covering multiple negative update scenarios.
+        ///     - Screenshots include timestamp for traceability.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(7)]
@@ -1491,6 +1643,34 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update Customer - Invalid TIN / Negative Scenarios
+        /// Action:
+        ///     1. Click the 'Edit' button for an existing customer using CustomerCode.
+        ///     2. Enter customer details from test data, including invalid TIN, blank mandatory fields, or other invalid inputs as defined in the data source.
+        ///     3. Fill in other fields: Name, Register Type, Register ID, SST, Email, Contact Number, City, State, Postal Code, Country, Addresses, External Code.
+        ///     4. Attempt to save the updated customer information.
+        /// Verification:
+        ///     - If validation messages appear under mandatory fields or TIN / Phone fields → Pass, system correctly validates input.
+        ///     - If a modal appears:
+        ///         - Contains "success" → Fail, update should not succeed with invalid or missing data.
+        ///         - Contains duplicate warnings (TIN / External Code) → Pass, system correctly prevents duplicates.
+        ///         - Any other failure message → Pass, system blocked invalid update.
+        ///     - Save button visibility is checked; if disabled → Pass, system correctly prevents invalid input.
+        ///     - Screenshots are captured at key steps and after modal messages for traceability.
+        /// Purpose:
+        ///     Ensure the system prevents updates with invalid or missing inputs,
+        ///     including invalid TIN, blank mandatory fields, invalid phone numbers, and duplicate entries.
+        /// Notes:
+        ///     - Test is driven by 'UpdateInvalidTINTestData', covering multiple negative update scenarios.
+        ///     - Screenshots include timestamp for evidence.
+        ///     - Part of comprehensive negative test suite including Create / Update / Duplicate / Invalid Input tests.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By: 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(8)]
@@ -1652,8 +1832,35 @@ namespace SeleniumTests.Tests.C_Customer
             }
         }
 
-        
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update Customer - Invalid Phone Number / Negative Scenarios
+        /// Action:
+        ///     1. Click the 'Edit' button for an existing customer using CustomerCode.
+        ///     2. Enter customer details from test data, including invalid phone number or other invalid inputs as defined in the data source.
+        ///     3. Fill in other fields: Name, TIN, Register Type, Register ID, SST, Email, City, State, Postal Code, Country, Addresses, External Code.
+        ///     4. Attempt to save the updated customer information.
+        /// Verification:
+        ///     - If validation messages appear under mandatory fields or phone fields → Pass, system correctly validates input.
+        ///     - If a modal appears:
+        ///         - Contains "success" → Fail, update should not succeed with invalid input.
+        ///         - Contains duplicate warnings → Pass, system correctly prevents duplicates.
+        ///         - Any other failure message → Pass, system blocked invalid update.
+        ///     - Save button visibility is checked; if disabled → Pass, system correctly prevents invalid input.
+        ///     - Screenshots are captured at key steps and after modal messages for traceability.
+        /// Purpose:
+        ///     Ensure the system prevents updates with invalid phone numbers or other invalid data,
+        ///     including blank mandatory fields, duplicate entries, and system validations.
+        /// Notes:
+        ///     - Test is driven by 'UpdateInvalidPhoneTestData', covering multiple negative update scenarios.
+        ///     - Screenshots include timestamp for evidence.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By: 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(9)]
@@ -1818,6 +2025,26 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Import Customer - Invalid File Type / Negative Scenario
+        /// Action:
+        ///     1. Open the Customer Import modal.
+        ///     2. Select a file from 'InvalidFileTestData' (non-CSV format).
+        ///     3. Click the Upload button.
+        /// Verification:
+        ///     - If an alert appears → Capture alert text and screenshot, assert it matches expected "Only CSV files are allowed!" message.
+        ///     - If no alert → Check modal text, capture screenshot, assert message matches expected.
+        ///     - Ensure the system blocks invalid file type upload and provides proper feedback.
+        ///     - Screenshots are captured for traceability with timestamped filenames.
+        /// Purpose:
+        ///     Ensure the system rejects all non-CSV files during Customer import and provides the correct user feedback.
+        /// Notes:
+        ///     - Test is driven by 'InvalidFileTestData', covering multiple invalid file types.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By: 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(10)]

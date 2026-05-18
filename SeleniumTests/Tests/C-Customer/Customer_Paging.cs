@@ -149,6 +149,29 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - Next Button
+        /// Action:
+        ///     1. Wait for the customer table to load on the page.
+        ///     2. Capture the initial HTML content of the table.
+        ///     3. Locate the 'Next' button for pagination.
+        ///     4. Click 'Next' if it is enabled.
+        ///     5. Wait for the table content to update and verify the change.
+        /// Verification:
+        ///     - If 'Next' button is disabled → capture screenshot and skip test, as only one page exists.
+        ///     - If table content updates after clicking 'Next' → assert success.
+        ///     - Screenshots are captured for traceability with timestamped filenames.
+        /// Purpose:
+        ///     Ensure the customer table pagination works correctly and that clicking 'Next' updates the table content.
+        /// Notes:
+        ///     - Handles single-page scenario gracefully.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By: 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(1)]
@@ -206,6 +229,26 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - Previous Button
+        /// Action:
+        ///     1. Wait for the customer table to load and capture the initial table content.
+        ///     2. Click the 'Next' button to navigate to the next page (if enabled).
+        ///     3. Verify the table content changes after clicking 'Next'.
+        ///     4. Click the 'Previous' button to return to the original page (if enabled).
+        /// Verification:
+        ///     - 'Next' button must navigate to the next page and update table content.
+        ///     - 'Previous' button must return the table to its original content.
+        ///     - If pagination buttons are disabled, the test is safely skipped.
+        ///     - Screenshot is captured after successful verification.
+        /// Purpose:
+        ///     Ensure customer table pagination works correctly for both Next and Previous navigation.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(2)]
@@ -280,6 +323,26 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - Last Page Button
+        /// Action:
+        ///     1. Wait for the customer table to load and capture initial table content.
+        ///     2. Locate the 'Last Page' (double-right arrow) pagination button.
+        ///     3. Click the 'Last Page' button if it is enabled.
+        ///     4. Observe table content after navigation.
+        /// Verification:
+        ///     - Table content should change after clicking the 'Last Page' button.
+        ///     - If already on the last page or button is disabled, test is skipped gracefully.
+        ///     - Screenshot is captured for both changed and unchanged outcomes.
+        /// Purpose:
+        ///     Validate that the customer table pagination correctly navigates to the last page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(3)]
@@ -361,6 +424,24 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - First Page Button
+        /// Action:
+        ///     1. Load the customer table and capture initial table content.
+        ///     2. Navigate to the last page using the 'Last' pagination button (if enabled).
+        ///     3. Click the 'First' pagination button.
+        ///     4. Observe table content after returning to the first page.
+        /// Verification:
+        ///     - Table content should change after navigating to the last page.
+        ///     - Table content should return to the original state after clicking the 'First' button.
+        ///     - If pagination buttons are disabled, test exits gracefully.
+        ///     - Screenshots are captured for verification and traceability.
+        /// Purpose:
+        ///     Validate that customer table pagination correctly returns to the first page.
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(4)]
@@ -462,6 +543,26 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - Items Per Page Dropdown
+        /// Action:
+        ///     1. Load the customer table and record initial HTML content and row count.
+        ///     2. Locate the pagination page size dropdown.
+        ///     3. Select the specified page size value (e.g. 100).
+        ///     4. Observe table content and row count after selection.
+        /// Verification:
+        ///     - Table content should refresh OR row count should be less than or equal to the selected page size.
+        ///     - Dropdown must contain the specified page size option.
+        ///     - Screenshot is captured after update for verification.
+        /// Purpose:
+        ///     Validate that changing the page size correctly updates customer table pagination.
+        /// Test Data:
+        ///     - Page Size Value: "100"
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(5)]
@@ -538,6 +639,29 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Customer Table Pagination - Click Specific Page Number
+        /// Action:
+        ///     1. Load the customer table and capture the initial HTML content.
+        ///     2. Check whether the specified page number exists in the pagination control.
+        ///     3. If the page exists, click the page number.
+        ///     4. Wait for the table content to refresh.
+        /// Verification:
+        ///     - If the page number exists, table content must change after clicking.
+        ///     - If the page number does not exist, the test is skipped and marked as passed.
+        ///     - Screenshot is captured for verification.
+        /// Purpose:
+        ///     Ensure pagination page number buttons function correctly and update the customer table only when available.
+        /// Test Data:
+        ///     - Page Number: "3"
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(6)]

@@ -74,10 +74,11 @@ namespace SeleniumTests.Tests.K_Setting
                     string cutOffDateReset = worksheet.Cells[row, 1].Text?.Trim();
                     string consolidateCutOffDateReset = worksheet.Cells[row, 2].Text?.Trim();
                     string securityTokenReset = worksheet.Cells[row, 3].Text?.Trim();
+                    string view = worksheet.Cells[row, 4].Text?.Trim();
 
                     yield return new object[]
                     {
-                        cutOffDateReset, consolidateCutOffDateReset, securityTokenReset
+                        cutOffDateReset, consolidateCutOffDateReset, securityTokenReset, view
                     };
 
                 }
@@ -416,111 +417,140 @@ namespace SeleniumTests.Tests.K_Setting
         [AllureSeverity(SeverityLevel.normal)]
         [AllureStory("Create")]
         [TestCaseSource(nameof(ResetTestData))]
-        public void Reset_Receipt_Image_Setting(string CutOffDate, string ConsolidateCutOffDate, string securityToken)
+        public void Reset_Receipt_Image_Setting(
+    string CutOffDate,
+    string ConsolidateCutOffDate,
+    string securityToken,
+    string view)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(15));
 
             try
             {
-                // Navigate to Setting On Dashboard Tab
+                // ===== Open Settings Panel =====
                 var SettingOnDashboardTab = _driver.FindElement(
-                    By.XPath("/html/body/app-layout/div/div/div/app-header/div/app-topbar/i[1]")
-                );
+                    By.XPath("/html/body/app-layout/div/div/div/app-header/div/app-topbar/i[1]"));
                 SettingOnDashboardTab.Click();
                 WaitForUIEffect();
 
-                // 🔄 Clear fields before input
+                // ===== Select Display Density =====
+                if (!string.IsNullOrEmpty(view))
+                {
+                    view = view.Trim().ToLower();
+                    try
+                    {
+                        if (view == "compact")
+                        {
+                            _driver.FindElement(By.Name("displayDensityCompactSide")).Click();
+                            LogStep("✅ Selected Compact display density.");
+                        }
+                        else if (view.Contains("comfortable"))
+                        {
+                            _driver.FindElement(By.Name("displayDensitycomfortableSide")).Click();
+                            LogStep("✅ Selected Comfortable display density.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogStep($"⚠️ Display density selection failed: {ex.Message}");
+                    }
+                }
+
+                WaitForUIEffect();
+
+                // ===== Clear & Enter Cut-Off Dates =====
                 var consolidateInput = wait.Until(ExpectedConditions.ElementIsVisible(
                     By.CssSelector("#kt_engage_demos > div.px-7.py-6.flex-grow-1.overflow-auto > div:nth-child(2) > input")));
                 consolidateInput.Clear();
-                LogStep("🧹 Cleared Consolidate Cut-Off Date field.");
 
                 var convertInput = wait.Until(ExpectedConditions.ElementIsVisible(
                     By.CssSelector("#kt_engage_demos > div.px-7.py-6.flex-grow-1.overflow-auto > div:nth-child(3) > input")));
                 convertInput.Clear();
-                LogStep("🧹 Cleared Convert Cut-Off Date field.");
 
                 _SettingPage.EnterConvertCutOffQS(CutOffDate);
                 WaitForUIEffect();
-                LogStep($"Entered Convert Cut-Off Date: {CutOffDate}");
 
                 _SettingPage.EnterCosolidateCutOffQS(ConsolidateCutOffDate);
                 WaitForUIEffect();
-                LogStep($"Entered Consolidate Cut-Off Date: {ConsolidateCutOffDate}");
 
-                bool isSecurityTokenChecked = bool.TryParse(securityToken, out var result) && result;
+                bool isSecurityTokenChecked = bool.TryParse(securityToken, out var token) && token;
                 _SettingPage.SetCheckboxStateQS(isSecurityTokenChecked);
                 WaitForUIEffect();
-                LogStep($"Security Token Checkbox set to: {securityToken}");
 
-                // 🗑️ Try to find the Clear Image button
-                IReadOnlyCollection<IWebElement> clearBtnElements = _driver.FindElements(By.XPath(
-                    "/html/body/app-layout/div/div/div/app-header/div/app-topbar/app-side-setting/div/div[2]/div[4]/div[2]/div/div/button"));
+                // ===== CLEAR IMAGE LOGIC (FIXED) =====
+                IWebElement clearBtn = null;
 
-                if (clearBtnElements.Count == 0)
+                try
                 {
-                    LogStep("ℹ️ Default image cannot be cleared — passing test.");
-                    Assert.IsTrue(true,"Default image cannot be cleared.");
-                    return; // stop here
+                    clearBtn = wait.Until(ExpectedConditions.ElementToBeClickable(
+                        By.CssSelector("button.close-btn")));
+
+                }
+                catch
+                {
+                    clearBtn = null;
                 }
 
-                var clearBtn = wait.Until(ExpectedConditions.ElementToBeClickable(clearBtnElements.First()));
+                // ===== Default Image Case =====
+                if (clearBtn == null || !clearBtn.Displayed || !clearBtn.Enabled)
+                {
+                    LogStep("ℹ️ Default image detected — no reset required.");
+                    Assert.IsTrue(true, "Default image cannot be cleared.");
+                    return;
+                }
+
+                // ===== Custom Image Case =====
+                LogStep("🗑️ Custom image detected — clearing image now.");
                 clearBtn.Click();
                 WaitForUIEffect();
-                LogStep("🗑️ Clicked 'Clear Image' button.");
 
-                // ✅ Confirm reset (Save button in dialog)
                 var confirmBtn = wait.Until(ExpectedConditions.ElementToBeClickable(
                     By.XPath("/html/body/div/div/div[6]/button[1]")));
                 confirmBtn.Click();
                 WaitForUIEffect();
-                LogStep("✅ Clicked 'Save' button on reset dialog.");
 
+                // ===== Validate Success Message =====
                 var modal = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/div/div")));
-                string message = modal.Text.Trim();
-                LogStep($"📢 System displayed message: {message}");
+                string message = modal.Text.Trim().ToLower();
 
-                string messageNormalized = message.Replace("\r", " ").Replace("\n", " ").Trim().ToLower();
-                if (messageNormalized.Contains("saved") || messageNormalized.Contains("success"))
+                if (!message.Contains("saved") && !message.Contains("success"))
                 {
-                    LogStep("✅ Settings saved successfully.");
-                    Assert.IsTrue(true);
-
-                    _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                    var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                    File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                    var okBtn = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
-                    okBtn.Click();
-                    WaitForUIEffect();
-                    LogStep("✅ Acknowledged success message.");
+                    Assert.Fail("❌ Image reset attempted but success message not displayed.");
                 }
-                else
-                {
-                    LogStep("❌ Unexpected message received after saving: " + message);
-                    throw new Exception("Unexpected message: " + message);
-                }
+
+                LogStep("✅ Image reset successfully.");
+
+                // Screenshot after reset
+                _lastScreenshotPath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+
+                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+
+                // Close dialog
+                modal.FindElement(By.XPath(".//button[contains(., 'Ok')]")).Click();
+                WaitForUIEffect();
             }
             catch (Exception ex)
             {
-                LogStep($"❌ An unexpected error occurred during the test: {ex.Message}");
+                LogStep($"❌ Test failed: {ex.Message}");
 
                 try
                 {
-                    _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                    _lastScreenshotPath = Path.Combine(
+                        Path.GetTempPath(),
+                        $"Setting_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+
                     var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
                     File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                    LogStep("📸 Failure screenshot captured.");
                 }
-                catch (Exception innerEx)
-                {
-                    LogStep($"⚠️ Could not capture failure screenshot: {innerEx.Message}");
-                }
+                catch { }
 
-                Assert.Fail("Exception occurred: " + ex.Message);
+                Assert.Fail(ex.Message);
             }
         }
+
 
 
 

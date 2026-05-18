@@ -373,6 +373,29 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Create Customer
+        /// Action:
+        ///     1. Click 'New' button to open customer creation modal.
+        ///     2. Fill in customer details: Name, TIN, Register Type/ID, SST, Email, Contact Number, City, State, Postal Code, Country, Address, External Code, Status.
+        ///     3. Click 'Continue' and proceed to Step 2 inputs.
+        ///     4. Click 'Save' button.
+        /// Verification:
+        ///     - Modal displays success message after creation.
+        ///     - Newly created customer exists in the table with all fields matching input values.
+        ///     - Handles pagination to locate the customer in the table.
+        /// Purpose:
+        ///     Ensure that creating a new customer works correctly and all input fields are properly saved and reflected in the table.
+        /// Test Data:
+        ///     - Provided by 'CreateCustomerTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(1)]
@@ -629,6 +652,26 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Search Customer
+        /// Action:
+        ///     1. Enter search text into the customer table search field.
+        ///     2. Check the specified column for partial or full matches.
+        ///     3. Navigate through pagination if needed.
+        /// Verification:
+        ///     - At least one row contains the search text in the specified column (partial match allowed).
+        ///     - Screenshots captured for match found, page navigation, or errors.
+        /// Purpose:
+        ///     Ensure that the customer search functionality correctly filters rows based on column-specific input.
+        /// Test Data:
+        ///     - Provided by 'SearchCustomerTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(2)]
@@ -731,6 +774,27 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Update Customer
+        /// Action:
+        ///     1. Click the Edit button for a specific customer identified by CustomerCode.
+        ///     2. Update customer details including Name, TIN, Register Type, Register ID, SST, Email, Contact Number,
+        ///        City, State, Postcode, Country, Address1-3, External Code, and Status.
+        ///     3. Click Save to submit changes.
+        /// Verification:
+        ///     - Modal message indicates success (or handles duplicate TIN / failure appropriately).
+        ///     - Customer table reflects updated values, verified by searching for CustomerCode and checking all fields.
+        ///     - Pagination handled if the customer is not on the current page.
+        ///     - Screenshots captured at key steps (before save, modal, verification).
+        /// Purpose:
+        ///     Ensure that the customer update functionality correctly applies changes and reflects them in the table.
+        /// Test Data:
+        ///     - Provided by 'UpdateCustomerTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(3)]
@@ -994,6 +1058,26 @@ namespace SeleniumTests.Tests.C_Customer
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Export Customer Report
+        /// Action:
+        ///     1. Click the Export button in the Customer page.
+        ///     2. Wait for the report file to be downloaded to the configured Downloads folder.
+        /// Verification:
+        ///     - Exported file with expected prefix ("Customer Index") exists in the Downloads folder.
+        ///     - Screenshot captured for export action.
+        /// Purpose:
+        ///     Ensure that the customer report can be exported successfully and the file is correctly downloaded.
+        /// Test Data:
+        ///     - Download path retrieved from AppConfig.DownloadPath
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("StoreGroup")]
         [Order(4)]
@@ -1029,6 +1113,28 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Filter Customer by Category
+        /// Action:
+        ///     1. Apply the selected filter category (All / Active / Inactive) on the Customer page.
+        ///     2. Wait for the customer table to reload after applying the filter.
+        ///     3. Capture a screenshot after filter is applied.
+        /// Verification:
+        ///     - For 'Active' filter: All visible rows have Status = 'Active'.
+        ///     - For 'Inactive' filter: All visible rows have Status = 'Inactive'.
+        ///     - For 'All' filter: Rows may contain both 'Active' and 'Inactive' statuses.
+        ///     - If no data is available, ensure the "No data available" message is displayed.
+        /// Purpose:
+        ///     Ensure that the customer category filter correctly displays rows based on the selected category and handles empty datasets gracefully.
+        /// Test Data:
+        ///     - Provided by 'FilterCategoryTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(6)]
@@ -1166,6 +1272,25 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Filter Customer by LHDN Status
+        /// Action:
+        ///     1. Apply the selected LHDN status filter (Pending / Success / Failed) on the Customer page.
+        ///     2. Wait for the customer table to reload after applying the filter.
+        ///     3. Capture a screenshot after the filter is applied.
+        /// Verification:
+        ///     - For 'Pending', 'Success', or 'Failed': All visible rows must have the expected LHDN status.
+        ///     - If no data is available, ensure the "No data available" message is displayed.
+        /// Purpose:
+        ///     Ensure that the customer LHDN status filter correctly displays rows according to the selected status and handles empty datasets gracefully.
+        /// Test Data:
+        ///     - Provided by 'FilterLHDNStatusTestData' TestCaseSource
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(7)]
@@ -1274,6 +1399,31 @@ namespace SeleniumTests.Tests.C_Customer
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Import Customer via CSV File
+        /// Action:
+        ///     1. Open the Import Customer modal.
+        ///     2. Download the CSV template and prepare the import file.
+        ///     3. Upload the CSV file using the Upload button.
+        ///     4. Handle Import Error popup if it appears.
+        ///     5. Click the 'Completed' button and verify the modal message.
+        ///     6. Read customer data from the uploaded CSV file.
+        ///     7. Verify each customer’s Name, Email, Telephone, Address, and Status in the customer table.
+        /// Verification:
+        ///     - No Import Error popup should appear.
+        ///     - The modal should display a success message after upload.
+        ///     - All customers from the CSV should exist in the table with correct information.
+        ///     - Screenshots captured at key steps for upload, error, and verification.
+        /// Purpose:
+        ///     Ensure that the CSV import functionality correctly adds customers and the data is accurately reflected in the customer table.
+        /// Test Data:
+        ///     - CSV file path provided by 'AppConfig.ImportCustomerCSVFile'
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Customer")]
         [Order(8)]

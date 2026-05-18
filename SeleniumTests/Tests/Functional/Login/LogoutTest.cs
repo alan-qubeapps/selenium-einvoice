@@ -190,6 +190,32 @@ namespace SeleniumTests.Tests.L_Functional.Login
         }
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Logout Functionality (Positive & Negative Scenarios)
+        /// Action:
+        ///     1. Navigate to the login page.
+        ///     2. Perform login with valid or invalid credentials (from TestCaseSource).
+        ///     3. If login succeeds:
+        ///         a. Click the logout dropdown/button.
+        ///         b. Click the "Sign Out" option.
+        ///         c. Verify that the user is redirected to the login page.
+        ///     4. If login fails or logout fails, capture a screenshot and fail the test.
+        /// Verification:
+        ///     - User is redirected to the login page after successful logout.
+        ///     - Screenshots are captured at login success, logout success, and failure scenarios.
+        /// Purpose:
+        ///     Ensure the system allows users to logout correctly and handles failures gracefully.
+        /// Test Data:
+        ///     - isValidLogin: "1" = valid login, "0" = invalid login
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureStory("Logout 1")]

@@ -153,6 +153,15 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - Next Button  
+        /// Action: Click the "Next" pagination button in the Business Entity table.  
+        /// Verification: Verify that the table content updates or displays "No data available" if there are no more records.  
+        /// Test Data: Uses the current Business Entity table content loaded in the UI.  
+        /// Purpose: Ensure that the pagination functionality works correctly and the table updates as expected.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(1)]
@@ -236,6 +245,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - Previous Button  
+        /// Action: Navigate to the next page using the "Next" button, then click the "Previous" button to return to the original page.  
+        /// Verification: Verify that the table content returns to its original state or shows expected behavior if no data is present.  
+        /// Test Data: Uses the current Business Entity table content loaded in the UI.  
+        /// Purpose: Ensure that the pagination "Previous" functionality works correctly and the table navigates back to the correct page.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(2)]
@@ -329,6 +349,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - Last Button  
+        /// Action: Click the "Last" pagination button (double-right arrow) to navigate to the last page of the table.  
+        /// Verification: Verify that the table content changes when navigating to the last page or remains unchanged if already on the last page.  
+        /// Test Data: Uses the current Business Entity table content loaded in the UI.  
+        /// Purpose: Ensure that the pagination "Last" functionality works correctly and the table navigates to the last page as expected.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(3)]
@@ -394,6 +425,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - First Button  
+        /// Action: Click the "First" pagination button (double-left arrow) to navigate back to the first page of the table after moving to the last page.  
+        /// Verification: Verify that the table content returns to its original state or remains unchanged if already on the first page.  
+        /// Test Data: Uses the current Business Entity table content loaded in the UI.  
+        /// Purpose: Ensure that the pagination "First" functionality works correctly and the table navigates back to the first page as expected.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(4)]
@@ -486,6 +529,18 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - Items Per Page  
+        /// Action: Select a page size from the table pagination dropdown (e.g., 100 rows per page).  
+        /// Verification: Verify that the table updates correctly and displays the expected number of rows according to the selected page size.  
+        /// Test Data: Uses page size values provided in the test case source (e.g., "100").  
+        /// Purpose: Ensure that changing the items per page updates the table display as expected and the pagination handles large page sizes correctly.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(5)]
@@ -545,6 +600,17 @@ namespace SeleniumTests.Tests.A_BusinessEntity
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Business Entity Table Paging - Click Specific Page Number  
+        /// Action: Attempt to click a specific page number in the table pagination (e.g., page 2) only if it exists.  
+        /// Verification: Verify that the table updates correctly when the page number is clicked.  
+        /// Test Data: Uses page numbers provided in the test case source (e.g., "2").  
+        /// Purpose: Ensure that pagination by page number works correctly and gracefully handles cases where the requested page does not exist.  
+        /// Create By: 19-Dec-2025 by Yan Shen  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Business Entity")]
         [Order(6)]
@@ -596,6 +662,9 @@ namespace SeleniumTests.Tests.A_BusinessEntity
             Assert.IsTrue(tableUpdated, $"❌ Table content did not update after clicking page {pageNumber}.");
             LogStep($"✅ Table content changed after navigating to page {pageNumber}.");
         }
+
+
+
 
 
 

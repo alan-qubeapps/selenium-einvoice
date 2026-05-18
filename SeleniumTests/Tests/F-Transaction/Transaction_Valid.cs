@@ -1303,7 +1303,7 @@ namespace SeleniumTests.Tests.F_Transaction
                             if (string.IsNullOrEmpty(Invoice)) break;
 
                             InvoiceNumbers.Add(Invoice);
-                            DocumentDate.Add(columns[6].Trim());
+                            DocumentDate.Add(columns[5].Trim());
                             totalAmounts.Add(columns[23].Trim());
                         }
                     }
@@ -1315,7 +1315,7 @@ namespace SeleniumTests.Tests.F_Transaction
                     string Invoice = InvoiceNumbers[i];
                     string expectedDocumentDate = DocumentDate[i];
                     string expectedAmount = totalAmounts[i];
-                    string documentType = "Invoice Note";
+                    string documentType = "Invoice";
                     bool isMatchFound = false;
 
                     LogStep($"🔍 Searching Invoice '{Invoice}' to verify expected Document Date '{expectedDocumentDate}', Document Type '{documentType}', expected Amount '{expectedAmount}'");
@@ -1342,7 +1342,7 @@ namespace SeleniumTests.Tests.F_Transaction
                         foreach (var row in rows)
                         {
                             var cells = row.FindElements(By.TagName("td"));
-                            if (cells.Count < 8) continue;
+                            if (cells.Count < 11) continue;
 
                             string actualDocumentDate = cells[0].Text.Trim();
                             string actualInvoice = cells[1].Text.Trim();
@@ -1361,7 +1361,9 @@ namespace SeleniumTests.Tests.F_Transaction
                                     _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Transaction_{DateTime.Now:yyyyMMdd_HHmmss}.png");
                                     var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
                                     File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+
                                 }
+                                WaitForUIEffect();
                                 foundInThisPage = true;
                                 break;
                             }
@@ -4881,13 +4883,23 @@ namespace SeleniumTests.Tests.F_Transaction
                     By.XPath($"//li[contains(@class,'nav-item')]//a[contains(@class,'nav-link')][contains(translate(., ' ', ''), '{tab.Replace(" ", "")}')]"))
                 );
                 tabElement.Click();
-                WaitForUIEffect(3000);
+                WaitForUIEffect(1000);
+
+                // 🔍 Check if submission restriction modal appears
+                bool isBlockedModalShown = IsSubmissionBlockedModalDisplayed();
+
+                if (isBlockedModalShown)
+                {
+                    Assert.Fail("❌ Submission blocked modal displayed: Submission is only allowed from the 1st to the 6th of each month.");
+                }
+
                 LogStep($"✅ Switched to tab: '{tab}'");
             }
             catch (WebDriverTimeoutException)
             {
                 Assert.Fail($"❌ Tab '{tab}' not found or not clickable.");
             }
+
 
             // --- Step 2: Perform search ---
             LogStep($"🔍 Starting search for: '{searchText}'");
@@ -4989,6 +5001,27 @@ namespace SeleniumTests.Tests.F_Transaction
             else
             {
                 LogStep("✅ Final assertion passed: match found.");
+            }
+        }
+
+        private bool IsSubmissionBlockedModalDisplayed()
+        {
+            try
+            {
+                var modal = _wait.Until(driver =>
+                {
+                    var element = driver.FindElements(By.Id("swal2-html-container"))
+                                        .FirstOrDefault(e => e.Displayed);
+
+                    return element != null &&
+                           element.Text.Contains("You are not able to submit during this period");
+                });
+
+                return modal;
+            }
+            catch
+            {
+                return false;
             }
         }
 

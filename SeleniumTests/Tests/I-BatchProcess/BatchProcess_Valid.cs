@@ -198,6 +198,33 @@ namespace SeleniumTests.Tests.I_BatchProcess
         }
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
+        /// Test Case: Export Batch Report Verification
+        /// Action:
+        ///     1. Read row number input from test data.
+        ///     2. Navigate to Batch Process listing page.
+        ///     3. Identify export button based on row index.
+        ///     4. Click export button for selected row.
+        ///     5. Wait for file download to complete.
+        ///     6. Verify downloaded file exists in download directory using file prefix.
+        ///     7. Capture screenshot after export action.
+        /// Verification:
+        ///     - Export button should be clickable for selected row.
+        ///     - File should be successfully downloaded to configured download folder.
+        ///     - Downloaded file name should match expected prefix from source data.
+        ///     - Screenshot should be captured for audit purpose.
+        ///     - Test should fail if file is not found within timeout period.
+        /// Purpose:
+        ///     Ensure batch export functionality works correctly and exported file is successfully generated and downloaded.
+        /// Test Data:
+        ///     - RowNumber : int
+        /// Test Data Type:
+        ///     - Excel Data Source (.xlsx)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("BatchProcess")]
         [Order(1)]

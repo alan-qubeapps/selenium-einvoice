@@ -387,6 +387,24 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Negative Store Creation - Blank Mandatory Fields  
+        /// Action:  
+        ///     1. Click 'New' to open Store creation modal.  
+        ///     2. Fill in input fields with provided test data (some mandatory fields may be blank).  
+        ///     3. Select State, Country, and Business Entity if provided.  
+        ///     4. Enter External Code.  
+        ///     5. Click 'Save' button.  
+        ///     6. Check for validation messages or duplicate entry modal.  
+        /// Verification:  
+        ///     - Expected validation messages are displayed for missing mandatory fields or duplicate data.  
+        ///     - Modal message indicates 'required', 'invalid', or 'already exists' as appropriate.  
+        ///     - Screenshot is captured for reference.  
+        /// Test Data: BlankMandatoryFieldsTestData (Storename, StoreCity, State, PostCode, Country, Address1, Address2, BusinessEntity, ExternalCode, Scenario)  
+        /// Purpose: Verify that the system correctly handles negative scenarios for Store creation with incomplete or invalid inputs.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(1)]
@@ -497,6 +515,28 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Negative Store Creation - Invalid Dropdown Values  
+        /// Action:  
+        ///     1. Click 'New' to open Store creation modal.  
+        ///     2. Fill in text fields: Store Name, City, Postal Code, Address1, Address2, External Code.  
+        ///     3. Check State dropdown for an invalid value; test passes immediately if value is absent.  
+        ///     4. Check Country dropdown for an invalid value; test passes immediately if value is absent.  
+        ///     5. Check Business Entity dropdown for an invalid value; test passes immediately if value is absent.  
+        ///     6. Test fails if any of the invalid values exist in the dropdown (unexpected).  
+        /// Verification:  
+        ///     - Test should terminate before clicking 'Save' if invalid dropdown values are not present.  
+        ///     - Log steps indicate which invalid value was correctly absent from the dropdown.  
+        ///     - Screenshot is captured on exception or failure.  
+        /// Test Data: InvalidDropdownValueTestData (Storename, StoreCity, State, PostCode, Country, Address1, Address2, BusinessEntity, ExternalCode, Scenario)  
+        /// Purpose: Verify that the system correctly prevents selection of invalid values in dropdowns during Store creation.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(2)]
@@ -606,6 +646,23 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Create Duplicate Store  
+        /// Action:  
+        ///     1. Click 'New' button to open Store creation modal.  
+        ///     2. Fill in all mandatory fields: Store Name, City, State, Post Code, Country, Address1, Address2, Business Entity, External Code.  
+        ///     3. Attempt to save store with a duplicate External Code or duplicate mandatory information.  
+        /// Verification:  
+        ///     - Modal should display a message indicating duplication (e.g., "Store external code has already been taken") or failure/error.  
+        ///     - Screenshot is captured upon duplicate detection, failure, or unexpected behavior.  
+        ///     - Test passes if duplicate/failure is detected; logs all modal messages and dropdown selections.  
+        /// Test Data: DuplicateTestData (Storename, StoreCity, State, PostCode, Country, Address1, Address2, BusinessEntity, ExternalCode)  
+        /// Purpose: Verify system prevents creation of stores with duplicate identifiers or mandatory fields.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(3)]
@@ -743,6 +800,22 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Update Store - Negative Test (Mandatory Fields Blank)  
+        /// Action:  
+        ///     1. Click 'Edit' button for a given StoreCode to open the Store update modal.  
+        ///     2. Leave one or more mandatory fields blank (Storename, StoreCity, PostCode, Address1, Business Entity).  
+        /// Verification:  
+        ///     - System should detect blank mandatory fields and prevent saving.  
+        ///     - Screenshot is captured to document the blank mandatory fields scenario.  
+        ///     - Test passes if blank mandatory fields are detected and saving is blocked.  
+        /// Test Data: UpdateStoreMandatoryTestData (StoreCode, Storename, StoreCity, State, PostCode, Country, Address1, Address2, BusinessEntity, ExternalCode, scenario)  
+        /// Purpose: Verify system enforces mandatory field validation during Store update.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(4)]
@@ -750,7 +823,7 @@ namespace SeleniumTests.Tests.B_Stores
         [AllureStory("Update - Negative: Mandatory Fields Blank")]
         [TestCaseSource(nameof(UpdateStoreMandatoryTestData))]
         public void Update_Store_BlankMandatoryFields(string StoreCode, string Storename, string StoreCity, string strState, string strPostCode, string strCountry,
-      string StoreAddress1, string StoreAddress2, string strBusinessEntity, string ExternalCode, string scenario)
+        string StoreAddress1, string StoreAddress2, string strBusinessEntity, string ExternalCode, string scenario)
         {
             try
             {
@@ -784,6 +857,25 @@ namespace SeleniumTests.Tests.B_Stores
         }
 
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Update Store - Negative Test (Invalid Dropdown Values)  
+        /// Action:  
+        ///     1. Click 'Edit' button for a given StoreCode to open the Store update modal.  
+        ///     2. Fill text fields with valid values (Storename, StoreCity, PostCode, Address1, Address2, ExternalCode).  
+        ///     3. Attempt to select invalid values in dropdowns (State, Country, Business Entity).  
+        /// Verification:  
+        ///     - System should detect that the dropdown value does not exist and prevent saving.  
+        ///     - Test passes immediately if the invalid dropdown value is not present.  
+        ///     - Screenshot is captured for documentation.  
+        /// Test Data: UpdateInvalidDropdownsTestData (StoreCode, Storename, StoreCity, State, PostCode, Country, Address1, Address2, BusinessEntity, ExternalCode, scenario)  
+        /// Purpose: Verify system enforces valid selection in dropdowns during Store update.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(5)]
@@ -902,6 +994,23 @@ namespace SeleniumTests.Tests.B_Stores
 
 
 
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///  
+        /// Test Case: Import Store CSV - Negative Test (Invalid File Type)  
+        /// Action:  
+        ///     1. Open Store Import modal.  
+        ///     2. Optionally click 'Download Template' button.  
+        ///     3. Upload a file with an invalid file type (not CSV).  
+        ///     4. Click 'Upload' to process the file.  
+        /// Verification:  
+        ///     - System should reject the invalid file type.  
+        ///     - Validation messages or error modal should appear.  
+        ///     - Screenshot is captured for documentation.  
+        /// Test Data: CSVFile_InvalidFileTypeTestData (filePath)  
+        /// Purpose: Ensure the system blocks non-CSV file types from being imported.  
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)  
+        /// Edited By:  
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Store")]
         [Order(6)]

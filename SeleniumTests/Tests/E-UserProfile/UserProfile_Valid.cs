@@ -221,252 +221,276 @@ namespace SeleniumTests.Tests.E_User
 
 
 
-        [Test]
-        [Category("User")]
-        [Order(1)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Create")]
-        [TestCaseSource(nameof(UserProfileStoreTestData))]
-        public void User_Profile_StoreSetting(string Regions, string States, string Stores)
-        {
-            try
-            {
-                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
+        //[Test]
+        //[Category("User")]
+        //[Order(1)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Create")]
+        //[TestCaseSource(nameof(UserProfileStoreTestData))]
+        //public void User_Profile_StoreSetting(string Regions, string States, string Stores)
+        //{
+        //    try
+        //    {
+        //        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(20));
 
-                // ===== Navigate to Store Settings =====
-                var logoutDropdownButton = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/app-layout/div/div/div/app-header/div/app-topbar/div/span")));
-                logoutDropdownButton.Click();
-                LogStep("Clicked logout dropdown.");
+        //        // ===== Navigate to Store Settings =====
+        //        var logoutDropdownButton = wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/app-layout/div/div/div/app-header/div/app-topbar/div/span")));
+        //        logoutDropdownButton.Click();
+        //        LogStep("Clicked logout dropdown.");
 
-                var myProfileButton = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/app-user-inner/div[3]/a")));
-                myProfileButton.Click();
-                LogStep("Clicked My Profile button.");
+        //        var myProfileButton = wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/app-user-inner/div[3]/a")));
+        //        myProfileButton.Click();
+        //        LogStep("Clicked My Profile button.");
 
-                var storeSettingTab = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[1]/div[2]/ul/li[3]/a")));
-                storeSettingTab.Click();
-                LogStep("Opened Store Setting tab.");
+        //        //var storeSettingTab = wait.Until(ExpectedConditions.ElementToBeClickable(
+        //        //    By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[1]/div[2]/ul/li[3]/a")));
+        //        //storeSettingTab.Click();
+        //        //LogStep("Opened Store Setting tab.");
 
-                // ===== Click Edit Store =====
-                var editStoreButton = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[2]/div/div/div[1]/div[2]/div/a")));
-                editStoreButton.Click();
-                WaitForUIEffect();
-                LogStep("Clicked Edit Store button.");
+        //        // ===== Click Edit Store =====
+        //        var editStoreButton = wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[2]/div/div/div[1]/div[2]/div/a")));
+        //        editStoreButton.Click();
+        //        WaitForUIEffect();
+        //        LogStep("Clicked Edit Store button.");
 
-                // ===== Select values from dropdowns (from test case parameters) =====
-                SelectFromMultiSelect(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(1) > p-multiselect", Regions);
-                SelectFromMultiSelect(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(2) > p-multiselect", States);
-                SelectFromMultiDropdown(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(3) > app-multidropdown", Stores);
-
-
-                // ===== Click Save =====
-                var saveButton = wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-default-outlet-modal/div/div[3]/button")));
-                saveButton.Click();
-                LogStep("Clicked Save button.");
-
-                // ===== Wait and validate modal message =====
-                LogStep("Wait for modal message");
-                WaitForUIEffect();
-                var modal = _driver.FindElement(By.XPath("/html/body/div/div"));
-                string message = modal.Text.Trim();
-                LogStep("📢 Modal message: " + message);
-
-                if (!message.ToLower().Contains("successful"))
-                {
-                    Assert.Fail("❌ Unexpected modal message: " + message);
-                }
-
-                // ===== Take screenshot =====
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"User_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                // ===== Click 'Ok, got it!' to dismiss modal =====
-                modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]")).Click();
-                LogStep("✅ Clicked 'Ok, got it!'");
-
-                LogStep("✅ Store settings test completed successfully");
-            }
-            catch (Exception ex)
-            {
-                // ===== Capture screenshot on exception =====
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"User_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                LogStep("❌ Exception occurred: " + ex.Message);
-                Assert.Fail("Test failed due to exception: " + ex.Message);
-            }
-        }
-
-        private void SelectFromMultiSelect(WebDriverWait wait, string cssSelector, string values)
-        {
-            if (string.IsNullOrEmpty(values)) return;
-
-            var selectedValues = values.Split(',')
-                                       .Select(v => v.Trim())
-                                       .Where(v => !string.IsNullOrEmpty(v))
-                                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            // Open dropdown
-            var dropdown = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(cssSelector)));
-            dropdown.Click();
-            WaitForUIEffect();
-
-            IReadOnlyCollection<IWebElement> options;
-
-            try
-            {
-                // Try PrimeNG panel first
-                options = wait.Until(driver =>
-                    driver.FindElements(By.XPath("//div[contains(@class,'p-multiselect-panel')]//li[contains(@class,'p-multiselect-item')]"))
-                );
-            }
-            catch
-            {
-                // Fallback: custom app-multidropdown panel
-                options = wait.Until(driver =>
-                    driver.FindElements(By.XPath("//div[contains(@class,'multidropdown-panel')]//li | //div[contains(@class,'cdk-overlay-container')]//li"))
-                );
-            }
-
-            if (selectedValues.Contains("All"))
-            {
-                foreach (var option in options)
-                {
-                    bool isSelected = option.GetAttribute("class").Contains("selected") || option.GetAttribute("class").Contains("p-highlight");
-                    if (!isSelected)
-                    {
-                        option.Click();
-                        LogStep($"✅ Ticked '{option.Text.Trim()}' (All mode)");
-                    }
-                }
-            }
-            else
-            {
-                foreach (var option in options)
-                {
-                    string optionText = option.Text.Trim();
-                    bool shouldBeSelected = selectedValues.Contains(optionText);
-                    bool isSelected = option.GetAttribute("class").Contains("selected") || option.GetAttribute("class").Contains("p-highlight");
-
-                    if (shouldBeSelected && !isSelected)
-                    {
-                        option.Click();
-                        LogStep($"✅ Ticked '{optionText}'");
-                    }
-                    else if (!shouldBeSelected && isSelected)
-                    {
-                        option.Click();
-                        LogStep($"❌ Unticked '{optionText}'");
-                    }
-                }
-            }
-
-            // Close dropdown
-            dropdown.Click();
-            WaitForUIEffect();
-        }
-
-        private void SelectFromMultiDropdown(WebDriverWait wait, string cssSelector, string values)
-        {
-            if (string.IsNullOrEmpty(values)) return;
-
-            var selectedValues = values.Split(',')
-                                       .Select(v => v.Trim())
-                                       .Where(v => !string.IsNullOrEmpty(v))
-                                       .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            // Open dropdown
-            var dropdown = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(cssSelector)));
-            dropdown.Click();
-            WaitForUIEffect();
-
-            // Get checkboxes inside app-multidropdown
-            var checkboxes = wait.Until(driver =>
-                driver.FindElements(By.CssSelector(cssSelector + " input[type='checkbox']"))
-            );
-
-            // === Handle All mode ===
-            if (selectedValues.Contains("All"))
-            {
-                foreach (var checkbox in checkboxes)
-                {
-                    string labelText = "";
-
-                    try
-                    {
-                        var parent = checkbox.FindElement(By.XPath(".."));
-                        labelText = parent.Text.Trim();
-                    }
-                    catch { }
-
-                    if (string.IsNullOrEmpty(labelText))
-                    {
-                        labelText = checkbox.GetAttribute("value") ?? checkbox.GetAttribute("id") ?? "";
-                        labelText = labelText.Trim();
-                    }
-
-                    if (!checkbox.Selected)
-                    {
-                        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
-                        LogStep($"✅ Ticked store '{labelText}' (All mode)");
-                    }
-                }
-            }
-            else
-            {
-                // === Handle specific values ===
-                foreach (var checkbox in checkboxes)
-                {
-                    string labelText = "";
-
-                    try
-                    {
-                        var parent = checkbox.FindElement(By.XPath(".."));
-                        labelText = parent.Text.Trim();
-                    }
-                    catch { }
-
-                    if (string.IsNullOrEmpty(labelText))
-                    {
-                        labelText = checkbox.GetAttribute("value") ?? checkbox.GetAttribute("id") ?? "";
-                        labelText = labelText.Trim();
-                    }
-
-                    if (string.IsNullOrEmpty(labelText)) continue;
-
-                    if (selectedValues.Contains(labelText))
-                    {
-                        if (!checkbox.Selected)
-                        {
-                            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
-                            LogStep($"✅ Ticked store '{labelText}'");
-                        }
-                    }
-                    else
-                    {
-                        if (checkbox.Selected)
-                        {
-                            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
-                            LogStep($"❌ Unticked store '{labelText}'");
-                        }
-                    }
-                }
-            }
-
-            // Close dropdown
-            dropdown.Click();
-            WaitForUIEffect();
-        }
+        //        // ===== Select values from dropdowns (from test case parameters) =====
+        //        SelectFromMultiSelect(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(1) > p-multiselect", Regions);
+        //        SelectFromMultiSelect(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(2) > p-multiselect", States);
+        //        SelectFromMultiDropdown(wait, "#kt_body > ngb-modal-window > div > div > app-default-outlet-modal > div > div.modal-body.px-13 > div:nth-child(3) > app-multidropdown", Stores);
 
 
+        //        // ===== Click Save =====
+        //        var saveButton = wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-default-outlet-modal/div/div[3]/button")));
+        //        saveButton.Click();
+        //        LogStep("Clicked Save button.");
+
+        //        // ===== Wait and validate modal message =====
+        //        LogStep("Wait for modal message");
+        //        WaitForUIEffect();
+        //        var modal = _driver.FindElement(By.XPath("/html/body/div/div"));
+        //        string message = modal.Text.Trim();
+        //        LogStep("📢 Modal message: " + message);
+
+        //        if (!message.ToLower().Contains("successful"))
+        //        {
+        //            Assert.Fail("❌ Unexpected modal message: " + message);
+        //        }
+
+        //        // ===== Take screenshot =====
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"User_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+
+        //        // ===== Click 'Ok, got it!' to dismiss modal =====
+        //        modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]")).Click();
+        //        LogStep("✅ Clicked 'Ok, got it!'");
+
+        //        LogStep("✅ Store settings test completed successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // ===== Capture screenshot on exception =====
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"User_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+
+        //        LogStep("❌ Exception occurred: " + ex.Message);
+        //        Assert.Fail("Test failed due to exception: " + ex.Message);
+        //    }
+        //}
+
+        //private void SelectFromMultiSelect(WebDriverWait wait, string cssSelector, string values)
+        //{
+        //    if (string.IsNullOrEmpty(values)) return;
+
+        //    var selectedValues = values.Split(',')
+        //                               .Select(v => v.Trim())
+        //                               .Where(v => !string.IsNullOrEmpty(v))
+        //                               .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        //    // Open dropdown
+        //    var dropdown = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(cssSelector)));
+        //    dropdown.Click();
+        //    WaitForUIEffect();
+
+        //    IReadOnlyCollection<IWebElement> options;
+
+        //    try
+        //    {
+        //        // Try PrimeNG panel first
+        //        options = wait.Until(driver =>
+        //            driver.FindElements(By.XPath("//div[contains(@class,'p-multiselect-panel')]//li[contains(@class,'p-multiselect-item')]"))
+        //        );
+        //    }
+        //    catch
+        //    {
+        //        // Fallback: custom app-multidropdown panel
+        //        options = wait.Until(driver =>
+        //            driver.FindElements(By.XPath("//div[contains(@class,'multidropdown-panel')]//li | //div[contains(@class,'cdk-overlay-container')]//li"))
+        //        );
+        //    }
+
+        //    if (selectedValues.Contains("All"))
+        //    {
+        //        foreach (var option in options)
+        //        {
+        //            bool isSelected = option.GetAttribute("class").Contains("selected") || option.GetAttribute("class").Contains("p-highlight");
+        //            if (!isSelected)
+        //            {
+        //                option.Click();
+        //                LogStep($"✅ Ticked '{option.Text.Trim()}' (All mode)");
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var option in options)
+        //        {
+        //            string optionText = option.Text.Trim();
+        //            bool shouldBeSelected = selectedValues.Contains(optionText);
+        //            bool isSelected = option.GetAttribute("class").Contains("selected") || option.GetAttribute("class").Contains("p-highlight");
+
+        //            if (shouldBeSelected && !isSelected)
+        //            {
+        //                option.Click();
+        //                LogStep($"✅ Ticked '{optionText}'");
+        //            }
+        //            else if (!shouldBeSelected && isSelected)
+        //            {
+        //                option.Click();
+        //                LogStep($"❌ Unticked '{optionText}'");
+        //            }
+        //        }
+        //    }
+
+        //    // Close dropdown
+        //    dropdown.Click();
+        //    WaitForUIEffect();
+        //}
+
+        //private void SelectFromMultiDropdown(WebDriverWait wait, string cssSelector, string values)
+        //{
+        //    if (string.IsNullOrEmpty(values)) return;
+
+        //    var selectedValues = values.Split(',')
+        //                               .Select(v => v.Trim())
+        //                               .Where(v => !string.IsNullOrEmpty(v))
+        //                               .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        //    // Open dropdown
+        //    var dropdown = wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(cssSelector)));
+        //    dropdown.Click();
+        //    WaitForUIEffect();
+
+        //    // Get checkboxes inside app-multidropdown
+        //    var checkboxes = wait.Until(driver =>
+        //        driver.FindElements(By.CssSelector(cssSelector + " input[type='checkbox']"))
+        //    );
+
+        //    // === Handle All mode ===
+        //    if (selectedValues.Contains("All"))
+        //    {
+        //        foreach (var checkbox in checkboxes)
+        //        {
+        //            string labelText = "";
+
+        //            try
+        //            {
+        //                var parent = checkbox.FindElement(By.XPath(".."));
+        //                labelText = parent.Text.Trim();
+        //            }
+        //            catch { }
+
+        //            if (string.IsNullOrEmpty(labelText))
+        //            {
+        //                labelText = checkbox.GetAttribute("value") ?? checkbox.GetAttribute("id") ?? "";
+        //                labelText = labelText.Trim();
+        //            }
+
+        //            if (!checkbox.Selected)
+        //            {
+        //                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
+        //                LogStep($"✅ Ticked store '{labelText}' (All mode)");
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // === Handle specific values ===
+        //        foreach (var checkbox in checkboxes)
+        //        {
+        //            string labelText = "";
+
+        //            try
+        //            {
+        //                var parent = checkbox.FindElement(By.XPath(".."));
+        //                labelText = parent.Text.Trim();
+        //            }
+        //            catch { }
+
+        //            if (string.IsNullOrEmpty(labelText))
+        //            {
+        //                labelText = checkbox.GetAttribute("value") ?? checkbox.GetAttribute("id") ?? "";
+        //                labelText = labelText.Trim();
+        //            }
+
+        //            if (string.IsNullOrEmpty(labelText)) continue;
+
+        //            if (selectedValues.Contains(labelText))
+        //            {
+        //                if (!checkbox.Selected)
+        //                {
+        //                    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
+        //                    LogStep($"✅ Ticked store '{labelText}'");
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (checkbox.Selected)
+        //                {
+        //                    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", checkbox);
+        //                    LogStep($"❌ Unticked store '{labelText}'");
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    // Close dropdown
+        //    dropdown.Click();
+        //    WaitForUIEffect();
+        //}
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Edit User Profile
+        /// Action:
+        ///     1. Navigate to My Profile via logout dropdown.
+        ///     2. Click Edit Profile button.
+        ///     3. Upload profile image.
+        ///     4. Enter Username and Customer Email.
+        ///     5. Enter Current Password, New Password, and Confirm Password.
+        ///     6. Click show/hide icons for passwords.
+        ///     7. Set Active checkbox as required.
+        ///     8. Click Save button and capture modal message.
+        /// Verification:
+        ///     - Modal should display success message after saving.
+        ///     - Screenshot is captured after save action.
+        /// Purpose:
+        ///     Ensure that updating a user’s profile with valid inputs works correctly and displays appropriate feedback.
+        /// Test Data:
+        ///     - Username, CustEmail, role, UserCurrentPassword, UserPassword, UserConfirmPassword, activeUser
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(2)]
@@ -485,7 +509,8 @@ namespace SeleniumTests.Tests.E_User
                 var MyProfileButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/app-user-inner/div[3]/a")));
                 MyProfileButton.Click();
 
-                var EditProfileButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[2]/div/div/div[1]/div[2]/div/a")));
+                var EditProfileButton = wait.Until(ExpectedConditions.ElementToBeClickable
+                    (By.XPath("/html/body/app-layout/div[1]/div/div/div/app-content/app-profile-details/div/div[2]/div/div/div[1]/div[2]/div/a")));
                 EditProfileButton.Click();
 
                 LogStep("📤 Upload profile image");
@@ -568,6 +593,24 @@ namespace SeleniumTests.Tests.E_User
 
 
 
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: User Profile - Sign Out Sessions
+        /// Action:
+        ///     1. Open logout dropdown in the header.
+        ///     2. Click "My Profile" button.
+        ///     3. Navigate to "Event and Log" tab.
+        ///     4. Click "Sign Out Session" button.
+        ///     5. Wait for redirection to login page.
+        /// Verification:
+        ///     - User should be redirected to the login page after signing out.
+        ///     - Screenshot is captured after sign out.
+        /// Purpose:
+        ///     Ensure that the "Sign Out Session" function works correctly and invalidates the current session.
+        /// Test Data:
+        ///     - N/A (uses currently logged-in user)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("User")]
         [Order(3)]

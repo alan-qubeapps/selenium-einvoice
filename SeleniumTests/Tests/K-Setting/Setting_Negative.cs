@@ -251,6 +251,34 @@ namespace SeleniumTests.Tests.K_Setting
             }
         }
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Setting - Negative Scenario (Consolidate Cut-Off Earlier Than Convert Cut-Off)
+        /// Action:
+        ///     1. Navigate to Settings page.
+        ///     2. Clear existing Convert and Consolidate Cut-Off Date fields.
+        ///     3. Enter Convert Cut-Off Date and Consolidate Cut-Off Date from test data.
+        ///     4. Set Security Token checkbox based on test data.
+        ///     5. Upload sample receipt image and handle crop modal.
+        ///     6. Click final 'Save' button to submit settings.
+        /// Verification:
+        ///     - System should display an error message because Consolidate Cut-Off Date is earlier than Convert Cut-Off Date.
+        ///     - Image preview should display successfully before saving.
+        ///     - Screenshot is captured after submission attempt for reporting.
+        /// Purpose:
+        ///     Ensure that the application correctly prevents creation of settings where Consolidate Cut-Off Date is earlier than Convert Cut-Off Date.
+        /// Test Data:
+        ///     - CutOffDate: B2C conversion cut-off date
+        ///     - ConsolidateCutOffDate: Consolidate cut-off date
+        ///     - securityToken: true/false to indicate if security token checkbox is checked
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
         [Order(1)]
@@ -358,6 +386,39 @@ namespace SeleniumTests.Tests.K_Setting
             }
         }
 
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Setting - Negative Scenario (Invalid File / Consolidate Cut-Off Earlier Than Convert Cut-Off)
+        /// Action:
+        ///     1. Navigate to Settings page.
+        ///     2. Clear existing Convert and Consolidate Cut-Off Date fields.
+        ///     3. Enter Convert Cut-Off Date and Consolidate Cut-Off Date from test data.
+        ///     4. Set Security Token checkbox based on test data.
+        ///     5. Attempt to upload a file from test data (negative scenario: file may not exist or be invalid).
+        ///     6. Handle crop modal if file upload appears.
+        ///     7. Click final 'Save' button to submit settings.
+        /// Verification:
+        ///     - System should display an error message if Consolidate Cut-Off Date is earlier than Convert Cut-Off Date or if file is invalid.
+        ///     - Image preview may fail for invalid file (negative scenario), which is considered expected behavior.
+        ///     - Screenshot is captured after submission attempt for reporting.
+        /// Purpose:
+        ///     Ensure that the application correctly prevents creation of settings when either:
+        ///         - Consolidate Cut-Off Date is earlier than Convert Cut-Off Date
+        ///         - Uploaded file is invalid or missing
+        /// Test Data:
+        ///     - CutOffDate: B2C conversion cut-off date
+        ///     - ConsolidateCutOffDate: Consolidate cut-off date
+        ///     - securityToken: true/false to indicate if security token checkbox is checked
+        ///     - filePath: Path to file for upload (may be invalid for negative test)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
         [Order(2)]
@@ -468,6 +529,40 @@ namespace SeleniumTests.Tests.K_Setting
             }
         }
 
+
+
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Setting - Negative Scenario (Wrong File Type / Invalid File Upload)
+        /// Action:
+        ///     1. Navigate to Settings page.
+        ///     2. Clear existing Convert and Consolidate Cut-Off Date fields.
+        ///     3. Enter Convert Cut-Off Date and Consolidate Cut-Off Date from test data.
+        ///     4. Set Security Token checkbox based on test data.
+        ///     5. Attempt to upload a file from test data (negative scenario: wrong file type or invalid file).
+        ///     6. Handle crop modal if file upload appears.
+        ///     7. Click final 'Save' button to submit settings.
+        /// Verification:
+        ///     - System should display an error message if uploaded file type is invalid or cut-off dates are incorrect.
+        ///     - Image preview may fail for invalid file, which is expected for negative testing.
+        ///     - Screenshot is captured after submission attempt for reporting.
+        /// Purpose:
+        ///     Ensure that the application correctly prevents creation of settings when either:
+        ///         - Uploaded file is not a valid type
+        ///         - Consolidate Cut-Off Date is earlier than Convert Cut-Off Date
+        /// Test Data:
+        ///     - CutOffDate: B2C conversion cut-off date
+        ///     - ConsolidateCutOffDate: Consolidate cut-off date
+        ///     - securityToken: true/false to indicate if security token checkbox is checked
+        ///     - filePath: Path to file for upload (may be invalid or wrong type)
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Setting")]
         [Order(3)]

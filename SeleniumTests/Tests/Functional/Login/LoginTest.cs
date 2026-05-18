@@ -187,6 +187,39 @@ namespace SeleniumTests.Tests.L_Functional.Login
         }
 
 
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Valid and Invalid Login
+        /// Action:
+        ///     1. Navigate to the login page URL.
+        ///     2. Enter the username and password from AppConfig.
+        ///     3. Click the login button.
+        ///     4. If `isValidLogin` is true:
+        ///         - Wait for the dashboard URL to confirm successful login.
+        ///         - Capture screenshot after successful login.
+        ///         - Assert that the user has reached the dashboard page.
+        ///         - Perform logout and wait to be redirected back to login page.
+        ///     5. If `isValidLogin` is false:
+        ///         - Wait to remain on the login page.
+        ///         - Capture screenshot after failed login attempt.
+        ///         - Assert that the URL remains on the login page.
+        /// Verification:
+        ///     - Successful login navigates to the dashboard URL.
+        ///     - Failed login keeps the user on the login page.
+        ///     - Screenshots are captured for both success and failure scenarios.
+        /// Purpose:
+        ///     Verify that login functionality works as expected for valid and invalid credentials.
+        /// Test Data:
+        ///     - username: From AppConfig.
+        ///     - password: From AppConfig.
+        ///     - isValidLogin: Boolean flag to determine test scenario (true = valid login, false = invalid login).
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(1)]
         [AllureSeverity(SeverityLevel.critical)]
@@ -247,6 +280,34 @@ namespace SeleniumTests.Tests.L_Functional.Login
         }
 
 
+
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Login Page - Forgot Password
+        /// Action:
+        ///     1. Click the "Forgot Password" link on the login page.
+        ///     2. Enter the email address provided by the test data.
+        ///     3. Click the "Submit" button to request a password reset.
+        ///     4. Wait for the success modal to appear.
+        ///     5. Verify that the modal displays the expected success message:
+        ///            "You have reset your password successfully!"
+        ///     6. Capture a screenshot of the modal.
+        ///     7. Click the confirmation button on the modal.
+        /// Verification:
+        ///     - Success modal appears within the expected timeout (5 seconds).
+        ///     - Modal contains the expected success message.
+        ///     - Screenshot is captured for documentation.
+        /// Purpose:
+        ///     Ensure that the "Forgot Password" workflow functions correctly and provides feedback to the user.
+        /// Test Data:
+        ///     - email: Email address to request password reset (provided via TestCaseSource `ForgotPasswordTestData`).
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Order(2)]
         [AllureSeverity(SeverityLevel.critical)]

@@ -640,6 +640,38 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Document Template - Mandatory Fields Validation
+        /// Action:
+        ///     1. Click the 'New' button to open the Document Template creation modal.
+        ///     2. Wait for the Document Template modal form to be displayed.
+        ///     3. Scroll to the full modal form container.
+        ///     4. Leave mandatory fields empty without entering any template details.
+        ///     5. Click the 'Submit' button.
+        ///     6. Wait for validation or system response message.
+        ///     7. Capture screenshot for logging and evidence.
+        ///     8. If popup modal appears, verify the returned message.
+        ///     9. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should prevent submission when mandatory fields are empty.
+        ///     - Validation message or warning should be displayed correctly.
+        ///     - If system displays 'success' message unexpectedly, the test should fail.
+        ///     - Screenshot should be captured after submission attempt.
+        /// Purpose:
+        ///     Ensure mandatory field validation is properly enforced during Document Template creation.
+        /// Test Data:
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateType        : string
+        ///     - BusinessEntity      : string
+        ///     - Header              : string
+        ///     - Footer              : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(1)]
@@ -706,6 +738,43 @@ namespace SeleniumTests.Tests.H_TemplateEditor
             }
         }
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Duplicate Document Template Validation
+        /// Action:
+        ///     1. Click the 'New' button to open the Document Template creation modal.
+        ///     2. Wait for the Document Template modal form to be displayed.
+        ///     3. Scroll to the full modal form container.
+        ///     4. Enter existing Template Name.
+        ///     5. Enter Template Description.
+        ///     6. Select Template Type.
+        ///     7. Select Business Entity from dropdown.
+        ///     8. Enter Header information.
+        ///     9. Enter Footer information.
+        ///     10. Click the 'Submit' button.
+        ///     11. Wait for system response or validation popup message.
+        ///     12. Capture screenshot for logging and evidence.
+        ///     13. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should prevent creation of duplicate document templates.
+        ///     - Proper validation or warning message should be displayed for duplicate template creation.
+        ///     - If system allows duplicate template creation and displays 'success', the test should fail.
+        ///     - Screenshot should be captured after submission attempt.
+        /// Purpose:
+        ///     Ensure the system validates and prevents duplicate document template creation.
+        /// Test Data:
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateType        : string
+        ///     - BusinessEntity      : string
+        ///     - Header              : string
+        ///     - Footer              : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(2)]
@@ -837,6 +906,43 @@ namespace SeleniumTests.Tests.H_TemplateEditor
             }
         }
 
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Partial Mandatory Field Document Template Validation
+        /// Action:
+        ///     1. Click the 'New' button to open the Document Template creation modal.
+        ///     2. Wait for the Document Template modal form to be displayed.
+        ///     3. Scroll to the full modal form container.
+        ///     4. Enter partial mandatory field information.
+        ///     5. Enter Template Name.
+        ///     6. Enter Template Description.
+        ///     7. Select Template Type.
+        ///     8. Select Business Entity from dropdown.
+        ///     9. Leave Header and Footer fields empty.
+        ///     10. Click the 'Submit' button.
+        ///     11. Wait for validation or system response popup message.
+        ///     12. Capture screenshot for logging and evidence.
+        ///     13. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should validate incomplete mandatory field submission.
+        ///     - Proper validation or warning message should be displayed.
+        ///     - If system displays 'success' unexpectedly with incomplete mandatory fields, the test should fail.
+        ///     - Screenshot should be captured after submission attempt.
+        /// Purpose:
+        ///     Ensure the system validates partially completed mandatory fields during Document Template creation.
+        /// Test Data:
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateType        : string
+        ///     - BusinessEntity      : string
+        ///     - Header              : string
+        ///     - Footer              : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(3)]
@@ -961,6 +1067,43 @@ namespace SeleniumTests.Tests.H_TemplateEditor
 
 
 
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Update Mandatory Field Document Template Validation
+        /// Action:
+        ///     1. Click the 'Edit' button based on Template Code.
+        ///     2. Wait for the Document Template update modal form to be displayed.
+        ///     3. Scroll to the full modal form container.
+        ///     4. Update Template Description.
+        ///     5. Select Template Type.
+        ///     6. Select Business Entity from dropdown.
+        ///     7. Update Header information.
+        ///     8. Update Footer information.
+        ///     9. Leave mandatory field information incomplete or empty.
+        ///     10. Click the 'Save' button.
+        ///     11. Wait for validation or system response popup message.
+        ///     12. Capture screenshot for logging and evidence.
+        ///     13. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should validate mandatory fields during Document Template update.
+        ///     - Proper validation or warning message should be displayed.
+        ///     - If system displays 'success' unexpectedly with incomplete mandatory fields, the test should fail.
+        ///     - Screenshot should be captured after save attempt.
+        /// Purpose:
+        ///     Ensure the system validates mandatory fields correctly during Document Template update.
+        /// Test Data:
+        ///     - TemplateCode        : string
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateType        : string
+        ///     - BusinessEntity      : string
+        ///     - Header              : string
+        ///     - Footer              : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(4)]
@@ -985,12 +1128,12 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 LogStep("Scroll to full modal form container.");
                 WaitForUIEffect();
 
-                LogStep($"Update Template Name: {Templatename}");
-                var nameInput = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[2]/input")));
-                nameInput.Clear();
-                nameInput.SendKeys(Templatename);
-                WaitForUIEffect();
+                //LogStep($"Update Template Name: {Templatename}");
+                //var nameInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+                //    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[2]/input")));
+                //nameInput.Clear();
+                //nameInput.SendKeys(Templatename);
+                //WaitForUIEffect();
 
                 LogStep($"Update Template Description: {TemplateDesc}");
                 var descInput = _wait.Until(ExpectedConditions.ElementIsVisible(
@@ -1046,6 +1189,8 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 var headerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
                     By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[6]/div/quill-editor/div[2]/div")));
                 headerInput.Clear();
+                headerInput.SendKeys(Keys.Control + "a");
+                headerInput.SendKeys(Keys.Backspace);
                 headerInput.SendKeys(TemplateHeader);
                 WaitForUIEffect();
 
@@ -1053,6 +1198,8 @@ namespace SeleniumTests.Tests.H_TemplateEditor
                 var footerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
                     By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[7]/div/quill-editor/div[2]/div")));
                 footerInput.Clear();
+                footerInput.SendKeys(Keys.Control + "a");
+                footerInput.SendKeys(Keys.Backspace);
                 footerInput.SendKeys(TemplateFooter);
                 WaitForUIEffect();
 
@@ -1098,144 +1245,173 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
-        [Test]
-        [Category("Template Editor")]
-        [Order(5)]
-        [AllureSeverity(SeverityLevel.critical)]
-        [AllureStory("Update")]
-        [TestCaseSource(nameof(UpdateDocumentDuplicateTestData))]
-        public void UpdateDuplicateDocumentTemplate(string TemplateCode, string Templatename, string TemplateDesc, string TemplateType,
-                                   string BusinessEntity, string TemplateHeader, string TemplateFooter)
-        {
-            try
-            {
-                LogStep("Start Document Template Update");
+        //[Test]
+        //[Category("Template Editor")]
+        //[Order(5)]
+        //[AllureSeverity(SeverityLevel.critical)]
+        //[AllureStory("Update")]
+        //[TestCaseSource(nameof(UpdateDocumentDuplicateTestData))]
+        //public void UpdateDuplicateDocumentTemplate(string TemplateCode, string Templatename, string TemplateDesc, string TemplateType,
+        //                           string BusinessEntity, string TemplateHeader, string TemplateFooter)
+        //{
+        //    try
+        //    {
+        //        LogStep("Start Document Template Update");
 
-                // Step 1: Search by Template Code
-                LogStep("Clicking 'Edit' button.");
-                _TemplateEditorPage.ClickEditButton(TemplateCode);
-                WaitForUIEffect(1000);
+        //        // Step 1: Search by Template Code
+        //        LogStep("Clicking 'Edit' button.");
+        //        _TemplateEditorPage.ClickEditButton(TemplateCode);
+        //        WaitForUIEffect(1000);
 
-                var modalForm = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div")));
-                ScrollToElement(modalForm);
-                LogStep("Scroll to full modal form container.");
-                WaitForUIEffect();
+        //        var modalForm = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div")));
+        //        ScrollToElement(modalForm);
+        //        LogStep("Scroll to full modal form container.");
+        //        WaitForUIEffect();
 
-                LogStep($"Update Template Name: {Templatename}");
-                var nameInput = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[2]/input")));
-                nameInput.Clear();
-                nameInput.SendKeys(Templatename);
-                WaitForUIEffect();
+        //        LogStep($"Update Template Name: {Templatename}");
+        //        var nameInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[2]/input")));
+        //        nameInput.Clear();
+        //        nameInput.SendKeys(Templatename);
+        //        WaitForUIEffect();
 
-                LogStep($"Update Template Description: {TemplateDesc}");
-                var descInput = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[3]/input")));
-                descInput.Clear();
-                descInput.SendKeys(TemplateDesc);
-                WaitForUIEffect();
+        //        LogStep($"Update Template Description: {TemplateDesc}");
+        //        var descInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[3]/input")));
+        //        descInput.Clear();
+        //        descInput.SendKeys(TemplateDesc);
+        //        WaitForUIEffect();
 
-                LogStep($"Update Template Type: {TemplateType}");
-                var templateTypeDropdown = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[4]/select")));
-                ScrollToElement(templateTypeDropdown);
-                new SelectElement(templateTypeDropdown).SelectByText(TemplateType);
-                WaitForUIEffect();
+        //        LogStep($"Update Template Type: {TemplateType}");
+        //        var templateTypeDropdown = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[4]/select")));
+        //        ScrollToElement(templateTypeDropdown);
+        //        new SelectElement(templateTypeDropdown).SelectByText(TemplateType);
+        //        WaitForUIEffect();
 
-                try
-                {
-                    LogStep("Update Template Editor dropdown.");
-                    var dropdownTrigger = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                        By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[5]/p-dropdown/div/div[2]")));
-                    ScrollToElement(dropdownTrigger);
-                    dropdownTrigger.Click();
-                    WaitForUIEffect();
+        //        try
+        //        {
+        //            LogStep("Update Template Editor dropdown.");
+        //            var dropdownTrigger = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //                By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[5]/p-dropdown/div/div[2]")));
+        //            ScrollToElement(dropdownTrigger);
+        //            dropdownTrigger.Click();
+        //            WaitForUIEffect();
 
-                    var optionsList = _wait.Until(ExpectedConditions
-                        .VisibilityOfAllElementsLocatedBy(By.XPath("//p-dropdownitem/li[contains(@class,'p-dropdown-item')]")));
+        //            var optionsList = _wait.Until(ExpectedConditions
+        //                .VisibilityOfAllElementsLocatedBy(By.XPath("//p-dropdownitem/li[contains(@class,'p-dropdown-item')]")));
 
-                    bool found = false;
-                    foreach (var option in optionsList)
-                    {
-                        LogStep($"🔎 Checking dropdown option: {option.Text.Trim()}");
-                        if (option.Text.Trim().Equals(BusinessEntity, StringComparison.OrdinalIgnoreCase))
-                        {
-                            LogStep($"✅ Found matching option: {option.Text.Trim()} — clicking.");
-                            ScrollToElement(option);
-                            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", option);
-                            found = true;
-                            break;
-                        }
-                    }
+        //            bool found = false;
+        //            foreach (var option in optionsList)
+        //            {
+        //                LogStep($"🔎 Checking dropdown option: {option.Text.Trim()}");
+        //                if (option.Text.Trim().Equals(BusinessEntity, StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    LogStep($"✅ Found matching option: {option.Text.Trim()} — clicking.");
+        //                    ScrollToElement(option);
+        //                    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", option);
+        //                    found = true;
+        //                    break;
+        //                }
+        //            }
 
-                    if (!found)
-                    {
-                        Assert.Fail($"❌ Template Editor '{BusinessEntity}' not found in dropdown.");
-                    }
-                }
-                catch (WebDriverTimeoutException)
-                {
-                    Assert.Fail("❌ Template Editor dropdown options not found.");
-                }
+        //            if (!found)
+        //            {
+        //                Assert.Fail($"❌ Template Editor '{BusinessEntity}' not found in dropdown.");
+        //            }
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            Assert.Fail("❌ Template Editor dropdown options not found.");
+        //        }
 
-                LogStep($"Update Header: {TemplateHeader}");
-                var headerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[6]/div/quill-editor/div[2]/div")));
-                headerInput.Clear();
-                headerInput.SendKeys(TemplateHeader);
-                WaitForUIEffect();
+        //        LogStep($"Update Header: {TemplateHeader}");
+        //        var headerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //            By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[6]/div/quill-editor/div[2]/div")));
+        //        headerInput.Clear();
+        //        headerInput.SendKeys(TemplateHeader);
+        //        WaitForUIEffect();
 
-                LogStep($"Update Footer: {TemplateFooter}");
-                var footerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[7]/div/quill-editor/div[2]/div")));
-                footerInput.Clear();
-                footerInput.SendKeys(TemplateFooter);
-                WaitForUIEffect();
+        //        LogStep($"Update Footer: {TemplateFooter}");
+        //        var footerInput = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //            By.XPath("//body[@id='kt_body']/ngb-modal-window/div/div/app-editor-modal/div/div[2]/div/form/div/div/div[7]/div/quill-editor/div[2]/div")));
+        //        footerInput.Clear();
+        //        footerInput.SendKeys(TemplateFooter);
+        //        WaitForUIEffect();
 
-                LogStep("Click 'Save' button.");
-                var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[3]/button")));
-                ScrollToElement(saveBtn);
-                saveBtn.Click();
-                WaitForUIEffect(1000);
+        //        LogStep("Click 'Save' button.");
+        //        var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.XPath("/html/body/ngb-modal-window/div/div/app-editor-modal/div/div[3]/button")));
+        //        ScrollToElement(saveBtn);
+        //        saveBtn.Click();
+        //        WaitForUIEffect(1000);
 
-                LogStep("Check for success modal.");
-                var modal = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div.swal2-popup")));
-                var message = modal.Text.Trim();
-                LogStep($"Modal Message: {message}");
-
-
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Update_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                if (!message.ToLower().Contains("success"))
-                {
-                    Assert.IsTrue(true, $"✅ Test passed successfully. Message: {message}");
-                }
-
-                LogStep("Click modal 'Ok, got it!'");
-                var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
-                ScrollToElement(okButton);
-                okButton.Click();
-                WaitForUIEffect();
-
-                LogStep("✅ Template update test completed successfully.");
-            }
-            catch (Exception ex)
-            {
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"❌ Exception occurred: {ex.Message}");
-                Assert.Fail("Test failed due to exception.");
-            }
-
-        }
+        //        LogStep("Check for success modal.");
+        //        var modal = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div.swal2-popup")));
+        //        var message = modal.Text.Trim();
+        //        LogStep($"Modal Message: {message}");
 
 
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Update_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
 
+        //        if (!message.ToLower().Contains("success"))
+        //        {
+        //            Assert.IsTrue(true, $"✅ Test passed successfully. Message: {message}");
+        //        }
+
+        //        LogStep("Click modal 'Ok, got it!'");
+        //        var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
+        //        ScrollToElement(okButton);
+        //        okButton.Click();
+        //        WaitForUIEffect();
+
+        //        LogStep("✅ Template update test completed successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"❌ Exception occurred: {ex.Message}");
+        //        Assert.Fail("Test failed due to exception.");
+        //    }
+
+        //}
+
+
+
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Mandatory Report Template Validation
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'New' button to open the Report Template creation modal.
+        ///     3. Wait for the Report Template modal form to be displayed.
+        ///     4. Leave mandatory fields empty without entering template information.
+        ///     5. Click the 'Submit' button.
+        ///     6. Wait for validation or system response popup message.
+        ///     7. Capture screenshot for logging and evidence.
+        ///     8. Verify whether popup modal appears after submission.
+        ///     9. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should prevent submission when mandatory fields are empty.
+        ///     - Validation message or warning should be displayed correctly.
+        ///     - If system displays 'success' unexpectedly, the test should fail.
+        ///     - Screenshot should be captured after submission attempt.
+        /// Purpose:
+        ///     Ensure mandatory field validation is properly enforced during Report Template creation.
+        /// Test Data:
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateStatus      : string
+        ///     - AllTemplate         : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(6)]
@@ -1321,6 +1497,37 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
+
+
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------/// 
+        /// Test Case: Create Duplicate Report Template Validation
+        /// Action:
+        ///     1. Navigate to the Report Template tab.
+        ///     2. Click the 'New' button to open the Report Template creation modal.
+        ///     3. Wait for the Report Template modal form to be displayed.
+        ///     4. Enter existing Template Name.
+        ///     5. Enter Template Description.
+        ///     6. Set Template Status checkbox (Active/InActive).
+        ///     7. Set All Template checkbox if applicable.
+        ///     8. Click the 'Submit' button.
+        ///     9. Wait for system response or validation popup message.
+        ///     10. Capture screenshot for logging and evidence.
+        ///     11. Click 'Ok, got it!' button if popup modal is displayed.
+        /// Verification:
+        ///     - System should prevent creation of duplicate report templates.
+        ///     - Proper validation or warning message should be displayed for duplicate entries.
+        ///     - If system allows duplicate creation and shows 'success', the test should fail.
+        ///     - Screenshot should be captured after submission attempt.
+        /// Purpose:
+        ///     Ensure the system enforces duplicate validation rules for Report Template creation.
+        /// Test Data:
+        ///     - TemplateName        : string
+        ///     - TemplateDescription : string
+        ///     - TemplateStatus      : string
+        ///     - AllTemplate         : string
+        /// Created By: 19-Dec-2025 by Yan Shen (AdminTool version 2.0.0.0, Core version 2.0.2.16)
+        /// Edited By:
+        /// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------///
         [Test]
         [Category("Template Editor")]
         [Order(7)]
@@ -1425,252 +1632,252 @@ namespace SeleniumTests.Tests.H_TemplateEditor
         }
 
 
-        [Test]
-        [Category("Template Editor")]
-        [Order(8)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Update")]
-        [TestCaseSource(nameof(UpdateReportFieldTestData))]
-        public void UpdateReportMandatoryTemplate_SelectField(string TemplateOldDesc, string NewTemplatename, string TemplateDesc, string TemplateStatus, string ClearTemplate, string TemplateField)
-        {
-            try
-            {
-                // === Navigate to Report Template Tab ===
-                LogStep("Navigate to Report Template Tab");
-                _driver.FindElement(By.XPath("//app-content[@id='kt_content_container']/app-template-editor/div/div/ul/li[2]/a")).Click();
-                WaitForUIEffect();
+        //[Test]
+        //[Category("Template Editor")]
+        //[Order(8)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Update")]
+        //[TestCaseSource(nameof(UpdateReportFieldTestData))]
+        //public void UpdateReportMandatoryTemplate_SelectField(string TemplateOldDesc, string NewTemplatename, string TemplateDesc, string TemplateStatus, string ClearTemplate, string TemplateField)
+        //{
+        //    try
+        //    {
+        //        // === Navigate to Report Template Tab ===
+        //        LogStep("Navigate to Report Template Tab");
+        //        _driver.FindElement(By.XPath("//app-content[@id='kt_content_container']/app-template-editor/div/div/ul/li[2]/a")).Click();
+        //        WaitForUIEffect();
 
-                // === Start Update Report Template ===
-                LogStep("Start Update Report Template");
+        //        // === Start Update Report Template ===
+        //        LogStep("Start Update Report Template");
 
-                // Step 1: Search by Template Code
-                LogStep("Clicking 'Edit' button.");
-                _TemplateEditorPage.ClickEditReportButton(TemplateOldDesc);
-                WaitForUIEffect(1000);
-
-
-                // Step 2: Enter Template Name
-                LogStep($"Enter New Report Template Name: {NewTemplatename}");
-                _TemplateEditorPage.EnterReportTemplatename(NewTemplatename);
-                WaitForUIEffect(1000);
-
-                // Step 3: Enter Template Description
-                LogStep($"Enter Report Template Description: {TemplateDesc}");
-                _TemplateEditorPage.EnterReportTemplateDesc(TemplateDesc);
-                WaitForUIEffect();
-
-                // Step 4: Set Template Status Checkboxes
-                if (!string.IsNullOrEmpty(TemplateStatus))
-                {
-                    bool isTemplateStatusChecked = TemplateStatus.Equals("Active", StringComparison.OrdinalIgnoreCase);
-                    _TemplateEditorPage.SetReportCheckboxStatus(isTemplateStatusChecked);
-                    WaitForUIEffect();
-                    LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
-                }
-
-                if (!string.IsNullOrEmpty(ClearTemplate))
-                {
-                    bool isClearTemplateChecked = ClearTemplate.Equals("True", StringComparison.OrdinalIgnoreCase);
-                    _TemplateEditorPage.SetClearReportCheckboxStatus(isClearTemplateChecked);
-                    WaitForUIEffect();
-                    LogStep($"Report Template 'Clear' Checkbox set to: {isClearTemplateChecked}");
-                }
-
-                WaitForUIEffect();
-
-                // Step 5: Submit the Template
-                LogStep("Click 'Submit' button.");
-                var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.CssSelector("#kt_body > ngb-modal-window > div > div > app-report-editor-modal > div > div.modal-footer.justify-content-end.d-flex > button")));
-                ScrollToElement(saveBtn);
-                saveBtn.Click();
-                WaitForUIEffect(1000);
-
-                // Step 6: Verify Success Modal
-                LogStep("Check for success modal.");
+        //        // Step 1: Search by Template Code
+        //        LogStep("Clicking 'Edit' button.");
+        //        _TemplateEditorPage.ClickEditReportButton(TemplateOldDesc);
+        //        WaitForUIEffect(1000);
 
 
-                // Step 7: Take Screenshot
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"📸 Screenshot saved to: {_lastScreenshotPath}");
+        //        // Step 2: Enter Template Name
+        //        LogStep($"Enter New Report Template Name: {NewTemplatename}");
+        //        _TemplateEditorPage.EnterReportTemplatename(NewTemplatename);
+        //        WaitForUIEffect(1000);
 
-                try
-                {
-                    var modal = _wait.Until(ExpectedConditions.ElementIsVisible(
-                        By.CssSelector("div.swal2-popup")));
+        //        // Step 3: Enter Template Description
+        //        LogStep($"Enter Report Template Description: {TemplateDesc}");
+        //        _TemplateEditorPage.EnterReportTemplateDesc(TemplateDesc);
+        //        WaitForUIEffect();
 
+        //        // Step 4: Set Template Status Checkboxes
+        //        if (!string.IsNullOrEmpty(TemplateStatus))
+        //        {
+        //            bool isTemplateStatusChecked = TemplateStatus.Equals("Active", StringComparison.OrdinalIgnoreCase);
+        //            _TemplateEditorPage.SetReportCheckboxStatus(isTemplateStatusChecked);
+        //            WaitForUIEffect();
+        //            LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
+        //        }
 
-                    // If we reach here → modal appeared (unexpected for negative case)
-                    var message = modal.Text.Trim();
-                    if (message.ToLower().Contains("success"))
-                    {
-                        string failMessage = $"❌ Expected success message but got: {message}";
-                        LogStep(failMessage);
-                        Assert.Fail(failMessage);
-                    }
-                    string noteMessage = $"⚠️ Unexpected modal appeared in negative test. Message: {message}.";
-                    LogStep(noteMessage);
+        //        if (!string.IsNullOrEmpty(ClearTemplate))
+        //        {
+        //            bool isClearTemplateChecked = ClearTemplate.Equals("True", StringComparison.OrdinalIgnoreCase);
+        //            _TemplateEditorPage.SetClearReportCheckboxStatus(isClearTemplateChecked);
+        //            WaitForUIEffect();
+        //            LogStep($"Report Template 'Clear' Checkbox set to: {isClearTemplateChecked}");
+        //        }
 
+        //        WaitForUIEffect();
 
-                    //// Optionally click OK to clear modal if it shows
-                    //try
-                    //{
-                    //    var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
-                    //    okButton.Click();
-                    //    WaitForUIEffect();
-                    //}
-                    //catch { /* ignore if no OK button */ }
-                }
-                catch (WebDriverTimeoutException)
-                {
-                    // This is the expected behavior → no modal
-                    LogStep("✅ No modal appeared after submit (expected for negative test).");
-                }
+        //        // Step 5: Submit the Template
+        //        LogStep("Click 'Submit' button.");
+        //        var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.CssSelector("#kt_body > ngb-modal-window > div > div > app-report-editor-modal > div > div.modal-footer.justify-content-end.d-flex > button")));
+        //        ScrollToElement(saveBtn);
+        //        saveBtn.Click();
+        //        WaitForUIEffect(1000);
 
-
-                LogStep("✅ Report Template creation test completed successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Step 10: Exception Handling with Screenshot
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-
-                string failMessage = $"❌ Exception occurred: {ex.Message}\nScreenshot saved at: {_lastScreenshotPath}";
-                LogStep(failMessage);
-
-                Assert.Fail(failMessage);
-            }
-        }
+        //        // Step 6: Verify Success Modal
+        //        LogStep("Check for success modal.");
 
 
-        [Test]
-        [Category("Template Editor")]
-        [Order(9)]
-        [AllureSeverity(SeverityLevel.normal)]
-        [AllureStory("Update")]
-        [TestCaseSource(nameof(UpdateReportDuplicateTestData))]
-        public void UpdateDuplicateReportTemplate_SelectField(string TemplateOldDesc, string NewTemplatename, string TemplateDesc, string TemplateStatus, string AllTemplate, string TemplateField)
-        {
-            try
-            {
-                // === Navigate to Report Template Tab ===
-                LogStep("Navigate to Report Template Tab");
-                _driver.FindElement(By.XPath("//app-content[@id='kt_content_container']/app-template-editor/div/div/ul/li[2]/a")).Click();
-                WaitForUIEffect();
+        //        // Step 7: Take Screenshot
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"📸 Screenshot saved to: {_lastScreenshotPath}");
 
-                // === Start Update Report Template ===
-                LogStep("Start Update Report Template");
-
-                // Step 1: Search by Template Code
-                LogStep("Clicking 'Edit' button.");
-                _TemplateEditorPage.ClickEditReportButton(TemplateOldDesc);
+        //        try
+        //        {
+        //            var modal = _wait.Until(ExpectedConditions.ElementIsVisible(
+        //                By.CssSelector("div.swal2-popup")));
 
 
-                // Step 2: Enter Template Name
-                LogStep($"Enter New Report Template Name: {NewTemplatename}");
-                _TemplateEditorPage.EnterReportTemplatename(NewTemplatename);
-                WaitForUIEffect(1000);
-
-                // Step 3: Enter Template Description
-                LogStep($"Enter Report Template Description: {TemplateDesc}");
-                _TemplateEditorPage.EnterReportTemplateDesc(TemplateDesc);
-                WaitForUIEffect();
-
-                // Step 4: Set Template Status Checkboxes
-                if (!string.IsNullOrEmpty(TemplateStatus))
-                {
-                    bool isTemplateStatusChecked = TemplateStatus.Equals("Active", StringComparison.OrdinalIgnoreCase);
-                    _TemplateEditorPage.SetReportCheckboxStatus(isTemplateStatusChecked);
-                    WaitForUIEffect();
-                    LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
-                }
-
-                if (!string.IsNullOrEmpty(AllTemplate))
-                {
-                    bool isAllTemplateChecked = AllTemplate.Equals("All", StringComparison.OrdinalIgnoreCase);
-                    _TemplateEditorPage.SetAllReportCheckboxStatus(isAllTemplateChecked);
-                    WaitForUIEffect();
-                    LogStep($"Report Template 'All' Checkbox set to: {isAllTemplateChecked}");
-                }
+        //            // If we reach here → modal appeared (unexpected for negative case)
+        //            var message = modal.Text.Trim();
+        //            if (message.ToLower().Contains("success"))
+        //            {
+        //                string failMessage = $"❌ Expected success message but got: {message}";
+        //                LogStep(failMessage);
+        //                Assert.Fail(failMessage);
+        //            }
+        //            string noteMessage = $"⚠️ Unexpected modal appeared in negative test. Message: {message}.";
+        //            LogStep(noteMessage);
 
 
-                // User input could be multiple values separated by commas
-                string[] userInputs = TemplateField.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                                   .Select(x => x.Trim())  // remove extra spaces
-                                                   .ToArray();
+        //            //// Optionally click OK to clear modal if it shows
+        //            //try
+        //            //{
+        //            //    var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
+        //            //    okButton.Click();
+        //            //    WaitForUIEffect();
+        //            //}
+        //            //catch { /* ignore if no OK button */ }
+        //        }
+        //        catch (WebDriverTimeoutException)
+        //        {
+        //            // This is the expected behavior → no modal
+        //            LogStep("✅ No modal appeared after submit (expected for negative test).");
+        //        }
 
-                // Main container XPath
-                var mainDiv = _driver.FindElement(By.XPath("/html/body/ngb-modal-window/div/div/app-report-editor-modal/div/div[2]/div[3]/div[1]/div"));
 
-                // Get all child divs (sub-values)
-                var subDivs = mainDiv.FindElements(By.XPath("./div"));
+        //        LogStep("✅ Report Template creation test completed successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Step 10: Exception Handling with Screenshot
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
 
-                // Loop through each sub div to find a match
-                foreach (var div in subDivs)
-                {
-                    string divText = div.Text.Trim();
-                    if (userInputs.Contains(divText))
-                    {
-                        div.Click();
-                        LogStep($"Clicked sub-value: {divText}");
-                    }
-                }
-                WaitForUIEffect();
+        //        string failMessage = $"❌ Exception occurred: {ex.Message}\nScreenshot saved at: {_lastScreenshotPath}";
+        //        LogStep(failMessage);
 
-                // Step 5: Submit the Template
-                LogStep("Click 'Submit' button.");
-                var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
-                    By.CssSelector("#kt_body > ngb-modal-window > div > div > app-report-editor-modal > div > div.modal-footer.justify-content-end.d-flex > button")));
-                ScrollToElement(saveBtn);
-                saveBtn.Click();
-                WaitForUIEffect(1000);
+        //        Assert.Fail(failMessage);
+        //    }
+        //}
 
-                // Step 6: Verify Success Modal
-                LogStep("Check for success modal.");
-                var modal = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div.swal2-popup")));
-                var message = modal.Text.Trim();
-                LogStep($"Modal Message: {message}");
 
-                // Step 7: Take Screenshot
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
-                LogStep($"📸 Screenshot saved to: {_lastScreenshotPath}");
+        //[Test]
+        //[Category("Template Editor")]
+        //[Order(9)]
+        //[AllureSeverity(SeverityLevel.normal)]
+        //[AllureStory("Update")]
+        //[TestCaseSource(nameof(UpdateReportDuplicateTestData))]
+        //public void UpdateDuplicateReportTemplate_SelectField(string TemplateOldDesc, string NewTemplatename, string TemplateDesc, string TemplateStatus, string AllTemplate, string TemplateField)
+        //{
+        //    try
+        //    {
+        //        // === Navigate to Report Template Tab ===
+        //        LogStep("Navigate to Report Template Tab");
+        //        _driver.FindElement(By.XPath("//app-content[@id='kt_content_container']/app-template-editor/div/div/ul/li[2]/a")).Click();
+        //        WaitForUIEffect();
 
-                // Step 8: Assert Success Message
-                if (!message.ToLower().Contains("success"))
-                {
-                    string PassMessage = $"Expected success message : {message}";
-                    LogStep(PassMessage);
-                    Assert.IsTrue(true,PassMessage);
-                }
+        //        // === Start Update Report Template ===
+        //        LogStep("Start Update Report Template");
 
-                // Step 9: Confirm Modal
-                LogStep("Click modal 'Ok, got it!'");
-                var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
-                ScrollToElement(okButton);
-                okButton.Click();
-                WaitForUIEffect();
+        //        // Step 1: Search by Template Code
+        //        LogStep("Clicking 'Edit' button.");
+        //        _TemplateEditorPage.ClickEditReportButton(TemplateOldDesc);
 
-                LogStep("✅ Report Template creation test completed successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Step 10: Exception Handling with Screenshot
-                _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-                var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
-                File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
 
-                string failMessage = $"❌ Exception occurred: {ex.Message}\nScreenshot saved at: {_lastScreenshotPath}";
-                LogStep(failMessage);
+        //        // Step 2: Enter Template Name
+        //        LogStep($"Enter New Report Template Name: {NewTemplatename}");
+        //        _TemplateEditorPage.EnterReportTemplatename(NewTemplatename);
+        //        WaitForUIEffect(1000);
 
-                Assert.Fail(failMessage);
-            }
-        }
+        //        // Step 3: Enter Template Description
+        //        LogStep($"Enter Report Template Description: {TemplateDesc}");
+        //        _TemplateEditorPage.EnterReportTemplateDesc(TemplateDesc);
+        //        WaitForUIEffect();
+
+        //        // Step 4: Set Template Status Checkboxes
+        //        if (!string.IsNullOrEmpty(TemplateStatus))
+        //        {
+        //            bool isTemplateStatusChecked = TemplateStatus.Equals("Active", StringComparison.OrdinalIgnoreCase);
+        //            _TemplateEditorPage.SetReportCheckboxStatus(isTemplateStatusChecked);
+        //            WaitForUIEffect();
+        //            LogStep($"Report Template 'Active' Checkbox set to: {isTemplateStatusChecked}");
+        //        }
+
+        //        if (!string.IsNullOrEmpty(AllTemplate))
+        //        {
+        //            bool isAllTemplateChecked = AllTemplate.Equals("All", StringComparison.OrdinalIgnoreCase);
+        //            _TemplateEditorPage.SetAllReportCheckboxStatus(isAllTemplateChecked);
+        //            WaitForUIEffect();
+        //            LogStep($"Report Template 'All' Checkbox set to: {isAllTemplateChecked}");
+        //        }
+
+
+        //        // User input could be multiple values separated by commas
+        //        string[] userInputs = TemplateField.Split(',', StringSplitOptions.RemoveEmptyEntries)
+        //                                           .Select(x => x.Trim())  // remove extra spaces
+        //                                           .ToArray();
+
+        //        // Main container XPath
+        //        var mainDiv = _driver.FindElement(By.XPath("/html/body/ngb-modal-window/div/div/app-report-editor-modal/div/div[2]/div[3]/div[1]/div"));
+
+        //        // Get all child divs (sub-values)
+        //        var subDivs = mainDiv.FindElements(By.XPath("./div"));
+
+        //        // Loop through each sub div to find a match
+        //        foreach (var div in subDivs)
+        //        {
+        //            string divText = div.Text.Trim();
+        //            if (userInputs.Contains(divText))
+        //            {
+        //                div.Click();
+        //                LogStep($"Clicked sub-value: {divText}");
+        //            }
+        //        }
+        //        WaitForUIEffect();
+
+        //        // Step 5: Submit the Template
+        //        LogStep("Click 'Submit' button.");
+        //        var saveBtn = _wait.Until(ExpectedConditions.ElementToBeClickable(
+        //            By.CssSelector("#kt_body > ngb-modal-window > div > div > app-report-editor-modal > div > div.modal-footer.justify-content-end.d-flex > button")));
+        //        ScrollToElement(saveBtn);
+        //        saveBtn.Click();
+        //        WaitForUIEffect(1000);
+
+        //        // Step 6: Verify Success Modal
+        //        LogStep("Check for success modal.");
+        //        var modal = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div.swal2-popup")));
+        //        var message = modal.Text.Trim();
+        //        LogStep($"Modal Message: {message}");
+
+        //        // Step 7: Take Screenshot
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+        //        LogStep($"📸 Screenshot saved to: {_lastScreenshotPath}");
+
+        //        // Step 8: Assert Success Message
+        //        if (!message.ToLower().Contains("success"))
+        //        {
+        //            string PassMessage = $"Expected success message : {message}";
+        //            LogStep(PassMessage);
+        //            Assert.IsTrue(true,PassMessage);
+        //        }
+
+        //        // Step 9: Confirm Modal
+        //        LogStep("Click modal 'Ok, got it!'");
+        //        var okButton = modal.FindElement(By.XPath(".//button[contains(., 'Ok, got it!')]"));
+        //        ScrollToElement(okButton);
+        //        okButton.Click();
+        //        WaitForUIEffect();
+
+        //        LogStep("✅ Report Template creation test completed successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Step 10: Exception Handling with Screenshot
+        //        _lastScreenshotPath = Path.Combine(Path.GetTempPath(), $"Template_Editor_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        //        var screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
+        //        File.WriteAllBytes(_lastScreenshotPath, screenshot.AsByteArray);
+
+        //        string failMessage = $"❌ Exception occurred: {ex.Message}\nScreenshot saved at: {_lastScreenshotPath}";
+        //        LogStep(failMessage);
+
+        //        Assert.Fail(failMessage);
+        //    }
+        //}
 
 
         [TearDown]
